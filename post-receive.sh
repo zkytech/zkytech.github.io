@@ -5,8 +5,6 @@ TMP_GIT_CLONE=/srv/tmp/hexo_blog_source
 PUBLIC_WWW=/var/www/blog
 GIT_REPO=/srv/gitrepo/hexo_blog_source.git
 PUBLIC_PATH=/srv/tmp/hexo_blog_source/public
-git config --global user.mail "zhangkunyuan@hotmail.com" 
-git config --global user.name "zkytech"
 echo 进入工作目录${TEMP_GIT_CLONE}
 cd ${TMP_GIT_CLONE} 
 echo 开始同步...
@@ -15,6 +13,9 @@ echo 更新依赖...
 yarn install 
 echo 更新页面...
 hexo g
+echo 设定git参数...
+git config --global user.mail "zhangkunyuan@hotmail.com" 
+git config --global user.name "zkytech"
 echo 开始部署到github pages 以及 coding pages
 hexo d
 rm -rf ${PUBLIC_WWW}
