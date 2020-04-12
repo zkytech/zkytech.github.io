@@ -24,5 +24,8 @@
 		"hexo-renderer-markdown-it": "^4.1.0",
 		"hexo-renderer-stylus": "^1.1.0",
 		"hexo-server": "^1.0.0"
+	},
+	"devDependencies": {
+		"hexo-generator-sitemap": "^2.0.0"
 	}
 }
