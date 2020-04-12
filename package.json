@@ -7,7 +7,9 @@
 		"clean": "hexo clean",
 		"deploy": "hexo deploy",
 		"server": "hexo server",
-		"push": "git add * & git commit -m 'test' & git push"
+		"cg": "hexo clean && hexo generate",
+		"push": "git add * && git commit -m 'test' && git push",
+		"update-post-receive": "scp post-receive.sh root@zkytech.top:/srv/gitrepo/hexo_blog_source.git/hooks"
 	},
 	"hexo": {
 		"version": "4.2.0"
