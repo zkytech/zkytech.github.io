@@ -1,6 +1,6 @@
 ---
 title:
-  - Snort安装教程 & DARPA1999、DARPA2000数据处理方法
+  - Snort安装教程 以及 DARPA1999、DARPA2000数据处理方法
 date:
   - 2020-01-04 21:34:00
 tags:
