@@ -104,3 +104,6 @@ deploy:
     github: git@github.com:zkytech/zkytech.github.io.git
     coding: git@e.coding.net:zkytech/zkytech.git
   branch: master
+
+# 谷歌SiteMap
+google_site_verification: yOPv6ms423Z-rteLZfsZgiX7HnAef0KrZWtW4mb1msU
