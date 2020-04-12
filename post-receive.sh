@@ -8,5 +8,6 @@ PUBLIC_PATH=/srv/tmp/hexo_blog_source/public
 cd ${TMP_GIT_CLONE} 
 git pull
 yarn install 
-hexo grm -rf ${PUBLIC_WWW}
+hexo g
+rm -rf ${PUBLIC_WWW}
 cp -rf ${PUBLIC_PATH} ${PUBLIC_WWW}
