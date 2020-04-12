@@ -392,7 +392,7 @@ valine:
   verify: true # Verification code
   placeholder: Comment here # comment box placeholder
   avatar: mm # gravatar style
-  guest_info: nick,link # custom comment header
+  guest_info: nick,mail # custom comment header
   pageSize: 10 # pagination size
 
 
