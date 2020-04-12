@@ -101,6 +101,6 @@ theme: next
 deploy:
   type: git
   repository: 
-    github: https://github.com/zkytech/zkytech.github.io.git
+    github: git@github.com:zkytech/zkytech.github.io.git
     coding: git@e.coding.net:zkytech/zkytech.git
   branch: master
