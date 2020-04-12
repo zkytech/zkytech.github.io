@@ -103,5 +103,4 @@ deploy:
   repository: 
     github: https://github.com/zkytech/zkytech.github.io.git
     coding: git@e.coding.net:zkytech/zkytech.git
-    aliserver: root@zkytech.top:/srv/gitrepo/hexoblog.git
   branch: master
