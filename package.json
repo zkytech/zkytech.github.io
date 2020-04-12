@@ -12,13 +12,7 @@
 	"hexo": {
 		"version": "4.2.0"
 	},
-	"config": {
-		"ghooks": {
-			"post-receive": "source post-receive.sh"
-		}
-	},
 	"dependencies": {
-		"ghooks": "^2.0.4",
 		"hexo": "^4.0.0",
 		"hexo-deployer-git": "^2.1.0",
 		"hexo-generator-archive": "^1.0.0",
