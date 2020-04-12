@@ -18,7 +18,6 @@ git config --global user.mail "zhangkunyuan@hotmail.com"
 git config --global user.name "zkytech"
 echo 开始部署到github pages 以及 coding pages
 hexo d
-echo 推送sitemap到百度
 rm -rf ${PUBLIC_WWW}
 cp -rf ${PUBLIC_PATH} ${PUBLIC_WWW}
 echo 完成发布!!!!

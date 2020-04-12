@@ -107,3 +107,6 @@ deploy:
 
 # 谷歌SiteMap
 google_site_verification: yOPv6ms423Z-rteLZfsZgiX7HnAef0KrZWtW4mb1msU
+
+sitemap:
+    path: sitemap.xml
