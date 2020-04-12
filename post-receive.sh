@@ -19,7 +19,6 @@ git config --global user.name "zkytech"
 echo 开始部署到github pages 以及 coding pages
 hexo d
 echo 推送sitemap到百度
-curl -H 'Content-Type:text/plain' --data-binary "${TMP_GIT_CLONE}/public/sitemap.xml" "http://data.zz.baidu.com/urls?site=https://blog.zkytech.top&token=O5pZwxEz87RWR2jB"
 rm -rf ${PUBLIC_WWW}
 cp -rf ${PUBLIC_PATH} ${PUBLIC_WWW}
 echo 完成发布!!!!
