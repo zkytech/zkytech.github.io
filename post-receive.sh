@@ -5,6 +5,8 @@ TMP_GIT_CLONE=/srv/tmp/hexo_blog_source
 PUBLIC_WWW=/var/www/blog
 GIT_REPO=/srv/gitrepo/hexo_blog_source.git
 PUBLIC_PATH=/srv/tmp/hexo_blog_source/public
+git config --global user.mail "zhangkunyuan@hotmail.com" 
+git config --global user.name "zkytech"
 echo 进入工作目录${TEMP_GIT_CLONE}
 cd ${TMP_GIT_CLONE} 
 echo 开始同步...
