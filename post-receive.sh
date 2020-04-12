@@ -17,4 +17,4 @@ echo 开始部署到github pages 以及 coding pages
 hexo d
 rm -rf ${PUBLIC_WWW}
 cp -rf ${PUBLIC_PATH} ${PUBLIC_WWW}
-echo 完成发布...
+echo 完成发布！
