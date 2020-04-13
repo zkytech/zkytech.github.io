@@ -7,12 +7,13 @@ jobs:
     build:
         runs-on: ubuntu-18.04
         steps:
-        - uses: actions/checkout@v1
         - name: 同步当前分支文件
-          uses: actions/setup-node@v1
+        - uses: actions/checkout@v1
+        - name: 配置环境
+        - uses: actions/setup-node@v1
           with:
            node-version: 12.x
-        - name: 配置环境
+        - name: 配置rsa公钥
           run: |
             mkdir -p ~/.ssh/
             echo "$RSA_TOKEN" > ~/.ssh/id_rsa
@@ -22,12 +23,11 @@ jobs:
             ssh-keyscan zkytech.top >> ~/.ssh/known_hosts
             git config --global user.name 'zkytech'
             git config --global user.email 'zhangkunyuan@hotmail.com'
-        - name: 配置公钥
+        - name: 构建&发布
           run: |
             npm i -g hexo-cli
             npm i
             hexo generate && hexo deploy
             scp -r public root@zkytech.top:/var/www/blog
-        - name: 构建&发布
           env:
             RSA_TOKEN: ${{ secrets.GH_ACTION_DEPLOY_KEY }}
