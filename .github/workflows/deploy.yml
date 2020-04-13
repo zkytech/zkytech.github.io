@@ -28,5 +28,3 @@ jobs:
                     npm i
                     hexo generate && hexo deploy
                     scp -r public root@zkytech.top:/var/www/blog
-
-
