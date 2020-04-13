@@ -26,7 +26,6 @@ jobs:
                     git config --global user.email 'zhangkunyuan@hotmail.com'
                     npm i -g hexo-cli
                     npm i
-                run:|
                     hexo generate && hexo deploy
                     scp -r public root@zkytech.top:/var/www/blog
 
