@@ -17,10 +17,9 @@ jobs:
             mkdir -p ~/.ssh/
             echo "$RSA_TOKEN" > ~/.ssh/id_rsa
             chmod 600 ~/.ssh/id_rsa
-            touch ~/.ssh/known_hosts
             ssh-keyscan github.com >> ~/.ssh/known_hosts
             ssh-keyscan e.coding.net >> ~/.ssh/known_hosts
-            ssh-keyscan zkytech.top >> ~./ssh/known_hosts
+            ssh-keyscan zkytech.top >> ~/.ssh/known_hosts
             git config --global user.name 'zkytech'
             git config --global user.email 'zhangkunyuan@hotmail.com'
             npm i -g hexo-cli
