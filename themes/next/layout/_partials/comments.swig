@@ -6,7 +6,15 @@
            data-title="{{ page.title }}" data-url="{{ page.permalink }}">
       </div>
     </div>
-
+  {% elseif theme.utteranc.enable %}
+    <script src="https://utteranc.es/client.js"
+            repo="{{ theme.utteranc.repo }}"
+            issue-term="{{ theme.utteranc.issue-term }}"
+            label="{{ theme.utteranc.label }}"
+            theme="{{ theme.utteranc.theme }}"
+            crossorigin="anonymous"
+            async>
+    </script>
   {% elseif theme.facebook_sdk.enable and theme.facebook_comments_plugin.enable %}
     <div class="comments" id="comments">
       <div class="fb-comments"
@@ -65,8 +73,8 @@
   {% elseif theme.valine.appid and theme.valine.appkey %}
     <div class="comments" id="comments">
     </div>
-   {% elseif theme.comment.utterances.enable %}
-    script(type="text/javascript",src="https://utteranc.es/client.js",label="#{theme.utteranc.label}",charset="utf-8",repo="#{theme.utterance.repo}",issue-term="#{theme.utterance.issue_term}",theme="#{theme.utterance.theme}",crossorigin="anonymous",async=true)
+
+
   {% endif %}
 
 {% endif %}

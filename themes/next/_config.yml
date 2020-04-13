@@ -388,7 +388,6 @@ utteranc:
   label: Comment
   # theme: github-light,github-dark,github-dark-orange
   theme: github-light
-  cdn: https://utteranc.es/client.js
 
 # Valine.
 # You can get your appid and appkey from https://leancloud.cn
