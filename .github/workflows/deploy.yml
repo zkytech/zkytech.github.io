@@ -13,11 +13,9 @@ jobs:
           with:
            node-version: 12.x
         - name: prepare build env
-          env:
-            GH_ACTION_DEPLOY_KEY:${{ secrets.GH_ACTION_DEPLOY_KEY }}
           run: |
             mkdir -p ~/.ssh/
-            echo "$GH_ACTION_DEPLOY_KEY" > ~/.ssh/id_rsa
+            echo "$RSA_TOKEN" > ~/.ssh/id_rsa
             chmod 600 ~/.ssh/id_rsa
             ssh-keyscan github.com >> ~/.ssh/known_hosts
             ssh-keyscan e.coding.net >> ~/.ssh/known_hosts
@@ -28,3 +26,5 @@ jobs:
             npm i
             hexo generate && hexo deploy
             scp -r public root@zkytech.top:/var/www/blog
+          env:
+            RSA_TOKEN: ${{ secrets.GH_ACTION_DEPLOY_KEY }}
