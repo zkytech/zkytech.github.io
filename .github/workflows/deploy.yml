@@ -12,7 +12,7 @@ jobs:
         uses: actions/setup-node@v1
         with:
             node-version: '12.x'
-            -name:prepare build env
+        -name:prepare build env
         env:
             GH_ACTION_DEPLOY_KEY:${{secrets.GH_ACTION_DEPLOY_KEY}}
         run:|
@@ -26,7 +26,7 @@ jobs:
             git config --global user.email 'zhangkunyuan@hotmail.com'
             npm i -g hexo-cli
             npm i
-            - name: deploy to github
+        - name: deploy
         run:|
             hexo generate && hexo deploy
             scp -r public root@zkytech.top:/var/www/blog
