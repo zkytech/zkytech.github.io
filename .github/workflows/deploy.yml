@@ -7,15 +7,15 @@ jobs:
     build:
         runs-on: ubuntu-18.04
         steps:
-            - uses: actions/checkout@v1
-            - name: Use Node.js 12.x
-              uses: actions/setup-node@v1
-              with:
+            -   uses: actions/checkout@v1
+            -   name: Use Node.js 12.x
+                uses: actions/setup-node@v1
+                with:
                     version: 12.x
-            - name: prepare build env
-              env:
+            -   name: prepare build env
+                env:
                     GH_ACTION_DEPLOY_KEY:${{secrets.GH_ACTION_DEPLOY_KEY}}
-              run:|
+                run:|
                     mkdir -p ~/.ssh/
                     echo "$GH_ACTION_DEPLOY_KEY" > ~/.ssh/id_rsa
                     chmod 600 ~/.ssh//id_rsa
@@ -26,9 +26,7 @@ jobs:
                     git config --global user.email 'zhangkunyuan@hotmail.com'
                     npm i -g hexo-cli
                     npm i
-            - name: deploy
-
-            run:|
+                run:|
                     hexo generate && hexo deploy
                     scp -r public root@zkytech.top:/var/www/blog
 
