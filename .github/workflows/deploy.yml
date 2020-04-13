@@ -13,17 +13,13 @@ jobs:
           uses: actions/setup-node@v1
           with:
            node-version: 12.x
-        - name: 配置rsa公钥
+        - name: 配置发布公钥&发布
           run: |
             mkdir -p ~/.ssh/
             echo "$RSA_TOKEN" > ~/.ssh/id_rsa
             chmod 600 ~/.ssh/id_rsa
-            ssh-keyscan github.com >> ~/.ssh/known_hosts
-            ssh-keyscan e.coding.net >> ~/.ssh/known_hosts
-            ssh-keyscan zkytech.top >> ~/.ssh/known_hosts
             git config --global user.name 'zkytech'
             git config --global user.email 'zhangkunyuan@hotmail.com'
-        - name: 构建&发布
           run: |
             npm i -g hexo-cli
             npm i
