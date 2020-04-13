@@ -9,27 +9,28 @@ jobs:
         steps:
             - uses: actions/checkout@v1
             - name: Use Node.js 12.x
-        uses: actions/setup-node@v1
-        with:
-            node-version: '12.x'
-        -name:prepare build env
-        env:
-            GH_ACTION_DEPLOY_KEY:${{secrets.GH_ACTION_DEPLOY_KEY}}
-        run:|
-            mkdir -p ~/.ssh/
-            echo "$GH_ACTION_DEPLOY_KEY" > ~/.ssh/id_rsa
-            chmod 600 ~/.ssh//id_rsa
-            ssh-keyscan github.com >> ~/.ssh/known_hosts
-            ssh-keyscan e.coding.net >> ~/.ssh/known_hosts
-            ssh-keyscan zkytech.top >> ~./ssh/known_hosts
-            git config --global user.name 'zkytech'
-            git config --global user.email 'zhangkunyuan@hotmail.com'
-            npm i -g hexo-cli
-            npm i
-        - name: deploy
-        run:|
-            hexo generate && hexo deploy
-            scp -r public root@zkytech.top:/var/www/blog
+            uses: actions/setup-node@v1
+            with:
+                node-version: '12.x'
+            -name: prepare build env
+            env:
+                GH_ACTION_DEPLOY_KEY:${{secrets.GH_ACTION_DEPLOY_KEY}}
+            run:|
+                mkdir -p ~/.ssh/
+                echo "$GH_ACTION_DEPLOY_KEY" > ~/.ssh/id_rsa
+                chmod 600 ~/.ssh//id_rsa
+                ssh-keyscan github.com >> ~/.ssh/known_hosts
+                ssh-keyscan e.coding.net >> ~/.ssh/known_hosts
+                ssh-keyscan zkytech.top >> ~./ssh/known_hosts
+                git config --global user.name 'zkytech'
+                git config --global user.email 'zhangkunyuan@hotmail.com'
+                npm i -g hexo-cli
+                npm i
+            - name: deploy
+
+            run:|
+                hexo generate && hexo deploy
+                scp -r public root@zkytech.top:/var/www/blog
             
 
 
