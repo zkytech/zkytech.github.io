@@ -380,12 +380,21 @@ changyan:
   appid:
   appkey:
 
+# utteranc
+utteranc:
+  enable: true
+  repo: zkytech/zkytech.github.io
+  issue_term: pathname
+  label: Comment
+  # theme: github-light,github-dark,github-dark-orange
+  theme: github-light
+  cdn: https://utteranc.es/client.js
 
 # Valine.
 # You can get your appid and appkey from https://leancloud.cn
 # more info please open https://valine.js.org
 valine:
-  enable: true
+  enable: false
   appid: ci3hxrXULqhN1jIAyt4oG8eD-gzGzoHsz
   appkey: 84QDrPcdDDel9yS1WQMUUL7E
   notify: true # mail notifier , https://github.com/xCss/Valine/wiki

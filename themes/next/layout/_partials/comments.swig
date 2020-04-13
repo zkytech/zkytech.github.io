@@ -65,6 +65,8 @@
   {% elseif theme.valine.appid and theme.valine.appkey %}
     <div class="comments" id="comments">
     </div>
+   {% elseif theme.comment.utterances.enable %}
+    script(type="text/javascript",src="https://utteranc.es/client.js",label="#{theme.utteranc.label}",charset="utf-8",repo="#{theme.utterance.repo}",issue-term="#{theme.utterance.issue_term}",theme="#{theme.utterance.theme}",crossorigin="anonymous",async=true)
   {% endif %}
 
 {% endif %}
