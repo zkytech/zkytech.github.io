@@ -5,6 +5,7 @@ date:
   - 2019-10-20 12:20:00
 tags:
   - es6
+  - proxy
 categories:
   - 前端
 ---
