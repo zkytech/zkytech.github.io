@@ -118,4 +118,4 @@ localImageToQiniu:
     domain: http://qiniu.zkytech.top/
     zone: 华南
     activate: true
-    replaceNetworkImage: true
+    replaceNetworkImage: false

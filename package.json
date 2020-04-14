@@ -8,8 +8,7 @@
 		"deploy": "hexo deploy",
 		"server": "hexo server",
 		"cg": "hexo clean && hexo generate",
-		"push": "git commit -a -m \"auto generated commit message\" && git push origin source",
-		"update-post-receive": "scp post-receive.sh root@zkytech.top:/srv/gitrepo/hexo_blog_source.git/hooks"
+		"push": "hexo imgtoqiniu && git commit -a -m \"auto generated commit message\" && git push origin source"
 	},
 	"hexo": {
 		"version": "4.2.0"

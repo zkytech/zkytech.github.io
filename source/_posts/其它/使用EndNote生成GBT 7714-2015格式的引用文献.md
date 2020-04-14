@@ -27,7 +27,7 @@ categories:
 
 #### 应用样式
 
-![EndNote_gQrG8nHfw5.png](http://qiniu.zkytech.top/981yic3PGJKM6gS.png)
+![EndNote_gQrG8nHfw5.png](https://i.loli.net/2020/03/18/981yic3PGJKM6gS.png)
 
 勾选刚刚复制的样式文件
 
