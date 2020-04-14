@@ -15,7 +15,7 @@
 	},
 	"dependencies": {
 		"hexo": "^4.0.0",
-		"hexo-localimage-to-qiniu": "^1.0.10",
+		"hexo-localimage-to-qiniu": "^1.0.11",
 		"hexo-deployer-git": "^2.1.0",
 		"hexo-generator-archive": "^1.0.0",
 		"hexo-generator-category": "^1.0.0",
