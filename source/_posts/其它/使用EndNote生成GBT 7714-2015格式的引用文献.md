@@ -21,13 +21,13 @@ categories:
 
 #### 创建库
 
-![EndNote_GG12o0f6G3.png](https://i.loli.net/2020/03/18/I2wDG4sjgohTc5V.png)
+![EndNote_GG12o0f6G3.png](http://qiniu.zkytech.top/I2wDG4sjgohTc5V.png)
 
 将样式文件复制到 EndNote 安装目录下的`Styles`文件夹下，默认位置是`C:\Program Files (x86)\EndNote X9\Styles`
 
 #### 应用样式
 
-![EndNote_gQrG8nHfw5.png](https://i.loli.net/2020/03/18/981yic3PGJKM6gS.png)
+![EndNote_gQrG8nHfw5.png](http://qiniu.zkytech.top/981yic3PGJKM6gS.png)
 
 勾选刚刚复制的样式文件
 
