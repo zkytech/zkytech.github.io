@@ -28,7 +28,7 @@ jobs:
             git config --global user.email 'zhangkunyuan@hotmail.com'
             npm i -g hexo-cli
             npm i
-            hexo algolia && hexo generate && hexo deploy
+            hexo generate && hexo algolia && hexo deploy
             scp -r public root@zkytech.top:/var/www/blog
           env:
             RSA_TOKEN: ${{ secrets.GH_ACTION_DEPLOY_KEY }}
