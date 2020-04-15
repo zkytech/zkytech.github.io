@@ -5,7 +5,7 @@
 
 # Site
 title: zkyTech
-subtitle: 'zkyTech blog'
+subtitle: ''
 description: '技术blog'
 keywords:
 author: zkyTech
@@ -120,12 +120,3 @@ localImageToQiniu:
     activate: true
     replaceNetworkImage: false
 
-algolia_search:
-  chunkSize: 5000
-  applicationID: QCAWS9E6CX
-  apiKey: 1b1b0e461ecf577b26f4d21bb1b37a01
-
-algolia:
-  applicationID: QCAWS9E6CX
-  apiKey: 1b1b0e461ecf577b26f4d21bb1b37a01
-  indexName: hexoblog
