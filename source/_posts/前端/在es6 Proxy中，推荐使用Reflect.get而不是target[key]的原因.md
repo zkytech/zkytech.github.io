@@ -11,7 +11,7 @@ categories:
 ---
 
 目前中文检索得不到这个问题的答案，大多数的博客都是直接使用了`Reflect.get`而没有给出原因。为了解释这个问题，首先还要说明另一个问题。
-
+<!-- more -->
 ## `Reflect.get(target, prop, receiver)` 以及 Proxy 中的 `handler.get(target, prop, receiver)` 这当中的`receiver`是什么？
 
 直接摘抄 MDN 的说明

@@ -9,6 +9,7 @@ jobs:
         steps:
         - name: 同步当前分支文件
           uses: actions/checkout@v1
+          run: git submodule update --init --recursive
         - name: 配置环境
           uses: actions/setup-node@v1
           with:

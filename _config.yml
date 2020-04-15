@@ -5,11 +5,11 @@
 
 # Site
 title: zkyTech
-subtitle: ''
-description: ''
+subtitle: 'zkyTech blog'
+description: '技术blog'
 keywords:
 author: zkyTech
-language: zh-Hans
+language: zh-CN
 timezone: ''
 
 # URL
@@ -124,7 +124,7 @@ algolia_search:
   chunkSize: 5000
   applicationID: QCAWS9E6CX
   apiKey: 1b1b0e461ecf577b26f4d21bb1b37a01
-  
+
 algolia:
   applicationID: QCAWS9E6CX
   apiKey: 1b1b0e461ecf577b26f4d21bb1b37a01

@@ -10,8 +10,8 @@ categories:
   - 前端
 ---
 
-&emsp;&emsp;hexo官方文档虽然有给出api说明，但官方文档的说明太晦涩难懂。实际上最简单的方式就是去阅读github上一些hexo插件的源码。下面给出我个人觉得常用的api说明。
-
+&emsp;&emsp;hexo官方文档虽然有给出api说明，但官方文档的说明太晦涩难懂。实际上最简单的方式就是去阅读github上一些hexo插件的源码。下面给出我个人觉得常用的api的说明。
+<!-- more -->
 #### 使插件在执行`hexo generate`、`hexo deploy`时自动执行
 
 ```javascript

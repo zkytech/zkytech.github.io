@@ -1,0 +1,125 @@
+custom_file_path:
+    postBodyEnd: source/_data/post-body-end.swig
+
+
+# Console reminder if new version released.
+reminder: false
+footer:
+  # Specify the date when the site was setup. If not defined, current year will be used.
+  since: 2020
+
+  # Icon between year and copyright info.
+  icon:
+    # Icon name in Font Awesome. See: https://fontawesome.com/icons
+    name: fa fa-heart
+    # If you want to animate the icon, set it to true.
+    animated: false
+    # Change the color of icon, using Hex Code.
+    color: "#ff0000"
+      # Powered by Hexo & NexT
+  powered: false
+
+  # Beian ICP and gongan information for Chinese users. See: http://www.beian.miit.gov.cn, http://www.beian.gov.cn
+  beian:
+    enable: true
+    icp: 粤ICP备18105309号
+    # The digit in the num of gongan beian.
+    gongan_id: 18105309
+    # The full num of gongan beian.
+    # gongan_num: 粤公安备 18105309号
+    # The icon for gongan beian. See: http://www.beian.gov.cn/portal/download
+    gongan_icon_url: http://qiniu.zkytech.top/%E5%A4%87%E6%A1%88%E5%9B%BE%E6%A0%87.png
+
+# Schemes
+#scheme: Muse
+#scheme: Mist
+#scheme: Pisces
+scheme: Gemini
+
+# Usage: `Key: /link/ || icon`
+# Key is the name of menu item. If the translation for this item is available, the translated text will be loaded, otherwise the Key name will be used. Key is case-senstive.
+# Value before `||` delimiter is the target link, value after `||` delimiter is the name of Font Awesome icon.
+# When running the site in a subdirectory (e.g. yoursite.com/blog), remove the leading slash from link value (/archives -> archives).
+# External url should start with http:// or https://
+menu:
+  home: / || fa fa-home
+  #about: /about/ || fa fa-user
+  tags: /tags/ || fa fa-tags
+  categories: /categories/ || fa fa-th
+  archives: /archives/ || fa fa-archive
+  #schedule: /schedule/ || fa fa-calendar
+  #sitemap: /sitemap.xml || fa fa-sitemap
+  #commonweal: /404/ || fa fa-heartbeat
+
+# Enable / Disable menu icons / item badges.
+menu_settings:
+  icons: true
+  badges: true
+
+# Sidebar Avatar
+avatar:
+  # Replace the default image and set the url here.
+  url: http://qiniu.zkytech.top/%E9%BE%99%E7%8C%AB%E5%A4%B4%E5%83%8F.jpg
+
+social:
+  GitHub: https://github.com/zkytech.top || fab fa-github
+  E-Mail: zhangkunyuan@hotmail.com || fa fa-envelope
+toc:
+    expand_all: true
+
+codeblock:
+  # Code Highlight theme
+  # Available values: normal | night | night eighties | night blue | night bright | solarized | solarized dark | galactic
+  # See: https://github.com/chriskempson/tomorrow-theme
+  highlight_theme: normal
+  # Add copy button on codeblock
+  copy_button:
+    enable: true
+    # Show text copy result.
+    show_result: true
+    # Available values: default | flat | mac
+    style: default
+back2top:
+  enable: true
+  # Scroll percent label in b2t button.
+  scrollpercent: true
+reading_progress:
+  enable: true
+
+# `Follow me on GitHub` banner in the top-right corner.
+github_banner:
+  enable: true
+  permalink: https://github.com/zkytech
+  title: Follow me on GitHub
+
+baidu_analytics: 1ae383e4527a9c6af9660e1260964f4f
+google_site_verification: yOPv6ms423Z-rteLZfsZgiX7HnAef0KrZWtW4mb1msU
+
+
+# utteranc
+utteranc:
+  enable: true
+  repo: zkytech/zkytech.github.io
+  issue_term: pathname
+  label: Comment
+  # theme: github-light,github-dark,github-dark-orange
+  theme: github-light
+
+# Algolia Search
+algolia_search:
+  applicationID: QCAWS9E6CX
+  apiKey: 1b1b0e461ecf577b26f4d21bb1b37a01
+  indexname: hexoblog
+  enable: true
+  hits:
+    per_page: 10
+  labels:
+    input_placeholder: Search for Posts
+    hits_empty: "We didn't find any results for the search: ${query}"
+    hits_stats: "${hits} results found in ${time} ms"
+
+# Progress bar in the top during page loading.
+# Dependencies: https://github.com/theme-next/theme-next-pace
+# For more information: https://github.com/HubSpot/pace
+pace:
+  enable: true

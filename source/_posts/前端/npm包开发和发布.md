@@ -16,7 +16,7 @@ categories:
 2. `cd npm-demo-project`
 
 3. `npm init -y`运行后会在项目根目录生成一个`package.json`，其内容如下所示
-
+<!-- more -->
 ```json
 {
 	"name": "npm-demo-project", // 包名，该名称不能与已存在的npm包重复。发布后可使用npm install npm-demo-project进行安装

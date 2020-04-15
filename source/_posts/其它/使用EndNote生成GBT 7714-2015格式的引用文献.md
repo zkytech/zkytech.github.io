@@ -21,7 +21,7 @@ categories:
 链接: https://pan.baidu.com/s/1-DUhfvk2RaOC1nHIr6vAVQ 提取码: af83
 
 下载[GB/T 7714-2015 样式文件](https://cnzhx.net/dl/other/ZZ_MODIFIED_GEEBINF.ENS.zip)
-
+<!-- more -->
 #### 创建库
 
 ![EndNote_GG12o0f6G3.png](http://qiniu.zkytech.top/I2wDG4sjgohTc5V.png)

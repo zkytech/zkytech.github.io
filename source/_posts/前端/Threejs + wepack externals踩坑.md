@@ -10,7 +10,7 @@ categories:
 ---
 
 &emsp;&emsp;`threejs`本身体积有 100+KB，在使用`webpack`的项目中自然会想到把它作为`external`来引入。但这种方式引入存在两个需要注意的点：
-
+<!-- more -->
 1. 在 controls 中（比如`TrackballControls`）会丢失表示按键的常量，在`TrackballControls`中是代表鼠标按键的常量，会导致无法使用鼠标进行镜头控制，而触控正常。此时只需将对应常量写入 controls 文件中即可。`TrackballControls`中加入以下常量的声明即可解决问题。
 
 ```javascript
