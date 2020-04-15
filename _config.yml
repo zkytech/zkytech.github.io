@@ -119,3 +119,13 @@ localImageToQiniu:
     zone: 华南
     activate: true
     replaceNetworkImage: false
+
+algolia_search:
+  chunkSize: 5000
+  applicationID: QCAWS9E6CX
+  apiKey: 1b1b0e461ecf577b26f4d21bb1b37a01
+  
+algolia:
+  applicationID: QCAWS9E6CX
+  apiKey: 1b1b0e461ecf577b26f4d21bb1b37a01
+  indexName: hexoblog
