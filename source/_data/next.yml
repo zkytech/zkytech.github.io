@@ -110,14 +110,17 @@ algolia_search:
   applicationID: QCAWS9E6CX
   apiKey: 1b1b0e461ecf577b26f4d21bb1b37a01
   indexname: hexoblog
-  enable: true
+  enable: false
   hits:
     per_page: 10
   labels:
     input_placeholder: Search for Posts
     hits_empty: "We didn't find any results for the search: ${query}"
     hits_stats: "${hits} results found in ${time} ms"
-
+# Local Search
+# Dependencies: https://github.com/theme-next/hexo-generator-searchdb
+local_search:
+  enable: true
 # Progress bar in the top during page loading.
 # Dependencies: https://github.com/theme-next/theme-next-pace
 # For more information: https://github.com/HubSpot/pace
