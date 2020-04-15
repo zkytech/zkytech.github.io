@@ -11,13 +11,26 @@ categories:
 
 #### 初始化
 
-1. 创建项目目录`npm_demo_project`
+1. 创建项目目录`npm-demo-project`
 
-2. `cd npm_demo_project`
+2. `cd npm-demo-project`
 
 3. `npm init -y`运行后会在项目根目录生成一个`package.json`，其内容如下所示
 
-![image-20200414224357336](http://qiniu.zkytech.top/image-20200414224357336.png)
+```json
+{
+  "name": "npm-demo-project", // 包名，该名称不能与已存在的npm包重复。发布后可使用npm install npm-demo-project进行安装
+  "version": "1.0.0", // 发布版本，每次发布前一定要更新版本号。
+  "description": "",
+  "main": "index.js", //入口文件，比如import * as ndp from 'npm-demo-project'就是相当于import * as ndp from 'index.js'
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC"
+}
+```
 
 4. 创建文件`index.js`
 
@@ -25,11 +38,11 @@ categories:
 
 &emsp;&emsp;虽然可以直接在项目内做测试，但很多场景下都是因为自身项目需求去开发一个npm包，需要直接在项目里测试npm包。假设该项目为`project_a`，此时按以下步骤操作：
 
-1. 在`npm_demo_project`的根目录下运行`npm ln`
-2. 在`project_a`目录下运行`npm ln npm_demo_project`
-3. 在`project_a`的`package.json`的`dependencies`中添加依赖`npm_demo_project:^1.0.0`
+1. 在`npm-demo-project`的根目录下运行`npm ln`
+2. 在`project_a`目录下运行`npm ln npm-demo-project`
+3. 在`project_a`的`package.json`的`dependencies`中添加依赖`npm-demo-project:^1.0.0`
 
-&emsp;&emsp;步骤2和3就相当于运行了`npm install npm_demo_project`，且此时对`npm_demo_project`的修改会直接反映到`project_a`中。
+&emsp;&emsp;步骤2和3就相当于运行了`npm install npm-demo-project`，且此时对`npm-demo-project`的修改会直接反映到`project_a`中。
 
 #### 发布
 
@@ -66,7 +79,7 @@ categories:
 6. 修改`package.json`
 ```diff
 {
-  "name": "npm_demo_project",
+  "name": "npm-demo-project",
   "version": "1.0.0",
   "description": "",
 - "main": "index.js",
