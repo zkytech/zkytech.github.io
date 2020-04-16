@@ -27,9 +27,9 @@ footer:
     gongan_icon_url: http://qiniu.zkytech.top/%E5%A4%87%E6%A1%88%E5%9B%BE%E6%A0%87.png
 
 # Schemes
-#scheme: Muse
-#scheme: Mist
-#scheme: Pisces
+# scheme: Muse
+# scheme: Mist
+# scheme: Pisces
 scheme: Gemini
 
 # Usage: `Key: /link/ || icon`
@@ -100,7 +100,7 @@ reading_progress:
 
 # `Follow me on GitHub` banner in the top-right corner.
 github_banner:
-  enable: true
+  enable: false
   permalink: https://github.com/zkytech
   title: Follow me on GitHub
 
