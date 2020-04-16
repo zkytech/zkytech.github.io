@@ -121,3 +121,8 @@ localImageToQiniu:
     activate: true
     replaceNetworkImage: false
 
+search:
+  path: search.xml
+  field: all
+  format: html
+  limit: 10000

@@ -76,7 +76,7 @@ avatar:
   url: http://qiniu.zkytech.top/%E9%BE%99%E7%8C%AB%E5%A4%B4%E5%83%8F.jpg
 
 social:
-  GitHub: https://github.com/zkytech.top || fab fa-github
+  GitHub: https://github.com/zkytech || fab fa-github
   E-Mail: zhangkunyuan@hotmail.com || fa fa-envelope
 toc:
     expand_all: true
@@ -132,10 +132,20 @@ algolia_search:
     input_placeholder: Search for Posts
     hits_empty: "We didn't find any results for the search: ${query}"
     hits_stats: "${hits} results found in ${time} ms"
-# Local Search
+# Local search
 # Dependencies: https://github.com/theme-next/hexo-generator-searchdb
 local_search:
   enable: true
+  # If auto, trigger search by changing input.
+  # If manual, trigger search by pressing enter key or search button.
+  trigger: auto
+  # Show top n results per article, show all results by setting to -1
+  top_n_per_article: 1
+  # Unescape html strings to the readable one.
+  unescape: false
+  # Preload the search data when the page loads.
+  preload: false
+
 # Progress bar in the top during page loading.
 # Dependencies: https://github.com/theme-next/theme-next-pace
 # For more information: https://github.com/HubSpot/pace
@@ -192,6 +202,5 @@ gitalk:
   # Available values: en | es-ES | fr | ru | zh-CN | zh-TW
   language: zh-CN
 
-search:
-  path: search.json
-  field: all
+comments:
+  lazyload: true
