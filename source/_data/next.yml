@@ -172,8 +172,8 @@ disqusjs:
 
 gitalk:
   enable: true
-  github_id: zkytech.top# GitHub repo owner
-  repo: blog.zkytech.top# Repository name to store issues
+  github_id: zkytech# GitHub repo owner
+  repo: zkytech.github.io# Repository name to store issues
   client_id: 09c75ac9703725087255# GitHub Application Client ID
   client_secret: 2add88239336bf26076301737b40da4459bf1f4c# GitHub Application Client Secret
   admin_user: zkytech# GitHub repo owner and collaborators, only these guys can initialize gitHub issues
