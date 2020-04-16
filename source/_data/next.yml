@@ -1,7 +1,3 @@
-custom_file_path:
-    postBodyEnd: source/_data/post-body-end.swig
-
-
 # Console reminder if new version released.
 reminder: false
 footer:
@@ -43,13 +39,28 @@ scheme: Gemini
 # External url should start with http:// or https://
 menu:
   home: / || fa fa-home
-  #about: /about/ || fa fa-user
   tags: /tags/ || fa fa-tags
   categories: /categories/ || fa fa-th
   archives: /archives/ || fa fa-archive
-  #schedule: /schedule/ || fa fa-calendar
-  #sitemap: /sitemap.xml || fa fa-sitemap
-  #commonweal: /404/ || fa fa-heartbeat
+  论文排版指南: 
+    default: /论文排版指南/ ||fa fa-book
+    index: /index.html || fa fa-book-open
+    样式: /样式.html || fa fa-paint-roller
+    常用快捷键: /常用快捷键.html || fa fa-keyboard
+    自动编号: 
+      default: /自动编号/ || fa fa-sort-numeric-up
+      index: /index.html || fa fa-book-open
+      章节: /章节.html || fa fa-heading
+      表格: /表格.html || fa fa-table
+      图片: /图片.html || fa fa-image
+      参考文献: /参考文献.html || fa fa-list-ol
+    自动目录: /自动目录.html || fa fa-book
+    三线表: /三线表.html || fa fa-table
+    图片: /图片.html || fa fa-images
+    交叉引用: /交叉引用.html || fa fa-exchange-alt
+    踩坑: /踩坑.html || fa fa-bomb
+
+
 
 # Enable / Disable menu icons / item badges.
 menu_settings:
@@ -97,8 +108,9 @@ google_site_verification: yOPv6ms423Z-rteLZfsZgiX7HnAef0KrZWtW4mb1msU
 
 
 # utteranc
+# utteranc加载太慢，会导致流程图渲染挂起
 utteranc:
-  enable: true
+  enable: false
   repo: zkytech/zkytech.github.io
   issue_term: pathname
   label: Comment
@@ -130,3 +142,30 @@ pace:
 # Automatically add external URL with Base64 encrypt & decrypt.
 
 exturl: true
+# markdown流程图解析
+mermaid:
+  enable: true
+  # Available themes: default | dark | forest | neutral
+  theme: forest
+
+vendors:
+  mermaid: https://cdn.bootcss.com/mermaid/8.5.0/mermaid.min.js
+  pace: https://cdn.bootcss.com/pace/1.0.2/pace.min.js
+  pace_css: https://cdn.bootcss.com/pace/1.0.2/themes/white/pace-theme-minimal.min.css
+# 浏览计数
+busuanzi_count:
+  enable: true
+# DisqusJS
+# Alternative Disqus - Render comment component using Disqus API
+# Demo: https://suka.js.org/DisqusJS/
+disqusjs:
+  enable: true
+  # API Endpoint of Disqus API (https://disqus.com/api/)
+  # leave api empty if you are able to connect to Disqus API
+  # otherwise you need a reverse proxy for Disqus API
+  # For example:
+  # api: https://disqus.skk.moe/disqus/
+  api: https://zeit.zkytech.top
+  apikey: ddAyK0BkHqMEYvhaFtKz5EnVSE6FV3t39JVsRcExyIJiA5ZC0VfPWc5m3oi2Op3H
+  shortname: zkytech
+  
