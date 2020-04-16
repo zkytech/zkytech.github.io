@@ -160,7 +160,7 @@ busuanzi_count:
 # Alternative Disqus - Render comment component using Disqus API
 # Demo: https://suka.js.org/DisqusJS/
 disqusjs:
-  enable: true
+  enable: false
   # API Endpoint of Disqus API (https://disqus.com/api/)
   # leave api empty if you are able to connect to Disqus API
   # otherwise you need a reverse proxy for Disqus API
@@ -169,4 +169,16 @@ disqusjs:
   api: https://zeit.zkytech.top
   apikey: ddAyK0BkHqMEYvhaFtKz5EnVSE6FV3t39JVsRcExyIJiA5ZC0VfPWc5m3oi2Op3H
   shortname: zkytech
-  
+
+gitalk:
+  enable: true
+  github_id: zkytech.top# GitHub repo owner
+  repo: blog.zkytech.top# Repository name to store issues
+  client_id: 09c75ac9703725087255# GitHub Application Client ID
+  client_secret: 2add88239336bf26076301737b40da4459bf1f4c# GitHub Application Client Secret
+  admin_user: zkytech# GitHub repo owner and collaborators, only these guys can initialize gitHub issues
+  distraction_free_mode: true # Facebook-like distraction free mode
+  # Gitalk's display language depends on user's browser or system environment
+  # If you want everyone visiting your site to see a uniform language, you can set a force language value
+  # Available values: en | es-ES | fr | ru | zh-CN | zh-TW
+  language: zh-CN
