@@ -44,16 +44,14 @@ menu:
   archives: /archives/ || fa fa-archive
   论文排版指南: 
     default: /论文排版指南/ ||fa fa-book
-    index: /index.html || fa fa-book-open
     样式: /样式.html || fa fa-paint-roller
     常用快捷键: /常用快捷键.html || fa fa-keyboard
     自动编号: 
       default: /自动编号/ || fa fa-sort-numeric-up
-      index: /index.html || fa fa-book-open
-      章节: /章节.html || fa fa-heading
-      表格: /表格.html || fa fa-table
-      图片: /图片.html || fa fa-image
-      参考文献: /参考文献.html || fa fa-list-ol
+      章节自动编号: /章节.html || fa fa-heading
+      表格自动编号: /表格.html || fa fa-table
+      图片自动编号: /图片.html || fa fa-image
+      参考文献自动编号: /参考文献.html || fa fa-list-ol
     自动目录: /自动目录.html || fa fa-book
     三线表: /三线表.html || fa fa-table
     图片: /图片.html || fa fa-images
@@ -204,3 +202,21 @@ gitalk:
 
 comments:
   lazyload: true
+
+# Math Formulas Render Support
+math:
+  # Default (true) will load mathjax / katex script on demand.
+  # That is it only render those page which has `mathjax: true` in Front-matter.
+  # If you set it to false, it will load mathjax / katex srcipt EVERY PAGE.
+  per_page: true
+
+  # hexo-renderer-pandoc (or hexo-renderer-kramed) required for full MathJax support.
+  mathjax:
+    enable: true
+    # See: https://mhchem.github.io/MathJax-mhchem/
+    mhchem: false
+  # hexo-renderer-markdown-it-plus (or hexo-renderer-markdown-it with markdown-it-katex plugin) required for full Katex support.
+  katex:
+    enable: false
+    # See: https://github.com/KaTeX/KaTeX/tree/master/contrib/copy-tex
+    copy_tex: false

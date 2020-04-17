@@ -2,6 +2,13 @@
 # yarn lockfile v1
 
 
+"@iktakahiro/markdown-it-katex@^3.0.3":
+  version "3.1.0"
+  resolved "https://registry.npm.taobao.org/@iktakahiro/markdown-it-katex/download/@iktakahiro/markdown-it-katex-3.1.0.tgz#cd40c1037f038ab00cbfee2464604435848deae9"
+  integrity sha1-zUDBA38DirAMv+4kZGBENYSN6uk=
+  dependencies:
+    katex "^0.10.0"
+
 "@types/color-name@^1.1.1":
   version "1.1.1"
   resolved "https://registry.yarnpkg.com/@types/color-name/-/color-name-1.1.1.tgz#1c1261bbeaa10a8055bbc5d8ab84b7b2afc846a0"
@@ -355,6 +362,11 @@ cliui@^2.1.0:
     right-align "^0.1.1"
     wordwrap "0.0.2"
 
+clone@^2.1.1:
+  version "2.1.2"
+  resolved "https://registry.npm.taobao.org/clone/download/clone-2.1.2.tgz#1b7f4b9f591f1e8f83670401600345a02887435f"
+  integrity sha1-G39Ln1kfHo+DZwQBYANFoCiHQ18=
+
 co@^4.6.0:
   version "4.6.0"
   resolved "https://registry.npm.taobao.org/co/download/co-4.6.0.tgz#6ea6bdf3d853ae54ccb8e47bfa0bf3f9031fb184"
@@ -395,6 +407,11 @@ command-exists@^1.2.8:
   version "1.2.8"
   resolved "https://registry.yarnpkg.com/command-exists/-/command-exists-1.2.8.tgz#715acefdd1223b9c9b37110a149c6392c2852291"
   integrity sha512-PM54PkseWbiiD/mMsbvW351/u+dafwTJ0ye2qB60G1aGQP9j3xK2gmMDc+R34L3nDtx4qMCitXT75mkbkGJDLw==
+
+commander@^2.19.0:
+  version "2.20.3"
+  resolved "https://registry.npm.taobao.org/commander/download/commander-2.20.3.tgz?cache=0&sync_timestamp=1584148407069&other_urls=https%3A%2F%2Fregistry.npm.taobao.org%2Fcommander%2Fdownload%2Fcommander-2.20.3.tgz#fd485e84c03eb4881c20722ba48035e8531aeb33"
+  integrity sha1-/UhehMA+tIgcIHIrpIA16FMa6zM=
 
 commander@^3.0.2:
   version "3.0.2"
@@ -685,6 +702,11 @@ entities@^2.0.0, entities@~2.0.0:
   version "2.0.0"
   resolved "https://registry.yarnpkg.com/entities/-/entities-2.0.0.tgz#68d6084cab1b079767540d80e56a39b423e4abf4"
   integrity sha512-D9f7V0JSRwIxlRI2mjMqufDrRDnx8p+eEOz7aUM9SuvF8gsBzra0/6tbjl1m8eQHrZlYj6PxqE00hZ1SAIKPLw==
+
+entities@~1.1.1:
+  version "1.1.2"
+  resolved "https://registry.npm.taobao.org/entities/download/entities-1.1.2.tgz#bdfa735299664dfafd34529ed4f8522a275fea56"
+  integrity sha1-vfpzUplmTfr9NFKe1PhSKidf6lY=
 
 envify@^4.0.0:
   version "4.1.0"
@@ -1133,6 +1155,26 @@ hexo-renderer-ejs@^1.0.0:
   dependencies:
     ejs "^2.6.1"
 
+hexo-renderer-markdown-it-plus@^1.0.4:
+  version "1.0.4"
+  resolved "https://registry.npm.taobao.org/hexo-renderer-markdown-it-plus/download/hexo-renderer-markdown-it-plus-1.0.4.tgz#b0962e75bafa4940ade9c1d7a97dfe50dd034066"
+  integrity sha1-sJYudbr6SUCt6cHXqX3+UN0DQGY=
+  dependencies:
+    "@iktakahiro/markdown-it-katex" "^3.0.3"
+    clone "^2.1.1"
+    highlight.js "^9.12.0"
+    markdown-it "^8.3.1"
+    markdown-it-abbr "^1.0.4"
+    markdown-it-deflist "^2.0.3"
+    markdown-it-emoji "^1.4.0"
+    markdown-it-footnote "^3.0.1"
+    markdown-it-ins "^2.0.0"
+    markdown-it-mark "^2.0.0"
+    markdown-it-sub "^1.0.0"
+    markdown-it-sup "^1.0.0"
+    markdown-it-toc "^1.1.0"
+    uslug "^1.0.4"
+
 hexo-renderer-markdown-it@^4.1.0:
   version "4.1.0"
   resolved "https://registry.yarnpkg.com/hexo-renderer-markdown-it/-/hexo-renderer-markdown-it-4.1.0.tgz#bfac6ad38afb2f21364699089515a33fd6f10c48"
@@ -1221,7 +1263,7 @@ hexo@^4.2.0:
     titlecase "^1.1.2"
     warehouse "^3.0.1"
 
-highlight.js@^9.13.1:
+highlight.js@^9.12.0, highlight.js@^9.13.1:
   version "9.18.1"
   resolved "https://registry.yarnpkg.com/highlight.js/-/highlight.js-9.18.1.tgz#ed21aa001fe6252bb10a3d76d47573c6539fe13c"
   integrity sha512-OrVKYz70LHsnCgmbXctv/bfuvntIKDz177h0Co37DQ5jamGZLVmoCVMtjMtNZY3X9DrCcKfklHPNeA0uPZhSJg==
@@ -1433,6 +1475,13 @@ jsprim@^1.2.2:
     json-schema "0.2.3"
     verror "1.10.0"
 
+katex@^0.10.0:
+  version "0.10.2"
+  resolved "https://registry.npm.taobao.org/katex/download/katex-0.10.2.tgz#39973edbb65eda5b6f9e7f41648781e557dd4932"
+  integrity sha1-OZc+27Ze2ltvnn9BZIeB5VfdSTI=
+  dependencies:
+    commander "^2.19.0"
+
 kind-of@^3.0.2:
   version "3.2.2"
   resolved "https://registry.yarnpkg.com/kind-of/-/kind-of-3.2.2.tgz#31ea21a734bab9bbb0f32466d893aea51e4a3c64"
@@ -1526,10 +1575,20 @@ markdown-it-footnote@^3.0.1:
   resolved "https://registry.yarnpkg.com/markdown-it-footnote/-/markdown-it-footnote-3.0.2.tgz#1575ee7a093648d4e096aa33386b058d92ac8bc1"
   integrity sha512-JVW6fCmZWjvMdDQSbOT3nnOQtd9iAXmw7hTSh26+v42BnvXeVyGMDBm5b/EZocMed2MbCAHiTX632vY0FyGB8A==
 
+markdown-it-ins@^2.0.0:
+  version "2.0.0"
+  resolved "https://registry.npm.taobao.org/markdown-it-ins/download/markdown-it-ins-2.0.0.tgz#a5aa6a30f1e2f71e9497567cfdff40f1fde67483"
+  integrity sha1-papqMPHi9x6Ul1Z8/f9A8f3mdIM=
+
 markdown-it-ins@^3.0.0:
   version "3.0.0"
   resolved "https://registry.yarnpkg.com/markdown-it-ins/-/markdown-it-ins-3.0.0.tgz#b1b56824c78dc66e52b0fc97531b317cd78d79d2"
   integrity sha512-+vyAdBuMGwmT2yMlAFJSx2VR/0QZ1onQ/Mkkmr4l9tDFOh5sVoAgRbkgbuSsk+sxJ9vaMH/IQ323ydfvQrPO/Q==
+
+markdown-it-mark@^2.0.0:
+  version "2.0.0"
+  resolved "https://registry.npm.taobao.org/markdown-it-mark/download/markdown-it-mark-2.0.0.tgz#46a1aa947105aed8188978e0a016179e404f42c7"
+  integrity sha1-RqGqlHEFrtgYiXjgoBYXnkBPQsc=
 
 markdown-it-mark@^3.0.0:
   version "3.0.0"
@@ -1546,6 +1605,11 @@ markdown-it-sup@^1.0.0:
   resolved "https://registry.yarnpkg.com/markdown-it-sup/-/markdown-it-sup-1.0.0.tgz#cb9c9ff91a5255ac08f3fd3d63286e15df0a1fc3"
   integrity sha1-y5yf+RpSVawI8/09YyhuFd8KH8M=
 
+markdown-it-toc@^1.1.0:
+  version "1.1.0"
+  resolved "https://registry.npm.taobao.org/markdown-it-toc/download/markdown-it-toc-1.1.0.tgz#6d189858e32b3deb4ff3ad2713fa927439c957e0"
+  integrity sha1-bRiYWOMrPetP860nE/qSdDnJV+A=
+
 markdown-it@^10.0.0:
   version "10.0.0"
   resolved "https://registry.yarnpkg.com/markdown-it/-/markdown-it-10.0.0.tgz#abfc64f141b1722d663402044e43927f1f50a8dc"
@@ -1553,6 +1617,17 @@ markdown-it@^10.0.0:
   dependencies:
     argparse "^1.0.7"
     entities "~2.0.0"
+    linkify-it "^2.0.0"
+    mdurl "^1.0.1"
+    uc.micro "^1.0.5"
+
+markdown-it@^8.3.1:
+  version "8.4.2"
+  resolved "https://registry.npm.taobao.org/markdown-it/download/markdown-it-8.4.2.tgz#386f98998dc15a37722aa7722084f4020bdd9b54"
+  integrity sha1-OG+YmY3BWjdyKqdyIIT0Agvdm1Q=
+  dependencies:
+    argparse "^1.0.7"
+    entities "~1.1.1"
     linkify-it "^2.0.0"
     mdurl "^1.0.1"
     uc.micro "^1.0.5"
@@ -2517,6 +2592,11 @@ unescape@^1.0.1:
   dependencies:
     extend-shallow "^2.0.1"
 
+"unorm@>= 1.0.0":
+  version "1.6.0"
+  resolved "https://registry.npm.taobao.org/unorm/download/unorm-1.6.0.tgz#029b289661fba714f1a9af439eb51d9b16c205af"
+  integrity sha1-ApsolmH7pxTxqa9DnrUdmxbCBa8=
+
 unpipe@1.0.0, unpipe@~1.0.0:
   version "1.0.0"
   resolved "https://registry.npm.taobao.org/unpipe/download/unpipe-1.0.0.tgz#b2bf4ee8514aae6165b4817829d21b2ef49904ec"
@@ -2559,6 +2639,13 @@ urllib@^2.34.1:
     qs "^6.4.0"
     statuses "^1.3.1"
     utility "^1.16.1"
+
+uslug@^1.0.4:
+  version "1.0.4"
+  resolved "https://registry.npm.taobao.org/uslug/download/uslug-1.0.4.tgz#b9a22f0914e0a86140633dacc302e5f4fa450677"
+  integrity sha1-uaIvCRTgqGFAYz2swwLl9PpFBnc=
+  dependencies:
+    unorm ">= 1.0.0"
 
 util-deprecate@^1.0.1, util-deprecate@~1.0.1:
   version "1.0.2"
