@@ -24,7 +24,7 @@ footer:
     # The full num of gongan beian.
     # gongan_num: 粤公安备 18105309号
     # The icon for gongan beian. See: http://www.beian.gov.cn/portal/download
-    gongan_icon_url: http://qiniu.zkytech.top/%E5%A4%87%E6%A1%88%E5%9B%BE%E6%A0%87.png
+    # gongan_icon_url: http://qiniu.zkytech.top/%E5%A4%87%E6%A1%88%E5%9B%BE%E6%A0%87.png
 
 # Schemes
 # scheme: Muse
