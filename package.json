@@ -8,7 +8,7 @@
 		"deploy": "hexo deploy",
 		"server": "hexo server",
 		"cg": "hexo clean && hexo generate",
-		"push": "hexo imgtoqiniu && git add * && git commit -a -m \"auto generated commit message\" && git push origin source"
+		"push": "hexo imgtoqiniu && git add * && git commit -a -m 'auto generated commit message' && git push origin source"
 	},
 	"hexo": {
 		"version": "4.2.0"

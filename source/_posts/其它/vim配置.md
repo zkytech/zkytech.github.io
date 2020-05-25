@@ -12,6 +12,7 @@ categories:
   - 其它
 ---
 ### neovim
+
 增强版vim
 
 安装[neovim](https://neovim.io/)
@@ -89,7 +90,7 @@ server才能进行补全，除了代码补全，还可以通过安装coc插件�
 |`:Fold`|折叠代码|
 
 ### .vimrc
-```
+```.vimrc
     "快捷键映射
     map R     :source ~/.vimrc<CR>
     map S     :w<CR>
