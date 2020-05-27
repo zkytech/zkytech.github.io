@@ -165,15 +165,15 @@ git clone https://github.com.cnpmjs.org/https://github.com/zkytech/linux_config_
 cp -r ~/Downloads/zkytech_linux_config/~/.config/nvim  ~/.config/nvim
 ```
 
-#### conpton
+#### compton
 似乎是桌面图形渲染工具？我没有具体去了解，但后面alacritty依赖这个
 ```bash
-# 安装conpton
-sudo pacman -S conpton
+# 安装compton
+sudo pacman -S compton
 # 创建配置文件
 # 这里使用的是我自己的配置文件
-curl -fLo ~/.config/conpton.conf \
-    https://raw.githubusercontent.com/zkytech/linux_config_files/master/~/.config/conpton.conf
+curl -fLo ~/.config/compton.conf \
+    https://raw.githubusercontent.com/zkytech/linux_config_files/master/~/.config/compton.conf
 ```
 
 #### alacritty
@@ -191,7 +191,7 @@ curl -fLo ~/.config/alacritty/alacritty.yml --create-dirs \
 编辑i3的配置文件`~/.i3/config`，将默认的terminal替换为alacritty
 
 #### keepass
-keepassXC与我的conpton配置不兼容。因此使用keepass作为密码管理工具，keepass安装后可能会出现中文全部变成方框的情况。
+keepassXC与我的compton配置不兼容。因此使用keepass作为密码管理工具，keepass安装后可能会出现中文全部变成方框的情况。
 进入`tools->options->select list font`选择一个中文字体即可，一般是“文泉驿XXX”
 
 ##### chrome插件
