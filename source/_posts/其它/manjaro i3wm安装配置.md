@@ -105,8 +105,9 @@ sudo pacman -S v2ray qv2ray
 #### 浏览器
 
 i3wm环境下，代理的配置并不像KDE那么简单，经测试，以下方法可行：
-1. chromium通过命令`chromium --proxy-server="socks://localhost:1088"`启动即可
-2. firefox直接安装插件`switch omega`，配置好proxy并在autoswitch中添加autoproxy规则文件`https://raw.githubusercontent.com/gfwlist/gfwlist/master/gfwlist.txt`
+1. chromium或firefox通过命令`chromium --proxy-server="socks://localhost:1088"`启动即可
+2. firefox直接安装插件`Switchy Omega`，配置好proxy并在autoswitch中添加autoproxy规则文件`https://raw.githubusercontent.com/gfwlist/gfwlist/master/gfwlist.txt`。
+3. chromium也可以安装[Switchy Omega](https://chrome.google.com/webstore/detail/proxy-switchyomega/padekgcemlokbadohgkifijomclgjgif)
 > 经测试google-chrome无法通过代理上网
 
 #### 终端
@@ -165,8 +166,8 @@ git clone https://github.com.cnpmjs.org/https://github.com/zkytech/linux_config_
 cp -r ~/Downloads/zkytech_linux_config/~/.config/nvim  ~/.config/nvim
 ```
 
-#### compton
-似乎是桌面图形渲染工具？我没有具体去了解，但后面alacritty依赖这个
+#### compton (非必须)
+似乎是桌面图形渲染工具？我没有具体去了解，但后面alacritty的背景透明需要依赖这个，其实不装也行(更稳定)。
 ```bash
 # 安装compton
 sudo pacman -S compton
@@ -175,6 +176,9 @@ sudo pacman -S compton
 curl -fLo ~/.config/compton.conf \
     https://raw.githubusercontent.com/zkytech/linux_config_files/master/~/.config/compton.conf
 ```
+已知BUG
+1.导致chromium的画中画开启失败。需要先按`Mod+T`关闭campton，然后开启画中画，再按`Mod+Ctrl+T`启动campton即可
+2.导致部分软件图形界面渲染异常，已知的有keepassxc(直接不显示)
 
 #### alacritty
 告别i3丑陋的默认终端
