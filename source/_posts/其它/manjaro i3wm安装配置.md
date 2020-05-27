@@ -55,7 +55,7 @@ sudo pacman -S noto-fonts-cjk adobe-source-han-sans-cn-fonts adobe-source-han-se
 ### 中文输入法
 这里只是中文输入法，不是搜狗输入法
 
-参考[ArchWiki](https://wiki.archlinux.org/index.php/Fcitx_(%E7%AE%80%E4%BD%93%E4%B8%AD%E6%96%87)
+参考[ArchWiki](https://wiki.archlinux.org/index.php/Fcitx_(%E7%AE%80%E4%BD%93%E4%B8%AD%E6%96%87))
 
 安装fcitx
 ```
@@ -204,8 +204,8 @@ keepassXC与我的compton配置不兼容。因此使用keepass作为密码管理
 
 #### 其它
 ```
-# 坚果云，chromium, firefox, variety（壁纸软件）, code
-sudo pacman -S nutstore chromium firefox variety
+# 坚果云，chromium, firefox, variety（壁纸软件）, code，tldr-太长不看
+sudo pacman -S nutstore chromium firefox variety tldr
 ```
 
 #### 我的配置文件
