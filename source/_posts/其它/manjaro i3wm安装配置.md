@@ -142,7 +142,7 @@ sudo pacman -S zsh
 sh -c "$(curl -fsSL https://raw.github.com/ohmyzsh/ohmyzsh/master/tools/install.sh)"
 # 恢复配置文件
 # 这里是我个人的配置文件，谨慎使用
-curl https://raw.githubusercontent.com/zkytech/linux_config_files/master/~/.zshrc > ~/.zshrc
+curl -fLo ~/.zshrc https://raw.githubusercontent.com/zkytech/linux_config_files/master/~/.zshrc
 # 安装插件
 # autojump
 sudo pacman -S autojump
@@ -152,14 +152,27 @@ git clone https://github.com/zsh-users/zsh-autosuggestions ${ZSH_CUSTOM:-~/.oh-m
 git clone https://github.com/zsh-users/zsh-syntax-highlighting.git ${ZSH_CUSTOM:-~/.oh-my-zsh/custom}/plugins/zsh-syntax-highlighting
 ```
 
-#### compton
-桌面图形渲染工具？似乎是这样。我没有具体去了解
+#### vim neovim
+```
+sudo pacman -S neovim gvim
+# 安装vim-plug
+curl -fLo ~/.vim/autoload/plug.vim --create-dirs \
+    https://raw.githubusercontent.com/junegunn/vim-plug/master/plug.vim
+# 恢复配置文件
+git clone https://github.com.cnpmjs.org/https://github.com/zkytech/linux_config_files.git ~/Downloads/zkytech_linux_config
+# 创建软链接
+cp -r ~/Downloads/zkytech_linux_config/~/.config/nvim  ~/.config/nvim
+```
+
+#### conpton
+似乎是桌面图形渲染工具？我没有具体去了解，但后面alacritty依赖这个
 ```bash
-# 安装compton
-sudo pacman -S compton
+# 安装conpton
+sudo pacman -S conpton
 # 创建配置文件
 # 这里使用的是我自己的配置文件
-curl https://raw.githubusercontent.com/zkytech/linux_config_files/master/~/.config/conpton.conf > ~/.config/conpton.conf
+curl -fLo ~/.config/conpton.conf \
+    https://raw.githubusercontent.com/zkytech/linux_config_files/master/~/.config/conpton.conf
 ```
 
 #### alacritty
@@ -171,7 +184,8 @@ sudo pacman -S alacritty
 # 这里使用的是我自己的配置文件
 mkdir ~/.config/alacritty
 
-curl https://raw.githubusercontent.com/zkytech/linux_config_files/master/~/.config/alacritty/alacritty.yml > ~/.config/alacritty/alacritty.yml
+curl -fLo ~/.config/alacritty/alacritty.yml --create-dirs \
+    https://raw.githubusercontent.com/zkytech/linux_config_files/master/~/.config/alacritty/alacritty.yml 
 ```
 编辑i3的配置文件`~/.i3/config`，将默认的terminal替换为alacritty
 
@@ -184,8 +198,8 @@ keepassXC与我的conpton配置不兼容。因此使用keepass作为密码管理
 
 #### 其它
 ```
-# 坚果云，chromium, variety（壁纸软件） 
-sudo pacman -S nutstore chromium variety
+# 坚果云，chromium, firefox, variety（壁纸软件）, code
+sudo pacman -S nutstore chromium firefox variety
 ```
 
 #### 我的配置文件
