@@ -195,6 +195,11 @@ keepassXC与我的conpton配置不兼容。因此使用keepass作为密码管理
 
 ##### chrome插件
 参照[ArchWiki](https://wiki.archlinux.org/index.php/KeePass#KeePass)
+插件[下载地址](https://github.com/zkytech/linux_config_files/raw/master/KeePassRPC.plgx)
+
+将插件放到`/usr/share/keepass/plugins`再启动keepass即可
+
+配合chrome插件`Kee`使用
 
 #### 其它
 ```
