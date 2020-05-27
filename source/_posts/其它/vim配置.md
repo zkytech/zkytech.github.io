@@ -19,6 +19,7 @@ categories:
 
 [导入vim的配置文件](https://neovim.io/doc/user/nvim.html#nvim-from-vim)
 
+<!-- more -->
 ### vim-plug
 vim插件管理[vim-plug](https://github.com/junegunn/vim-plug)
 

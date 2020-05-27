@@ -18,6 +18,7 @@ sudo pacman-mirrors -i -c China -m rank
 # 更新数据源
 sudo pacman -Syy
 ```
+<!-- more -->
 修改`/etc/pacman.conf`，在其末尾添加
 ```conf
 [archlinuxcn]
