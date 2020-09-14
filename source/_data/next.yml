@@ -61,8 +61,6 @@ menu:
     OneDrive: /OneDrive.html || fa fa-upload
 
 
-
-
 # Enable / Disable menu icons / item badges.
 menu_settings:
   icons: true
