@@ -157,6 +157,8 @@ mermaid:
   # Available themes: default | dark | forest | neutral
   theme: forest
 
+  
+
 vendors:
   mermaid: https://cdn.bootcss.com/mermaid/8.5.0/mermaid.min.js
   pace: https://cdn.bootcss.com/pace/1.0.2/pace.min.js
