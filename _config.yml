@@ -22,7 +22,7 @@ pretty_urls:
   trailing_index: true # Set to false to remove trailing 'index.html' from permalinks
   trailing_html: true # Set to false to remove trailing '.html' from permalinks
 
-  
+
 # Directory
 source_dir: source
 public_dir: public
@@ -109,6 +109,7 @@ deploy:
     coding: git@e.coding.net:zkytech/zkytech.git
   branch: master
 
+  
 # 谷歌SiteMap
 google_site_verification: yOPv6ms423Z-rteLZfsZgiX7HnAef0KrZWtW4mb1msU
 
