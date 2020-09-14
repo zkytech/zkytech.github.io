@@ -18,7 +18,7 @@ footer:
   # Beian ICP and gongan information for Chinese users. See: http://www.beian.miit.gov.cn, http://www.beian.gov.cn
   beian:
     enable: true
-    icp: 粤ICP备18105309号
+    icp: 浙ICP备2020034053号
     # The digit in the num of gongan beian.
     gongan_id: 18105309
     # The full num of gongan beian.
@@ -188,7 +188,7 @@ disqusjs:
   shortname: zkytech
 
 gitalk:
-  enable: true
+  enable: false
   github_id: 'zkytech'# GitHub repo owner
   repo: 'zkytech.github.io'# Repository name to store issues
   client_id: '09c75ac9703725087255'# GitHub Application Client ID
