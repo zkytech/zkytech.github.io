@@ -18,7 +18,7 @@ footer:
   # Beian ICP and gongan information for Chinese users. See: http://www.beian.miit.gov.cn, http://www.beian.gov.cn
   beian:
     enable: true
-    icp: 浙ICP备2020034053号
+    icp: 浙ICP备2020034053号-1
     # The digit in the num of gongan beian.
     gongan_id: 18105309
     # The full num of gongan beian.
