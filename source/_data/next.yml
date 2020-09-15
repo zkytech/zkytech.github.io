@@ -20,11 +20,11 @@ footer:
     enable: true
     icp: 浙ICP备2020034053号-1
     # The digit in the num of gongan beian.
-    gongan_id: 18105309
+    gongan_id: 33011002015011
     # The full num of gongan beian.
-    # gongan_num: 粤公安备 18105309号
+    gongan_num: 浙公网安备 33011002015011号
     # The icon for gongan beian. See: http://www.beian.gov.cn/portal/download
-    # gongan_icon_url: http://qiniu.zkytech.top/%E5%A4%87%E6%A1%88%E5%9B%BE%E6%A0%87.png
+    gongan_icon_url: http://qiniu.zkytech.top/%E5%A4%87%E6%A1%88%E5%9B%BE%E6%A0%87.png
 
 # Schemes
 # scheme: Muse
