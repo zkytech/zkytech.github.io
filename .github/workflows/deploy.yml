@@ -29,7 +29,8 @@ jobs:
             npm i -g hexo-cli
             npm i
             hexo generate && hexo deploy
-            scp -r public root@zkytech.top:/var/www/blog
+            mv public blog
+            scp -r blog/ root@zkytech.top:/var/www/
           env:
             RSA_TOKEN: ${{ secrets.GH_ACTION_DEPLOY_KEY }}
             ALGOLIA_ADMIN_API_KEY: ${{secrets.ALGOLIA_ADMIN_API_KEY}}
