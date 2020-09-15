@@ -1,0 +1,581 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2">
+<meta name="theme-color" content="#222">
+<meta name="generator" content="Hexo 4.2.0">
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png">
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png">
+  <link rel="mask-icon" href="/images/logo.svg" color="#222">
+  <meta name="google-site-verification" content="yOPv6ms423Z-rteLZfsZgiX7HnAef0KrZWtW4mb1msU">
+
+<link rel="stylesheet" href="/css/main.css">
+
+
+<link rel="stylesheet" href="/lib/font-awesome/css/all.min.css">
+  <link rel="stylesheet" href="https://cdn.bootcss.com/pace/1.0.2/themes/white/pace-theme-minimal.min.css">
+  <script src="https://cdn.bootcss.com/pace/1.0.2/pace.min.js"></script>
+
+<script id="hexo-configurations">
+    var NexT = window.NexT || {};
+    var CONFIG = {"hostname":"www.zkytech.top","root":"/","scheme":"Gemini","version":"7.8.0","exturl":true,"sidebar":{"position":"left","display":"post","padding":18,"offset":12,"onmobile":false},"copycode":{"enable":true,"show_result":true,"style":"default"},"back2top":{"enable":true,"scrollpercent":true,"sidebar":false},"bookmark":{"enable":false,"color":"#222","save":"auto"},"fancybox":false,"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"lazyload":true,"style":"tabs","active":null,"storage":true,"nav":null},"algolia":{"hits":{"per_page":10},"labels":{"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}},"localsearch":{"enable":true,"trigger":"auto","top_n_per_article":1,"unescape":false,"preload":false},"motion":{"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},"path":"search.xml"};
+  </script>
+
+  <meta name="description" content="hexo官方文档虽然有给出api说明，但官方文档的说明太晦涩难懂。实际上最简单的方式就是去阅读github上一些hexo插件的源码。下面给出我个人觉得常用的api的说明。">
+<meta property="og:type" content="article">
+<meta property="og:title" content="hexo插件开发">
+<meta property="og:url" content="https://www.zkytech.top/2020/04/15/%E5%89%8D%E7%AB%AF/hexo%E6%8F%92%E4%BB%B6%E5%BC%80%E5%8F%91/index.html">
+<meta property="og:site_name" content="zkyTech">
+<meta property="og:description" content="hexo官方文档虽然有给出api说明，但官方文档的说明太晦涩难懂。实际上最简单的方式就是去阅读github上一些hexo插件的源码。下面给出我个人觉得常用的api的说明。">
+<meta property="og:locale" content="zh_CN">
+<meta property="og:image" content="http://qiniu.zkytech.top/image-20200415133458381.png">
+<meta property="article:published_time" content="2020-04-15T12:09:00.000Z">
+<meta property="article:modified_time" content="2020-09-15T12:59:44.522Z">
+<meta property="article:author" content="zkyTech">
+<meta property="article:tag" content="插件">
+<meta property="article:tag" content="hexo">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="http://qiniu.zkytech.top/image-20200415133458381.png">
+
+<link rel="canonical" href="https://www.zkytech.top/2020/04/15/%E5%89%8D%E7%AB%AF/hexo%E6%8F%92%E4%BB%B6%E5%BC%80%E5%8F%91/">
+
+
+<script id="page-configurations">
+  // https://hexo.io/docs/variables.html
+  CONFIG.page = {
+    sidebar: "",
+    isHome : false,
+    isPost : true,
+    lang   : 'zh-CN'
+  };
+</script>
+
+  <title>hexo插件开发 | zkyTech</title>
+  
+
+
+  <script>
+    var _hmt = _hmt || [];
+    (function() {
+      var hm = document.createElement("script");
+      hm.src = "https://hm.baidu.com/hm.js?1ae383e4527a9c6af9660e1260964f4f";
+      var s = document.getElementsByTagName("script")[0];
+      s.parentNode.insertBefore(hm, s);
+    })();
+  </script>
+
+
+
+
+  <noscript>
+  <style>
+  .use-motion .brand,
+  .use-motion .menu-item,
+  .sidebar-inner,
+  .use-motion .post-block,
+  .use-motion .pagination,
+  .use-motion .comments,
+  .use-motion .post-header,
+  .use-motion .post-body,
+  .use-motion .collection-header { opacity: initial; }
+
+  .use-motion .site-title,
+  .use-motion .site-subtitle {
+    opacity: initial;
+    top: initial;
+  }
+
+  .use-motion .logo-line-before i { left: initial; }
+  .use-motion .logo-line-after i { right: initial; }
+  </style>
+</noscript>
+
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage">
+  <div class="container use-motion">
+    <div class="headband"></div>
+
+    <header class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-container">
+  <div class="site-nav-toggle">
+    <div class="toggle" aria-label="切换导航栏">
+      <span class="toggle-line toggle-line-first"></span>
+      <span class="toggle-line toggle-line-middle"></span>
+      <span class="toggle-line toggle-line-last"></span>
+    </div>
+  </div>
+
+  <div class="site-meta">
+
+    <a href="/" class="brand" rel="start">
+      <span class="logo-line-before"><i></i></span>
+      <h1 class="site-title">zkyTech</h1>
+      <span class="logo-line-after"><i></i></span>
+    </a>
+  </div>
+
+  <div class="site-nav-right">
+    <div class="toggle popup-trigger">
+        <i class="fa fa-search fa-fw fa-lg"></i>
+    </div>
+  </div>
+</div>
+
+
+
+
+<nav class="site-nav">
+  <ul id="menu" class="main-menu menu">
+        <li class="menu-item menu-item-home">
+
+    <a href="/" rel="section"><i class="fa fa-home fa-fw"></i>首页</a>
+
+  </li>
+        <li class="menu-item menu-item-tags">
+
+    <a href="/tags/" rel="section"><i class="fa fa-tags fa-fw"></i>标签<span class="badge">20</span></a>
+
+  </li>
+        <li class="menu-item menu-item-categories">
+
+    <a href="/categories/" rel="section"><i class="fa fa-th fa-fw"></i>分类<span class="badge">3</span></a>
+
+  </li>
+        <li class="menu-item menu-item-archives">
+
+    <a href="/archives/" rel="section"><i class="fa fa-archive fa-fw"></i>归档<span class="badge">11</span></a>
+
+  </li>
+        
+            
+  <li class="menu-item menu-item-论文排版指南">
+
+    <a href="/%E8%AE%BA%E6%96%87%E6%8E%92%E7%89%88%E6%8C%87%E5%8D%97/" rel="section"><i class="fa fa-book fa-fw"></i>论文排版指南</a>
+
+  </li>
+
+
+      
+      <li class="menu-item menu-item-search">
+        <a role="button" class="popup-trigger"><i class="fa fa-search fa-fw"></i>搜索
+        </a>
+      </li>
+  </ul>
+</nav>
+
+
+
+  <div class="search-pop-overlay">
+    <div class="popup search-popup">
+        <div class="search-header">
+  <span class="search-icon">
+    <i class="fa fa-search"></i>
+  </span>
+  <div class="search-input-container">
+    <input autocomplete="off" autocapitalize="off"
+           placeholder="搜索..." spellcheck="false"
+           type="search" class="search-input">
+  </div>
+  <span class="popup-btn-close">
+    <i class="fa fa-times-circle"></i>
+  </span>
+</div>
+<div id="search-result">
+  <div id="no-result">
+    <i class="fa fa-spinner fa-pulse fa-5x fa-fw"></i>
+  </div>
+</div>
+
+    </div>
+  </div>
+
+</div>
+    </header>
+
+    
+  <div class="back-to-top">
+    <i class="fa fa-arrow-up"></i>
+    <span>0%</span>
+  </div>
+
+
+    <main class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          
+
+          <div class="content post posts-expand">
+            
+
+    
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-CN">
+    <link itemprop="mainEntityOfPage" href="https://www.zkytech.top/2020/04/15/%E5%89%8D%E7%AB%AF/hexo%E6%8F%92%E4%BB%B6%E5%BC%80%E5%8F%91/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="http://qiniu.zkytech.top/%E9%BE%99%E7%8C%AB%E5%A4%B4%E5%83%8F.jpg">
+      <meta itemprop="name" content="zkyTech">
+      <meta itemprop="description" content="">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="zkyTech">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          hexo插件开发
+        </h1>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-calendar"></i>
+              </span>
+              <span class="post-meta-item-text">发表于</span>
+
+              <time title="创建时间：2020-04-15 12:09:00" itemprop="dateCreated datePublished" datetime="2020-04-15T12:09:00+00:00">2020-04-15</time>
+            </span>
+              <span class="post-meta-item">
+                <span class="post-meta-item-icon">
+                  <i class="far fa-calendar-check"></i>
+                </span>
+                <span class="post-meta-item-text">更新于</span>
+                <time title="修改时间：2020-09-15 12:59:44" itemprop="dateModified" datetime="2020-09-15T12:59:44+00:00">2020-09-15</time>
+              </span>
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-folder"></i>
+              </span>
+              <span class="post-meta-item-text">分类于</span>
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/%E5%89%8D%E7%AB%AF/" itemprop="url" rel="index"><span itemprop="name">前端</span></a>
+                </span>
+            </span>
+
+          
+            <span class="post-meta-item" title="阅读次数" id="busuanzi_container_page_pv" style="display: none;">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-eye"></i>
+              </span>
+              <span class="post-meta-item-text">阅读次数：</span>
+              <span id="busuanzi_value_page_pv"></span>
+            </span>
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+        <p>  hexo官方文档虽然有给出api说明，但官方文档的说明太晦涩难懂。实际上最简单的方式就是去阅读github上一些hexo插件的源码。下面给出我个人觉得常用的api的说明。</p>
+<a id="more"></a>
+<h4 id="使插件在执行hexo-generate-hexo-deploy时自动执行"><a class="markdownIt-Anchor" href="#使插件在执行hexo-generate-hexo-deploy时自动执行"></a> 使插件在执行<code>hexo generate</code>、<code>hexo deploy</code>时自动执行</h4>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">hexo.extend.filter.register(type, <span class="function"><span class="keyword">function</span>(<span class="params"></span>)</span>&#123;&#125;, priority);</span><br></pre></td></tr></table></figure>
+<p>参数说明：</p>
+<table>
+<thead>
+<tr>
+<th>参数</th>
+<th>required</th>
+<th>说明</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>type</td>
+<td>true</td>
+<td>官网称为<code>过滤器类型</code>，我认为叫<code>钩子类型</code>或者<code>事件类型</code>更合适，这是决定后面的<code>function</code>在何时执行</td>
+</tr>
+<tr>
+<td>function(){}</td>
+<td>true</td>
+<td>需要执行的函数</td>
+</tr>
+<tr>
+<td>priority</td>
+<td>false</td>
+<td>执行优先级，值越小优先级越高。默认为10</td>
+</tr>
+</tbody>
+</table>
+<p>事件类型：参考<a href="%5Bhttps://hexo.io/zh-cn/api/filter#%E8%BF%87%E6%BB%A4%E5%99%A8%E5%88%97%E8%A1%A8%5D(https://hexo.io/zh-cn/api/filter#%E8%BF%87%E6%BB%A4%E5%99%A8%E5%88%97%E8%A1%A8)">hexo官方文档</a></p>
+<h5 id="实例"><a class="markdownIt-Anchor" href="#实例"></a> 实例</h5>
+<p>  现在用一个最简单的<code>hello world</code>来说明这个api的作用。假设现在需要编写一个插件，在运行<code>hexo generate</code>开始前执行。</p>
+<ol>
+<li>
+<p>按照<a href="%5Bhttps://blog.zkytech.top/2020/04/14/%E5%89%8D%E7%AB%AF/npm%E5%8C%85%E5%BC%80%E5%8F%91%E5%92%8C%E5%8F%91%E5%B8%83/%5D(https://blog.zkytech.top/2020/04/14/%E5%89%8D%E7%AB%AF/npm%E5%8C%85%E5%BC%80%E5%8F%91%E5%92%8C%E5%8F%91%E5%B8%83/)">教程</a>创建一个npm包，并用<code>npm ln</code>安装到hexo项目中。注意：经过测试，<strong>包名必须以<code>hexo-</code>开头</strong>，否比如<code>hexo-demo-project</code>，否则无法使用hexo提供的api。</p>
+<blockquote>
+<p>从这点来看，hexo是通过扫描package.json中以<code>hexo-</code>开头的包名来实现这些api的。</p>
+</blockquote>
+</li>
+<li>
+<p>在<code>index.js</code>中写入以下内容:</p>
+</li>
+</ol>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">hexo.extend.filter.register(<span class="string">'before_generate'</span>, <span class="function"><span class="keyword">function</span>(<span class="params"></span>)</span>&#123;</span><br><span class="line">    <span class="built_in">console</span>.log(<span class="string">'hello world! (before)'</span>)</span><br><span class="line">&#125;);</span><br></pre></td></tr></table></figure>
+<ol start="3">
+<li>在hexo项目中运行<code>hexo generate</code></li>
+</ol>
+<p><img src="http://qiniu.zkytech.top/image-20200415133458381.png" alt="image-20200415133458381" /></p>
+<h4 id="输入hexo-command运行插件"><a class="markdownIt-Anchor" href="#输入hexo-command运行插件"></a> 输入<code>hexo command</code>运行插件</h4>
+<p>  比如我写的一个插件<code>hexo-localimage-to-qiniu</code>，在控制台运行<code>hexo imgtoqiniu</code>即可运行插件来上传markdown中的本地文件，并替换图片链接。这里要说的就是怎么注册<code>imgtoqiniu</code>这个指令。</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br></pre></td><td class="code"><pre><span class="line">hexo.extend.console.register(</span><br><span class="line">    <span class="comment">// 这就是注册的command, 注册后运行hexo demo即可调用</span></span><br><span class="line">	<span class="string">"demo"</span>,		</span><br><span class="line">    <span class="comment">// 对command的说明，运行hexo demo --help 会提示该信息</span></span><br><span class="line">	<span class="string">"hexo console command demo"</span>,</span><br><span class="line">	&#123;</span><br><span class="line">        <span class="comment">// 使用方法说明，hexo demo --help 会提示该信息</span></span><br><span class="line">		usage: <span class="string">"[action] [--date post_date]"</span>, </span><br><span class="line">        <span class="comment">// 虽然命名为"arguments"，我觉得叫"action"更为贴切，使用示例：hexo demo layout</span></span><br><span class="line">		<span class="built_in">arguments</span>: [ </span><br><span class="line">			&#123; <span class="attr">name</span>: <span class="string">"layout"</span>, <span class="attr">desc</span>: <span class="string">"Post layout"</span> &#125;,</span><br><span class="line">			&#123; <span class="attr">name</span>: <span class="string">"title"</span>, <span class="attr">desc</span>: <span class="string">"Post title"</span> &#125;,</span><br><span class="line">		],</span><br><span class="line">        <span class="comment">// 这个叫arguments更合适，因为这里是可以接收参数的。比如: hexo demo -d "2020年4月15日"</span></span><br><span class="line">		options: [&#123; <span class="attr">name</span>: <span class="string">"-d, --date"</span>, <span class="attr">desc</span>: <span class="string">"post date"</span> &#125;], </span><br><span class="line">	&#125;,</span><br><span class="line">    <span class="comment">// 主函数，args即上面接收的参数，无论参数是否输入正确都会执行。</span></span><br><span class="line">	<span class="function"><span class="keyword">function</span> (<span class="params">args</span>) </span>&#123; </span><br><span class="line">		<span class="built_in">console</span>.log(<span class="string">"args:"</span>,args);</span><br><span class="line">	&#125;</span><br><span class="line">);</span><br></pre></td></tr></table></figure>
+<p>运行<code>hexo demo --help</code>，得到以下提示</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#</span><span class="bash"> 查看参数说明</span></span><br><span class="line"><span class="meta">&gt;</span><span class="bash">&gt; hexo demo --<span class="built_in">help</span></span></span><br><span class="line">Usage: hexo demo [action] [--date post_date]</span><br><span class="line"></span><br><span class="line">Description:</span><br><span class="line">hexo console command demo</span><br><span class="line"></span><br><span class="line">Arguments:</span><br><span class="line">  layout  Post layout</span><br><span class="line">  title   Post title</span><br><span class="line"></span><br><span class="line">Options:</span><br><span class="line">  -d, --date  post date</span><br><span class="line"></span><br><span class="line"><span class="meta">#</span><span class="bash"> 测试</span></span><br><span class="line"><span class="meta">&gt;</span><span class="bash">&gt; hexo demo layout -d <span class="string">"2020年4月15日"</span></span></span><br><span class="line">args: &#123; _: [ 'layout' ], d: '2020年4月15日' &#125;</span><br></pre></td></tr></table></figure>
+
+    </div>
+
+    
+    
+    
+
+      <footer class="post-footer">
+          <div class="post-tags">
+              <a href="/tags/%E6%8F%92%E4%BB%B6/" rel="tag"># 插件</a>
+              <a href="/tags/hexo/" rel="tag"># hexo</a>
+          </div>
+
+        
+
+
+        
+    <div class="post-nav">
+      <div class="post-nav-item">
+    <a href="/2020/04/14/%E5%89%8D%E7%AB%AF/npm%E5%8C%85%E5%BC%80%E5%8F%91%E5%92%8C%E5%8F%91%E5%B8%83/" rel="prev" title="npm包开发">
+      <i class="fa fa-chevron-left"></i> npm包开发
+    </a></div>
+      <div class="post-nav-item">
+    <a href="/2020/05/24/%E5%85%B6%E5%AE%83/vim%E9%85%8D%E7%BD%AE/" rel="next" title="vim配置">
+      vim配置 <i class="fa fa-chevron-right"></i>
+    </a></div>
+    </div>
+      </footer>
+    
+  </article>
+  
+  
+  
+
+
+
+          </div>
+          
+
+<script>
+  window.addEventListener('tabs:register', () => {
+    let { activeClass } = CONFIG.comments;
+    if (CONFIG.comments.storage) {
+      activeClass = localStorage.getItem('comments_active') || activeClass;
+    }
+    if (activeClass) {
+      let activeTab = document.querySelector(`a[href="#comment-${activeClass}"]`);
+      if (activeTab) {
+        activeTab.click();
+      }
+    }
+  });
+  if (CONFIG.comments.storage) {
+    window.addEventListener('tabs:click', event => {
+      if (!event.target.matches('.tabs-comment .tab-content .tab-pane')) return;
+      let commentClass = event.target.classList[1];
+      localStorage.setItem('comments_active', commentClass);
+    });
+  }
+</script>
+
+        </div>
+          
+  
+  <div class="toggle sidebar-toggle">
+    <span class="toggle-line toggle-line-first"></span>
+    <span class="toggle-line toggle-line-middle"></span>
+    <span class="toggle-line toggle-line-last"></span>
+  </div>
+
+  <aside class="sidebar">
+    <div class="sidebar-inner">
+
+      <ul class="sidebar-nav motion-element">
+        <li class="sidebar-nav-toc">
+          文章目录
+        </li>
+        <li class="sidebar-nav-overview">
+          站点概览
+        </li>
+      </ul>
+
+      <!--noindex-->
+      <div class="post-toc-wrap sidebar-panel">
+          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-4"><a class="nav-link" href="#使插件在执行hexo-generate-hexo-deploy时自动执行"><span class="nav-number">1.</span> <span class="nav-text"> 使插件在执行hexo generate、hexo deploy时自动执行</span></a><ol class="nav-child"><li class="nav-item nav-level-5"><a class="nav-link" href="#实例"><span class="nav-number">1.1.</span> <span class="nav-text"> 实例</span></a></li></ol></li><li class="nav-item nav-level-4"><a class="nav-link" href="#输入hexo-command运行插件"><span class="nav-number">2.</span> <span class="nav-text"> 输入hexo command运行插件</span></a></li></ol></div>
+      </div>
+      <!--/noindex-->
+
+      <div class="site-overview-wrap sidebar-panel">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+    <img class="site-author-image" itemprop="image" alt="zkyTech"
+      src="http://qiniu.zkytech.top/%E9%BE%99%E7%8C%AB%E5%A4%B4%E5%83%8F.jpg">
+  <p class="site-author-name" itemprop="name">zkyTech</p>
+  <div class="site-description" itemprop="description"></div>
+</div>
+<div class="site-state-wrap motion-element">
+  <nav class="site-state">
+      <div class="site-state-item site-state-posts">
+          <a href="/archives/">
+        
+          <span class="site-state-item-count">11</span>
+          <span class="site-state-item-name">日志</span>
+        </a>
+      </div>
+      <div class="site-state-item site-state-categories">
+            <a href="/categories/">
+          
+        <span class="site-state-item-count">3</span>
+        <span class="site-state-item-name">分类</span></a>
+      </div>
+      <div class="site-state-item site-state-tags">
+            <a href="/tags/">
+          
+        <span class="site-state-item-count">20</span>
+        <span class="site-state-item-name">标签</span></a>
+      </div>
+  </nav>
+</div>
+  <div class="links-of-author motion-element">
+      <span class="links-of-author-item">
+        <span class="exturl" data-url="aHR0cHM6Ly9naXRodWIuY29tL3preXRlY2g=" title="GitHub → https:&#x2F;&#x2F;github.com&#x2F;zkytech"><i class="fab fa-github fa-fw"></i>GitHub</span>
+      </span>
+      <span class="links-of-author-item">
+        <a href="/zhangkunyuan@hotmail.com" title="E-Mail → zhangkunyuan@hotmail.com"><i class="fa fa-envelope fa-fw"></i>E-Mail</a>
+      </span>
+  </div>
+
+
+
+      </div>
+
+    </div>
+  </aside>
+  <div id="sidebar-dimmer"></div>
+
+
+      </div>
+    </main>
+
+    <footer class="footer">
+      <div class="footer-inner">
+        
+
+        
+  <div class="beian"><span class="exturl" data-url="aHR0cDovL3d3dy5iZWlhbi5taWl0Lmdvdi5jbg==">浙ICP备2020034053号-1 </span>
+      <img src="http://qiniu.zkytech.top/%E5%A4%87%E6%A1%88%E5%9B%BE%E6%A0%87.png" style="display: inline-block;"><span class="exturl" data-url="aHR0cDovL3d3dy5iZWlhbi5nb3YuY24vcG9ydGFsL3JlZ2lzdGVyU3lzdGVtSW5mbz9yZWNvcmRjb2RlPTMzMDExMDAyMDE1MDEx">浙公网安备 33011002015011号 </span>
+  </div>
+
+<div class="copyright">
+  
+  &copy; 
+  <span itemprop="copyrightYear">2020</span>
+  <span class="with-love">
+    <i class="fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">zkyTech</span>
+</div>
+
+        
+<div class="busuanzi-count">
+  <script async src="https://busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+    <span class="post-meta-item" id="busuanzi_container_site_uv" style="display: none;">
+      <span class="post-meta-item-icon">
+        <i class="fa fa-user"></i>
+      </span>
+      <span class="site-uv" title="总访客量">
+        <span id="busuanzi_value_site_uv"></span>
+      </span>
+    </span>
+    <span class="post-meta-divider">|</span>
+    <span class="post-meta-item" id="busuanzi_container_site_pv" style="display: none;">
+      <span class="post-meta-item-icon">
+        <i class="fa fa-eye"></i>
+      </span>
+      <span class="site-pv" title="总访问量">
+        <span id="busuanzi_value_site_pv"></span>
+      </span>
+    </span>
+</div>
+
+
+
+
+
+
+
+
+      </div>
+    </footer>
+  </div>
+
+  
+  <script src="/lib/anime.min.js"></script>
+  <script src="/lib/velocity/velocity.min.js"></script>
+  <script src="/lib/velocity/velocity.ui.min.js"></script>
+
+<script src="/js/utils.js"></script>
+
+<script src="/js/motion.js"></script>
+
+
+<script src="/js/schemes/pisces.js"></script>
+
+
+<script src="/js/next-boot.js"></script>
+
+
+
+
+  
+
+
+
+
+  
+<script src="/js/local-search.js"></script>
+
+
+
+
+
+
+
+
+
+
+
+<script>
+if (document.querySelectorAll('pre.mermaid').length) {
+  NexT.utils.getScript('https://cdn.bootcss.com/mermaid/8.5.0/mermaid.min.js', () => {
+    mermaid.initialize({
+      theme    : 'forest',
+      logLevel : 3,
+      flowchart: { curve     : 'linear' },
+      gantt    : { axisFormat: '%m/%d/%Y' },
+      sequence : { actorMargin: 50 }
+    });
+  }, window.mermaid);
+}
+</script>
+
+
+  
+
+  
+
+  
+
+</body>
+</html>

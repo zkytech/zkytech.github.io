@@ -1,0 +1,691 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2">
+<meta name="theme-color" content="#222">
+<meta name="generator" content="Hexo 4.2.0">
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png">
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png">
+  <link rel="mask-icon" href="/images/logo.svg" color="#222">
+  <meta name="google-site-verification" content="yOPv6ms423Z-rteLZfsZgiX7HnAef0KrZWtW4mb1msU">
+
+<link rel="stylesheet" href="/css/main.css">
+
+
+<link rel="stylesheet" href="/lib/font-awesome/css/all.min.css">
+  <link rel="stylesheet" href="https://cdn.bootcss.com/pace/1.0.2/themes/white/pace-theme-minimal.min.css">
+  <script src="https://cdn.bootcss.com/pace/1.0.2/pace.min.js"></script>
+
+<script id="hexo-configurations">
+    var NexT = window.NexT || {};
+    var CONFIG = {"hostname":"www.zkytech.top","root":"/","scheme":"Gemini","version":"7.8.0","exturl":true,"sidebar":{"position":"left","display":"post","padding":18,"offset":12,"onmobile":false},"copycode":{"enable":true,"show_result":true,"style":"default"},"back2top":{"enable":true,"scrollpercent":true,"sidebar":false},"bookmark":{"enable":false,"color":"#222","save":"auto"},"fancybox":false,"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"lazyload":true,"style":"tabs","active":null,"storage":true,"nav":null},"algolia":{"hits":{"per_page":10},"labels":{"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}},"localsearch":{"enable":true,"trigger":"auto","top_n_per_article":1,"unescape":false,"preload":false},"motion":{"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},"path":"search.xml"};
+  </script>
+
+  <meta name="description" content="neovim 增强版vim 安装neovim 导入vim的配置文件">
+<meta property="og:type" content="article">
+<meta property="og:title" content="vim配置">
+<meta property="og:url" content="https://www.zkytech.top/2020/05/24/%E5%85%B6%E5%AE%83/vim%E9%85%8D%E7%BD%AE/index.html">
+<meta property="og:site_name" content="zkyTech">
+<meta property="og:description" content="neovim 增强版vim 安装neovim 导入vim的配置文件">
+<meta property="og:locale" content="zh_CN">
+<meta property="article:published_time" content="2020-05-24T23:53:00.000Z">
+<meta property="article:modified_time" content="2020-09-15T12:59:44.522Z">
+<meta property="article:author" content="zkyTech">
+<meta property="article:tag" content="vim">
+<meta property="article:tag" content="linux">
+<meta property="article:tag" content="终端">
+<meta name="twitter:card" content="summary">
+
+<link rel="canonical" href="https://www.zkytech.top/2020/05/24/%E5%85%B6%E5%AE%83/vim%E9%85%8D%E7%BD%AE/">
+
+
+<script id="page-configurations">
+  // https://hexo.io/docs/variables.html
+  CONFIG.page = {
+    sidebar: "",
+    isHome : false,
+    isPost : true,
+    lang   : 'zh-CN'
+  };
+</script>
+
+  <title>vim配置 | zkyTech</title>
+  
+
+
+  <script>
+    var _hmt = _hmt || [];
+    (function() {
+      var hm = document.createElement("script");
+      hm.src = "https://hm.baidu.com/hm.js?1ae383e4527a9c6af9660e1260964f4f";
+      var s = document.getElementsByTagName("script")[0];
+      s.parentNode.insertBefore(hm, s);
+    })();
+  </script>
+
+
+
+
+  <noscript>
+  <style>
+  .use-motion .brand,
+  .use-motion .menu-item,
+  .sidebar-inner,
+  .use-motion .post-block,
+  .use-motion .pagination,
+  .use-motion .comments,
+  .use-motion .post-header,
+  .use-motion .post-body,
+  .use-motion .collection-header { opacity: initial; }
+
+  .use-motion .site-title,
+  .use-motion .site-subtitle {
+    opacity: initial;
+    top: initial;
+  }
+
+  .use-motion .logo-line-before i { left: initial; }
+  .use-motion .logo-line-after i { right: initial; }
+  </style>
+</noscript>
+
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage">
+  <div class="container use-motion">
+    <div class="headband"></div>
+
+    <header class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-container">
+  <div class="site-nav-toggle">
+    <div class="toggle" aria-label="切换导航栏">
+      <span class="toggle-line toggle-line-first"></span>
+      <span class="toggle-line toggle-line-middle"></span>
+      <span class="toggle-line toggle-line-last"></span>
+    </div>
+  </div>
+
+  <div class="site-meta">
+
+    <a href="/" class="brand" rel="start">
+      <span class="logo-line-before"><i></i></span>
+      <h1 class="site-title">zkyTech</h1>
+      <span class="logo-line-after"><i></i></span>
+    </a>
+  </div>
+
+  <div class="site-nav-right">
+    <div class="toggle popup-trigger">
+        <i class="fa fa-search fa-fw fa-lg"></i>
+    </div>
+  </div>
+</div>
+
+
+
+
+<nav class="site-nav">
+  <ul id="menu" class="main-menu menu">
+        <li class="menu-item menu-item-home">
+
+    <a href="/" rel="section"><i class="fa fa-home fa-fw"></i>首页</a>
+
+  </li>
+        <li class="menu-item menu-item-tags">
+
+    <a href="/tags/" rel="section"><i class="fa fa-tags fa-fw"></i>标签<span class="badge">20</span></a>
+
+  </li>
+        <li class="menu-item menu-item-categories">
+
+    <a href="/categories/" rel="section"><i class="fa fa-th fa-fw"></i>分类<span class="badge">3</span></a>
+
+  </li>
+        <li class="menu-item menu-item-archives">
+
+    <a href="/archives/" rel="section"><i class="fa fa-archive fa-fw"></i>归档<span class="badge">11</span></a>
+
+  </li>
+        
+            
+  <li class="menu-item menu-item-论文排版指南">
+
+    <a href="/%E8%AE%BA%E6%96%87%E6%8E%92%E7%89%88%E6%8C%87%E5%8D%97/" rel="section"><i class="fa fa-book fa-fw"></i>论文排版指南</a>
+
+  </li>
+
+
+      
+      <li class="menu-item menu-item-search">
+        <a role="button" class="popup-trigger"><i class="fa fa-search fa-fw"></i>搜索
+        </a>
+      </li>
+  </ul>
+</nav>
+
+
+
+  <div class="search-pop-overlay">
+    <div class="popup search-popup">
+        <div class="search-header">
+  <span class="search-icon">
+    <i class="fa fa-search"></i>
+  </span>
+  <div class="search-input-container">
+    <input autocomplete="off" autocapitalize="off"
+           placeholder="搜索..." spellcheck="false"
+           type="search" class="search-input">
+  </div>
+  <span class="popup-btn-close">
+    <i class="fa fa-times-circle"></i>
+  </span>
+</div>
+<div id="search-result">
+  <div id="no-result">
+    <i class="fa fa-spinner fa-pulse fa-5x fa-fw"></i>
+  </div>
+</div>
+
+    </div>
+  </div>
+
+</div>
+    </header>
+
+    
+  <div class="back-to-top">
+    <i class="fa fa-arrow-up"></i>
+    <span>0%</span>
+  </div>
+
+
+    <main class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          
+
+          <div class="content post posts-expand">
+            
+
+    
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-CN">
+    <link itemprop="mainEntityOfPage" href="https://www.zkytech.top/2020/05/24/%E5%85%B6%E5%AE%83/vim%E9%85%8D%E7%BD%AE/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="http://qiniu.zkytech.top/%E9%BE%99%E7%8C%AB%E5%A4%B4%E5%83%8F.jpg">
+      <meta itemprop="name" content="zkyTech">
+      <meta itemprop="description" content="">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="zkyTech">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          vim配置
+        </h1>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-calendar"></i>
+              </span>
+              <span class="post-meta-item-text">发表于</span>
+
+              <time title="创建时间：2020-05-24 23:53:00" itemprop="dateCreated datePublished" datetime="2020-05-24T23:53:00+00:00">2020-05-24</time>
+            </span>
+              <span class="post-meta-item">
+                <span class="post-meta-item-icon">
+                  <i class="far fa-calendar-check"></i>
+                </span>
+                <span class="post-meta-item-text">更新于</span>
+                <time title="修改时间：2020-09-15 12:59:44" itemprop="dateModified" datetime="2020-09-15T12:59:44+00:00">2020-09-15</time>
+              </span>
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-folder"></i>
+              </span>
+              <span class="post-meta-item-text">分类于</span>
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/%E5%85%B6%E5%AE%83/" itemprop="url" rel="index"><span itemprop="name">其它</span></a>
+                </span>
+            </span>
+
+          
+            <span class="post-meta-item" title="阅读次数" id="busuanzi_container_page_pv" style="display: none;">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-eye"></i>
+              </span>
+              <span class="post-meta-item-text">阅读次数：</span>
+              <span id="busuanzi_value_page_pv"></span>
+            </span>
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+        <h3 id="neovim"><a class="markdownIt-Anchor" href="#neovim"></a> neovim</h3>
+<p>增强版vim</p>
+<p>安装<span class="exturl" data-url="aHR0cHM6Ly9uZW92aW0uaW8v">neovim<i class="fa fa-external-link-alt"></i></span></p>
+<p><span class="exturl" data-url="aHR0cHM6Ly9uZW92aW0uaW8vZG9jL3VzZXIvbnZpbS5odG1sI252aW0tZnJvbS12aW0=">导入vim的配置文件<i class="fa fa-external-link-alt"></i></span></p>
+<a id="more"></a>
+<h3 id="vim-plug"><a class="markdownIt-Anchor" href="#vim-plug"></a> vim-plug</h3>
+<p>vim插件管理<span class="exturl" data-url="aHR0cHM6Ly9naXRodWIuY29tL2p1bmVndW5uL3ZpbS1wbHVn">vim-plug<i class="fa fa-external-link-alt"></i></span></p>
+<p>执行<code>vim -c 'PlugInstall|q'</code>会安装.vimrc中的所有插件</p>
+<h3 id="文件树"><a class="markdownIt-Anchor" href="#文件树"></a> 文件树</h3>
+<p><span class="exturl" data-url="aHR0cHM6Ly9naXRodWIuY29tL3ByZXNlcnZpbS9uZXJkdHJlZQ==">nerdtree<i class="fa fa-external-link-alt"></i></span></p>
+<p>默认配置下的常用快捷键</p>
+<table>
+<thead>
+<tr>
+<th>快捷键</th>
+<th>效果</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>Ctrl+n</code></td>
+<td>打开文件树</td>
+</tr>
+<tr>
+<td><code>m</code></td>
+<td>打开选项菜单(可在菜单中选择进行创建、删除操作)</td>
+</tr>
+</tbody>
+</table>
+<h3 id="底部状态栏"><a class="markdownIt-Anchor" href="#底部状态栏"></a> 底部状态栏</h3>
+<p><span class="exturl" data-url="aHR0cHM6Ly9naXRodWIuY29tL2l0Y2h5bnkvbGlnaHRsaW5lLnZpbQ==">lightline<i class="fa fa-external-link-alt"></i></span></p>
+<h3 id="markdown预览"><a class="markdownIt-Anchor" href="#markdown预览"></a> markdown预览</h3>
+<p><span class="exturl" data-url="aHR0cHM6Ly9naXRodWIuY29tL2lhbWNjby9tYXJrZG93bi1wcmV2aWV3Lm52aW0=">markdown-preview.nvim<i class="fa fa-external-link-alt"></i></span></p>
+<p>vim中运行<code>:PreviewMarkdown</code>后会在浏览器中打开markdown实时预览</p>
+<h3 id="代码提示-补全-跳转"><a class="markdownIt-Anchor" href="#代码提示-补全-跳转"></a> 代码提示、补全、跳转</h3>
+<p><span class="exturl" data-url="aHR0cHM6Ly9naXRodWIuY29tL25lb2NsaWRlL2NvYy5udmlt">coc.nvim<i class="fa fa-external-link-alt"></i></span></p>
+<p>这个需要安装对应的language<br />
+server才能进行补全，除了代码补全，还可以通过安装coc插件实现很多其他功能，但我这里只用作代码提示、补全、跳转</p>
+<p>可选的插件可以通过<span class="exturl" data-url="aHR0cHM6Ly93d3cubnBtanMuY29tL3NlYXJjaD9xPWtleXdvcmRzJTNBY29jLm52aW0mYW1wO3BhZ2U9MCZhbXA7cGVyUGFnZT0yMCZhbXA7cmFua2luZz1wb3B1bGFyaXR5">npmjs.com<i class="fa fa-external-link-alt"></i></span>查看</p>
+<p>推荐通过<span class="exturl" data-url="aHR0cHM6Ly9naXRodWIuY29tL2Zhbm5oZXl3YXJkL2NvYy1tYXJrZXRwbGFjZQ==">coc-marketplace<i class="fa fa-external-link-alt"></i></span>安装coc插件/Language Server</p>
+<p><span class="exturl" data-url="aHR0cHM6Ly9naXRodWIuY29tL25lb2NsaWRlL2NvYy5udmltL3dpa2kvVXNpbmctY29jLWV4dGVuc2lvbnMjaW1wbGVtZW50ZWQtY29jLWV4dGVuc2lvbnM=">官方文档<i class="fa fa-external-link-alt"></i></span>给出了部分插件列表</p>
+<p>官方文档默认配置中的快捷键</p>
+<table>
+<thead>
+<tr>
+<th>快捷键</th>
+<th>说明</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>插入模式：<code>tab</code></td>
+<td>在候选补全项目间切换</td>
+</tr>
+<tr>
+<td>普通模式：<code>Ctrl+space</code></td>
+<td>显示代码补全提示</td>
+</tr>
+<tr>
+<td>普通模式：<code>K</code></td>
+<td>显示函数文档</td>
+</tr>
+<tr>
+<td>普通模式：<code>[g</code></td>
+<td>代码诊断-上一条</td>
+</tr>
+<tr>
+<td>普通模式：<code>]g</code></td>
+<td>代码诊断-下一条</td>
+</tr>
+<tr>
+<td>普通模式：<code>space a</code></td>
+<td>显示所有代码诊断信息</td>
+</tr>
+<tr>
+<td>普通模式：<code>gd</code></td>
+<td>跳转到函数定义 go definition</td>
+</tr>
+<tr>
+<td>普通模式：<code>gy</code></td>
+<td>跳转到类型定义 go type definition</td>
+</tr>
+<tr>
+<td>普通模式：<code>gi</code></td>
+<td>go implementation</td>
+</tr>
+<tr>
+<td>普通模式：<code>gr</code></td>
+<td>跳转到函数调用位置 go references</td>
+</tr>
+<tr>
+<td>普通模式：<code>rn</code></td>
+<td>重命名变量 rename</td>
+</tr>
+<tr>
+<td>可视模式 或 普通模式：<code>\f</code></td>
+<td>格式化代码 formatting selected code</td>
+</tr>
+<tr>
+<td>普通模式：<code>\qf</code></td>
+<td>快速（自动）修复代码问题 quick fix</td>
+</tr>
+<tr>
+<td>操作等待 或 可视模式：<code>if</code></td>
+<td>选定function内的代码块 in function</td>
+</tr>
+<tr>
+<td>操作等待 或 可视模式：<code>ic</code></td>
+<td>选定class内的代码块 in class</td>
+</tr>
+<tr>
+<td>操作等待 或 可视模式：<code>af</code></td>
+<td>选定整个function的代码 all of function</td>
+</tr>
+<tr>
+<td>操作等待 或 可视模式：<code>ac</code></td>
+<td>选定整个class的代码 all of class</td>
+</tr>
+<tr>
+<td>普通模式：<code>zO</code></td>
+<td>递归展开代码块</td>
+</tr>
+<tr>
+<td>普通模式：<code>zo</code></td>
+<td>展开一级代码块</td>
+</tr>
+<tr>
+<td>普通模式：<code>zC</code></td>
+<td>递归折叠代码块</td>
+</tr>
+<tr>
+<td>普通模式：<code>zc</code></td>
+<td>折叠一级代码块</td>
+</tr>
+<tr>
+<td>普通模式：<code>space o</code></td>
+<td>显示当前文件中所有的变量、函数</td>
+</tr>
+</tbody>
+</table>
+<p>常用命令</p>
+<table>
+<thead>
+<tr>
+<th>命令</th>
+<th>说明</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>:Format</code></td>
+<td>格式化当前文档</td>
+</tr>
+<tr>
+<td><code>:OR</code></td>
+<td>整理import语句 organize imports</td>
+</tr>
+<tr>
+<td><code>:Fold</code></td>
+<td>折叠代码</td>
+</tr>
+</tbody>
+</table>
+<h3 id="vimrc"><a class="markdownIt-Anchor" href="#vimrc"></a> .vimrc</h3>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br><span class="line">75</span><br><span class="line">76</span><br><span class="line">77</span><br><span class="line">78</span><br><span class="line">79</span><br><span class="line">80</span><br><span class="line">81</span><br><span class="line">82</span><br><span class="line">83</span><br><span class="line">84</span><br><span class="line">85</span><br><span class="line">86</span><br><span class="line">87</span><br><span class="line">88</span><br><span class="line">89</span><br><span class="line">90</span><br><span class="line">91</span><br><span class="line">92</span><br><span class="line">93</span><br><span class="line">94</span><br><span class="line">95</span><br><span class="line">96</span><br><span class="line">97</span><br><span class="line">98</span><br><span class="line">99</span><br><span class="line">100</span><br><span class="line">101</span><br><span class="line">102</span><br><span class="line">103</span><br><span class="line">104</span><br><span class="line">105</span><br><span class="line">106</span><br><span class="line">107</span><br><span class="line">108</span><br><span class="line">109</span><br><span class="line">110</span><br><span class="line">111</span><br><span class="line">112</span><br><span class="line">113</span><br><span class="line">114</span><br><span class="line">115</span><br><span class="line">116</span><br><span class="line">117</span><br><span class="line">118</span><br><span class="line">119</span><br><span class="line">120</span><br><span class="line">121</span><br><span class="line">122</span><br><span class="line">123</span><br><span class="line">124</span><br><span class="line">125</span><br><span class="line">126</span><br><span class="line">127</span><br><span class="line">128</span><br><span class="line">129</span><br><span class="line">130</span><br><span class="line">131</span><br><span class="line">132</span><br><span class="line">133</span><br><span class="line">134</span><br><span class="line">135</span><br><span class="line">136</span><br><span class="line">137</span><br><span class="line">138</span><br><span class="line">139</span><br><span class="line">140</span><br><span class="line">141</span><br><span class="line">142</span><br><span class="line">143</span><br><span class="line">144</span><br><span class="line">145</span><br><span class="line">146</span><br><span class="line">147</span><br><span class="line">148</span><br><span class="line">149</span><br><span class="line">150</span><br><span class="line">151</span><br><span class="line">152</span><br><span class="line">153</span><br><span class="line">154</span><br><span class="line">155</span><br><span class="line">156</span><br><span class="line">157</span><br><span class="line">158</span><br><span class="line">159</span><br><span class="line">160</span><br><span class="line">161</span><br><span class="line">162</span><br><span class="line">163</span><br><span class="line">164</span><br><span class="line">165</span><br><span class="line">166</span><br><span class="line">167</span><br><span class="line">168</span><br><span class="line">169</span><br><span class="line">170</span><br><span class="line">171</span><br><span class="line">172</span><br><span class="line">173</span><br><span class="line">174</span><br><span class="line">175</span><br><span class="line">176</span><br><span class="line">177</span><br><span class="line">178</span><br><span class="line">179</span><br><span class="line">180</span><br><span class="line">181</span><br><span class="line">182</span><br><span class="line">183</span><br><span class="line">184</span><br><span class="line">185</span><br><span class="line">186</span><br><span class="line">187</span><br><span class="line">188</span><br><span class="line">189</span><br><span class="line">190</span><br><span class="line">191</span><br><span class="line">192</span><br><span class="line">193</span><br><span class="line">194</span><br><span class="line">195</span><br><span class="line">196</span><br><span class="line">197</span><br><span class="line">198</span><br><span class="line">199</span><br><span class="line">200</span><br><span class="line">201</span><br><span class="line">202</span><br><span class="line">203</span><br><span class="line">204</span><br><span class="line">205</span><br><span class="line">206</span><br><span class="line">207</span><br><span class="line">208</span><br><span class="line">209</span><br><span class="line">210</span><br><span class="line">211</span><br><span class="line">212</span><br><span class="line">213</span><br><span class="line">214</span><br><span class="line">215</span><br><span class="line">216</span><br><span class="line">217</span><br><span class="line">218</span><br><span class="line">219</span><br><span class="line">220</span><br><span class="line">221</span><br><span class="line">222</span><br><span class="line">223</span><br><span class="line">224</span><br><span class="line">225</span><br><span class="line">226</span><br><span class="line">227</span><br><span class="line">228</span><br><span class="line">229</span><br><span class="line">230</span><br><span class="line">231</span><br><span class="line">232</span><br><span class="line">233</span><br><span class="line">234</span><br><span class="line">235</span><br><span class="line">236</span><br><span class="line">237</span><br><span class="line">238</span><br><span class="line">239</span><br><span class="line">240</span><br><span class="line">241</span><br><span class="line">242</span><br><span class="line">243</span><br><span class="line">244</span><br><span class="line">245</span><br><span class="line">246</span><br><span class="line">247</span><br><span class="line">248</span><br><span class="line">249</span><br><span class="line">250</span><br><span class="line">251</span><br><span class="line">252</span><br><span class="line">253</span><br><span class="line">254</span><br><span class="line">255</span><br><span class="line">256</span><br><span class="line">257</span><br><span class="line">258</span><br><span class="line">259</span><br><span class="line">260</span><br><span class="line">261</span><br><span class="line">262</span><br><span class="line">263</span><br><span class="line">264</span><br><span class="line">265</span><br><span class="line">266</span><br><span class="line">267</span><br></pre></td><td class="code"><pre><span class="line">&quot;快捷键映射</span><br><span class="line">map R     :source ~&#x2F;.vimrc&lt;CR&gt;</span><br><span class="line">map S     :w&lt;CR&gt;</span><br><span class="line">map &lt;C-n&gt; :NERDTreeToggle&lt;CR&gt;</span><br><span class="line"></span><br><span class="line">&quot;&quot;&quot;&quot;&quot;&quot;&quot;&quot;&quot;&quot;&quot;&quot;&quot;&quot;&quot;&quot;&quot;&quot;&quot;&quot;&quot;&quot;&quot;&quot;&quot;&quot;&quot;&quot;&quot;&quot;&quot;&quot;&quot;&quot;&quot;&quot;&quot;&quot;&quot;&quot;&quot;&quot;</span><br><span class="line">&quot;&quot;&quot;&quot;&quot;&quot;&quot;&quot;&quot;&quot;&quot;&quot;插件</span><br><span class="line">call plug#begin(&#39;~&#x2F;.vim&#x2F;plugged&#39;)</span><br><span class="line">&quot;提供各种语言的语法分析支持</span><br><span class="line">&quot;Plug &#39;sheerun&#x2F;vim-polyglot&#39;</span><br><span class="line">&quot;文件树</span><br><span class="line">Plug &#39;preservim&#x2F;nerdtree&#39;</span><br><span class="line">&quot;代码补全</span><br><span class="line">Plug &#39;neoclide&#x2F;coc.nvim&#39;, &#123;&#39;branch&#39;: &#39;release&#39;&#125;</span><br><span class="line">&quot;打开文件时自动打开文件树</span><br><span class="line">&quot;autocmd vimenter * NERDTree</span><br><span class="line">&quot;markdown自动折叠</span><br><span class="line">&quot;Plug &#39;godlygeek&#x2F;tabular&#39;</span><br><span class="line">&quot;Plug &#39;plasticboy&#x2F;vim-markdown&#39;</span><br><span class="line">&quot;markdown预览</span><br><span class="line">Plug &#39;iamcco&#x2F;markdown-preview.nvim&#39;, &#123; &#39;do&#39;: &#39;cd app &amp; yarn install&#39;  &#125;</span><br><span class="line">&quot;底部状态栏</span><br><span class="line">Plug &#39;itchyny&#x2F;lightline.vim&#39;</span><br><span class="line">&quot;自动打开markdown预览窗口</span><br><span class="line">&quot;let g:mkdp_auto_start &#x3D; 1</span><br><span class="line">call plug#end()</span><br><span class="line">&quot;&quot;&quot;&quot;&quot;&quot;&quot;&quot;&quot;&quot;&quot;&quot;&quot;&quot;&quot;&quot;&quot;&quot;&quot;&quot;&quot;&quot;&quot;&quot;&quot;&quot;&quot;&quot;&quot;&quot;&quot;&quot;&quot;&quot;&quot;&quot;&quot;&quot;&quot;&quot;&quot;&quot;</span><br><span class="line"></span><br><span class="line">&quot;&quot;&quot;&quot;&quot;&quot;&quot;&quot;&quot;&quot;&quot;&quot;&quot;&quot;&quot;&quot;&quot;&quot;&quot;&quot;&quot;&quot;&quot;&quot;&quot;&quot;&quot;&quot;&quot;&quot;&quot;&quot;&quot;&quot;&quot;&quot;&quot;&quot;&quot;&quot;&quot;&quot;</span><br><span class="line">&quot;&quot;&quot;&quot;&quot;&quot;&quot;&quot;自动补全插件coc.nvim相关配置</span><br><span class="line">&quot;&quot;&quot;&quot;&quot;&quot;&quot;&quot;https:&#x2F;&#x2F;github.com&#x2F;neoclide&#x2F;coc.nvim</span><br><span class="line">&quot;使vim能够解析coc.nvim的json配置文件的注释语法</span><br><span class="line">autocmd FileType json syntax match Comment +\&#x2F;\&#x2F;.\+$+</span><br><span class="line">&quot;如果不设置这一项，可能会影响自动补全工作</span><br><span class="line">set hidden</span><br><span class="line"></span><br><span class="line">&quot;不创建备份文件</span><br><span class="line">&quot;自动补全的部分language server可能会受到备份文件的影响</span><br><span class="line">set nobackup</span><br><span class="line">set nowritebackup</span><br><span class="line"></span><br><span class="line">&quot;为自动补全消息提供更大的显示空间</span><br><span class="line">set cmdheight&#x3D;2</span><br><span class="line"></span><br><span class="line">&quot;自动补全更新延时 默认是4000ms</span><br><span class="line">set updatetime&#x3D;300</span><br><span class="line"></span><br><span class="line">&quot;Don&#39;t pass messages to |ins-completion-menu|</span><br><span class="line">set shortmess+&#x3D;c</span><br><span class="line"></span><br><span class="line">&quot; Always show the signcolumn, otherwise it would shift the text each time</span><br><span class="line">&quot; diagnostics appear&#x2F;become resolved.</span><br><span class="line">if has(&quot;patch-8.1.1564&quot;)</span><br><span class="line">  &quot; Recently vim can merge signcolumn and number column into one</span><br><span class="line">  set signcolumn&#x3D;number</span><br><span class="line">else</span><br><span class="line">  set signcolumn&#x3D;yes</span><br><span class="line">endif</span><br><span class="line"></span><br><span class="line">&quot; 使用tab键来选择首个候选项</span><br><span class="line">&quot; NOTE: 使用命令&#39;:verbose imap &lt;tab&gt;&#39; 查看tab键是否被其它插件使用</span><br><span class="line">inoremap &lt;silent&gt;&lt;expr&gt; &lt;TAB&gt;</span><br><span class="line">      \ pumvisible() ? &quot;\&lt;C-n&gt;&quot; :</span><br><span class="line">      \ &lt;SID&gt;check_back_space() ? &quot;\&lt;TAB&gt;&quot; :</span><br><span class="line">      \ coc#refresh()</span><br><span class="line">inoremap &lt;expr&gt;&lt;S-TAB&gt; pumvisible() ? &quot;\&lt;C-p&gt;&quot; : &quot;\&lt;C-h&gt;&quot;</span><br><span class="line"></span><br><span class="line">function! s:check_back_space() abort</span><br><span class="line">  let col &#x3D; col(&#39;.&#39;) - 1</span><br><span class="line">  return !col || getline(&#39;.&#39;)[col - 1]  &#x3D;~# &#39;\s&#39;</span><br><span class="line">endfunction</span><br><span class="line"></span><br><span class="line">&quot; 使用 &lt;c-space&gt; 触发代码补全提示</span><br><span class="line">inoremap &lt;silent&gt;&lt;expr&gt; &lt;c-space&gt; coc#refresh()</span><br><span class="line"></span><br><span class="line">&quot; 使用&lt;cr&gt; 确认代码补全选项, &#96;&lt;C-g&gt;u&#96; means break undo chain at current</span><br><span class="line">&quot; position. Coc only does snippet and additional edit on confirm.</span><br><span class="line">&quot; &lt;cr&gt; could be remapped by other vim plugin, try &#96;:verbose imap &lt;CR&gt;&#96;.</span><br><span class="line">if exists(&#39;*complete_info&#39;)</span><br><span class="line">  inoremap &lt;expr&gt; &lt;cr&gt; complete_info()[&quot;selected&quot;] !&#x3D; &quot;-1&quot; ? &quot;\&lt;C-y&gt;&quot; : &quot;\&lt;C-g&gt;u\&lt;CR&gt;&quot;</span><br><span class="line">else</span><br><span class="line">  inoremap &lt;expr&gt; &lt;cr&gt; pumvisible() ? &quot;\&lt;C-y&gt;&quot; : &quot;\&lt;C-g&gt;u\&lt;CR&gt;&quot;</span><br><span class="line">endif</span><br><span class="line"></span><br><span class="line">&quot; Use &#96;[g&#96; and &#96;]g&#96; to navigate diagnostics</span><br><span class="line">nmap &lt;silent&gt; [g &lt;Plug&gt;(coc-diagnostic-prev)</span><br><span class="line">nmap &lt;silent&gt; ]g &lt;Plug&gt;(coc-diagnostic-next)</span><br><span class="line"></span><br><span class="line">&quot; GoTo code navigation.</span><br><span class="line">nmap &lt;silent&gt; gd &lt;Plug&gt;(coc-definition)</span><br><span class="line">nmap &lt;silent&gt; gy &lt;Plug&gt;(coc-type-definition)</span><br><span class="line">nmap &lt;silent&gt; gi &lt;Plug&gt;(coc-implementation)</span><br><span class="line">nmap &lt;silent&gt; gr &lt;Plug&gt;(coc-references)</span><br><span class="line"></span><br><span class="line">&quot; Use K to show documentation in preview window.</span><br><span class="line">nnoremap &lt;silent&gt; K :call &lt;SID&gt;show_documentation()&lt;CR&gt;</span><br><span class="line"></span><br><span class="line">function! s:show_documentation()</span><br><span class="line">  if (index([&#39;vim&#39;,&#39;help&#39;], &amp;filetype) &gt;&#x3D; 0)</span><br><span class="line">    execute &#39;h &#39;.expand(&#39;&lt;cword&gt;&#39;)</span><br><span class="line">  else</span><br><span class="line">    call CocAction(&#39;doHover&#39;)</span><br><span class="line">  endif</span><br><span class="line">endfunction</span><br><span class="line"></span><br><span class="line">&quot; Highlight the symbol and its references when holding the cursor.</span><br><span class="line">autocmd CursorHold * silent call CocActionAsync(&#39;highlight&#39;)</span><br><span class="line"></span><br><span class="line">&quot; Symbol renaming.</span><br><span class="line">nmap &lt;leader&gt;rn &lt;Plug&gt;(coc-rename)</span><br><span class="line"></span><br><span class="line">&quot; Formatting selected code.</span><br><span class="line">xmap &lt;leader&gt;f  &lt;Plug&gt;(coc-format-selected)</span><br><span class="line">nmap &lt;leader&gt;f  &lt;Plug&gt;(coc-format-selected)</span><br><span class="line"></span><br><span class="line">augroup mygroup</span><br><span class="line">  autocmd!</span><br><span class="line">  &quot; Setup formatexpr specified filetype(s).</span><br><span class="line">  autocmd FileType typescript,json setl formatexpr&#x3D;CocAction(&#39;formatSelected&#39;)</span><br><span class="line">  &quot; Update signature help on jump placeholder.</span><br><span class="line">  autocmd User CocJumpPlaceholder call CocActionAsync(&#39;showSignatureHelp&#39;)</span><br><span class="line">augroup end</span><br><span class="line">&quot; Applying codeAction to the selected region.</span><br><span class="line">&quot; Example: &#96;&lt;leader&gt;aap&#96; for current paragraph</span><br><span class="line">xmap &lt;leader&gt;a  &lt;Plug&gt;(coc-codeaction-selected)</span><br><span class="line">nmap &lt;leader&gt;a  &lt;Plug&gt;(coc-codeaction-selected)</span><br><span class="line"></span><br><span class="line">&quot; Remap keys for applying codeAction to the current buffer.</span><br><span class="line">nmap &lt;leader&gt;ac  &lt;Plug&gt;(coc-codeaction)</span><br><span class="line">&quot; Apply AutoFix to problem on the current line.</span><br><span class="line">nmap &lt;leader&gt;qf  &lt;Plug&gt;(coc-fix-current)</span><br><span class="line"></span><br><span class="line">&quot; Map function and class text objects</span><br><span class="line">&quot; NOTE: Requires &#39;textDocument.documentSymbol&#39; support from the language server.</span><br><span class="line">xmap if &lt;Plug&gt;(coc-funcobj-i)</span><br><span class="line">omap if &lt;Plug&gt;(coc-funcobj-i)</span><br><span class="line">xmap af &lt;Plug&gt;(coc-funcobj-a)</span><br><span class="line">omap af &lt;Plug&gt;(coc-funcobj-a)</span><br><span class="line">xmap ic &lt;Plug&gt;(coc-classobj-i)</span><br><span class="line">omap ic &lt;Plug&gt;(coc-classobj-i)</span><br><span class="line">xmap ac &lt;Plug&gt;(coc-classobj-a)</span><br><span class="line">omap ac &lt;Plug&gt;(coc-classobj-a)</span><br><span class="line"></span><br><span class="line">&quot; Use CTRL-S for selections ranges.</span><br><span class="line">&quot; Requires &#39;textDocument&#x2F;selectionRange&#39; support of LS, ex: coc-tsserver</span><br><span class="line">nmap &lt;silent&gt; &lt;C-s&gt; &lt;Plug&gt;(coc-range-select)</span><br><span class="line">xmap &lt;silent&gt; &lt;C-s&gt; &lt;Plug&gt;(coc-range-select)</span><br><span class="line"></span><br><span class="line">&quot; Add &#96;:Format&#96; command to format current buffer.</span><br><span class="line">command! -nargs&#x3D;0 Format :call CocAction(&#39;format&#39;)</span><br><span class="line"></span><br><span class="line">&quot; Add &#96;:Fold&#96; command to fold current buffer.</span><br><span class="line">command! -nargs&#x3D;? Fold :call     CocAction(&#39;fold&#39;, &lt;f-args&gt;)</span><br><span class="line"></span><br><span class="line">&quot; Add &#96;:OR&#96; command for organize imports of the current buffer.</span><br><span class="line">command! -nargs&#x3D;0 OR   :call     CocAction(&#39;runCommand&#39;, &#39;editor.action.organizeImport&#39;)</span><br><span class="line"></span><br><span class="line">&quot; Add (Neo)Vim&#39;s native statusline support.</span><br><span class="line">&quot; NOTE: Please see &#96;:h coc-status&#96; for integrations with external plugins that</span><br><span class="line">&quot; provide custom statusline: lightline.vim, vim-airline.</span><br><span class="line">&quot;set statusline&#x3D;%&#123;coc#status()&#125;</span><br><span class="line"></span><br><span class="line">&quot; Mappings using CoCList:</span><br><span class="line">&quot; Show all diagnostics.</span><br><span class="line">nnoremap &lt;silent&gt; &lt;space&gt;a  :&lt;C-u&gt;CocList diagnostics&lt;cr&gt;</span><br><span class="line">&quot; Manage extensions.</span><br><span class="line">nnoremap &lt;silent&gt; &lt;space&gt;e  :&lt;C-u&gt;CocList extensions&lt;cr&gt;</span><br><span class="line">&quot; Show commands.</span><br><span class="line">nnoremap &lt;silent&gt; &lt;space&gt;c  :&lt;C-u&gt;CocList commands&lt;cr&gt;</span><br><span class="line">&quot; Find symbol of current document.</span><br><span class="line">nnoremap &lt;silent&gt; &lt;space&gt;o  :&lt;C-u&gt;CocList outline&lt;cr&gt;</span><br><span class="line">&quot; Search workspace symbols.</span><br><span class="line">nnoremap &lt;silent&gt; &lt;space&gt;s  :&lt;C-u&gt;CocList -I symbols&lt;cr&gt;</span><br><span class="line">&quot; Do default action for next item.</span><br><span class="line">nnoremap &lt;silent&gt; &lt;space&gt;j  :&lt;C-u&gt;CocNext&lt;CR&gt;</span><br><span class="line">&quot; Do default action for previous item.</span><br><span class="line">nnoremap &lt;silent&gt; &lt;space&gt;k  :&lt;C-u&gt;CocPrev&lt;CR&gt;</span><br><span class="line">&quot; Resume latest coc list.</span><br><span class="line">nnoremap &lt;silent&gt; &lt;space&gt;p  :&lt;C-u&gt;CocListResume&lt;CR&gt;</span><br><span class="line">&quot; coc-highlight，高亮显示当前变量</span><br><span class="line">autocmd CursorHold * silent call CocActionAsync(&#39;highlight&#39;)</span><br><span class="line">&quot;&quot;&quot;&quot;&quot;&quot;&quot;&quot;&quot;&quot;&quot;&quot;&quot;&quot;&quot;&quot;&quot;&quot;&quot;&quot;&quot;&quot;&quot;&quot;&quot;&quot;&quot;&quot;&quot;&quot;&quot;&quot;&quot;&quot;&quot;&quot;&quot;&quot;&quot;&quot;&quot;&quot;</span><br><span class="line">&quot;代码高亮</span><br><span class="line">syntax on</span><br><span class="line">&quot;不与vi兼容</span><br><span class="line">set nocompatible</span><br><span class="line">&quot;在底部显示，当前处于命令模式还是插入模式</span><br><span class="line">set showmode</span><br><span class="line">&quot;&quot;命令模式下，在底部显示当前键入的命令</span><br><span class="line">set showcmd</span><br><span class="line">&quot;支持使用鼠标</span><br><span class="line">&quot;set mouse&#x3D;a</span><br><span class="line">&quot;&quot;使用utf-8编码</span><br><span class="line">set encoding&#x3D;utf-8</span><br><span class="line">&quot;启用256色</span><br><span class="line">set t_Co&#x3D;256</span><br><span class="line">&quot;开启文件类型检查，并且载入与该类型对应的缩进规则。</span><br><span class="line">filetype indent on</span><br><span class="line">&quot;按下回车键后，下一行的缩进会自动跟上一行的缩进保持一致</span><br><span class="line">set autoindent</span><br><span class="line">&quot;&quot;按下Tab键后vim显示的空格数</span><br><span class="line">set tabstop&#x3D;2</span><br><span class="line">&quot;在文本上按下&gt;&gt;（增加一级缩进）、&lt;&lt;（取消一级缩进）或者&#x3D;&#x3D;（取消全部缩进）时，每一级的字符数</span><br><span class="line">set shiftwidth&#x3D;4</span><br><span class="line">&quot;由于Tab键在不同的编辑器缩进不一致，该设置自动将Tab转为空格</span><br><span class="line">set expandtab</span><br><span class="line">&quot;Tab转为多少个空格</span><br><span class="line">set softtabstop&#x3D;2</span><br><span class="line">&quot;显示行号</span><br><span class="line">set number</span><br><span class="line">&quot;显示光标所在的当前行的行号，其他行都为相对于该行的相对行号</span><br><span class="line">set relativenumber</span><br><span class="line">&quot;光标所在的当前行高亮</span><br><span class="line">set cursorline</span><br><span class="line">&quot;设置行宽，即一行显示多少个字符</span><br><span class="line">set textwidth&#x3D;80</span><br><span class="line">&quot;自动折行，即太长的行分成几行显示</span><br><span class="line">set wrap</span><br><span class="line">&quot;关闭自动折行</span><br><span class="line">&quot;set nowrap</span><br><span class="line">&quot;制定折行处与编辑窗口的右边缘之间空出的字符数</span><br><span class="line">set wrapmargin&#x3D;2</span><br><span class="line">&quot;垂直滚动时，光标距离顶部&#x2F;底部的位置（单位：行）</span><br><span class="line">set scrolloff&#x3D;5</span><br><span class="line">&quot;水平滚动时，光标距离行首或行尾的位置（单位：字符）。该配置在不折行时比较有用</span><br><span class="line">set sidescrolloff&#x3D;15</span><br><span class="line">&quot;是否显示状态栏。0 表示不显示，1 表示只在多窗口时显示， 2 表示显示</span><br><span class="line">set laststatus&#x3D;2</span><br><span class="line">&quot;在状态栏显示光标当前位置（位于哪一行哪一列）</span><br><span class="line">set ruler</span><br><span class="line">&quot;光标遇到圆括号、方括号、大括号时，自动高亮对应的另一个圆括号、方括号和大括号。</span><br><span class="line">set showmatch</span><br><span class="line">&quot;搜索时高亮匹配结果</span><br><span class="line">set hlsearch</span><br><span class="line">&quot;输入搜索模式时，每输入一个字符，就自动跳到第一个匹配的结果。</span><br><span class="line">set incsearch</span><br><span class="line">&quot;搜索时忽略大小写</span><br><span class="line">set ignorecase</span><br><span class="line">&quot;如果同事打开了ignorecase，那么对于只有一个大写字母的搜索词，将大小写敏感；其他情况都是大小写不敏感。比如，搜索Test时，将不匹配test；搜索test时，将匹配Test</span><br><span class="line">&quot;set smartcase</span><br><span class="line">&quot;打开英语单词的拼写检查</span><br><span class="line">&quot;set spell spelllang&#x3D;en_us</span><br><span class="line"></span><br><span class="line">&quot;不创建交换文件，交换文件主要用于系统崩溃时恢复文件，文件名的开头是&quot;.&quot;,结尾是&quot;.swp&quot;</span><br><span class="line">&quot;set noswapfile</span><br><span class="line">&quot;保留撤销历史</span><br><span class="line">&quot;Vim 会在编辑时保存操作历史，用来供用户撤消更改。默认情况下，操作记录只在本次编辑时有效，一旦编辑结束、文件关闭，操作历史就消失了。</span><br><span class="line">&quot;打开这个设置，可以在文件关闭后，操作记录保留在一个文件里面，继续存在。这意味着，重新打开一个文件，可以撤销上一次编辑时的操作。撤消文件是跟原文件保存在一起的隐藏文件，文件名以.un~开头。</span><br><span class="line">&quot;set undofile</span><br><span class="line">&quot;设置备份文件、交换文件、操作历史文件的保存位置。</span><br><span class="line">&quot;结尾的&#x2F;&#x2F;表示生成的文件名带有绝对路径，路径中用%替换目录分隔符，这样可以防止文件重名。</span><br><span class="line">set backupdir&#x3D;~&#x2F;.vim&#x2F;.backup&#x2F;&#x2F;</span><br><span class="line">set directory&#x3D;~&#x2F;.vim&#x2F;.swp&#x2F;&#x2F;</span><br><span class="line">set undodir&#x3D;~&#x2F;.vim&#x2F;.undo&#x2F;&#x2F;</span><br><span class="line">&quot;自动切换工作目录。这主要用在一个 Vim 会话之中打开多个文件的情况，默认的工作目录是打开的第一个文件的目录。该配置可以将工作目录自动切换到，正在编辑的文件的目录。</span><br><span class="line">set autochdir</span><br><span class="line">&quot;出错时，不要发出响声</span><br><span class="line">&quot;set noerrorbells</span><br><span class="line">&quot;出错时，发出视觉提示，通常是屏幕闪烁</span><br><span class="line">&quot;set visualbell</span><br><span class="line">&quot;vim需要记住多少次历史操作</span><br><span class="line">set history&#x3D;1000</span><br><span class="line">&quot;打开文件监视，如果在编辑过程中文件发生外部改变（比如被别的编辑器编辑了），就会发出提示</span><br><span class="line">set autoread</span><br><span class="line">&quot;命令模式下，底部操作指令按下 Tab 键自动补全。第一次按下 Tab，会显示所有匹配的操作指令的清单；第二次按下 Tab，会依次选择各个指令。</span><br><span class="line">set wildmenu</span><br><span class="line">set wildmode&#x3D;longest:list,full</span><br></pre></td></tr></table></figure>
+
+    </div>
+
+    
+    
+    
+
+      <footer class="post-footer">
+          <div class="post-tags">
+              <a href="/tags/vim/" rel="tag"># vim</a>
+              <a href="/tags/linux/" rel="tag"># linux</a>
+              <a href="/tags/%E7%BB%88%E7%AB%AF/" rel="tag"># 终端</a>
+          </div>
+
+        
+
+
+        
+    <div class="post-nav">
+      <div class="post-nav-item">
+    <a href="/2020/04/15/%E5%89%8D%E7%AB%AF/hexo%E6%8F%92%E4%BB%B6%E5%BC%80%E5%8F%91/" rel="prev" title="hexo插件开发">
+      <i class="fa fa-chevron-left"></i> hexo插件开发
+    </a></div>
+      <div class="post-nav-item">
+    <a href="/2020/05/27/%E5%85%B6%E5%AE%83/manjaro%20i3wm%E5%AE%89%E8%A3%85%E9%85%8D%E7%BD%AE/" rel="next" title="manjaro i3wm安装配置">
+      manjaro i3wm安装配置 <i class="fa fa-chevron-right"></i>
+    </a></div>
+    </div>
+      </footer>
+    
+  </article>
+  
+  
+  
+
+
+
+          </div>
+          
+
+<script>
+  window.addEventListener('tabs:register', () => {
+    let { activeClass } = CONFIG.comments;
+    if (CONFIG.comments.storage) {
+      activeClass = localStorage.getItem('comments_active') || activeClass;
+    }
+    if (activeClass) {
+      let activeTab = document.querySelector(`a[href="#comment-${activeClass}"]`);
+      if (activeTab) {
+        activeTab.click();
+      }
+    }
+  });
+  if (CONFIG.comments.storage) {
+    window.addEventListener('tabs:click', event => {
+      if (!event.target.matches('.tabs-comment .tab-content .tab-pane')) return;
+      let commentClass = event.target.classList[1];
+      localStorage.setItem('comments_active', commentClass);
+    });
+  }
+</script>
+
+        </div>
+          
+  
+  <div class="toggle sidebar-toggle">
+    <span class="toggle-line toggle-line-first"></span>
+    <span class="toggle-line toggle-line-middle"></span>
+    <span class="toggle-line toggle-line-last"></span>
+  </div>
+
+  <aside class="sidebar">
+    <div class="sidebar-inner">
+
+      <ul class="sidebar-nav motion-element">
+        <li class="sidebar-nav-toc">
+          文章目录
+        </li>
+        <li class="sidebar-nav-overview">
+          站点概览
+        </li>
+      </ul>
+
+      <!--noindex-->
+      <div class="post-toc-wrap sidebar-panel">
+          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-3"><a class="nav-link" href="#neovim"><span class="nav-number">1.</span> <span class="nav-text"> neovim</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#vim-plug"><span class="nav-number">2.</span> <span class="nav-text"> vim-plug</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#文件树"><span class="nav-number">3.</span> <span class="nav-text"> 文件树</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#底部状态栏"><span class="nav-number">4.</span> <span class="nav-text"> 底部状态栏</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#markdown预览"><span class="nav-number">5.</span> <span class="nav-text"> markdown预览</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#代码提示-补全-跳转"><span class="nav-number">6.</span> <span class="nav-text"> 代码提示、补全、跳转</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#vimrc"><span class="nav-number">7.</span> <span class="nav-text"> .vimrc</span></a></li></ol></div>
+      </div>
+      <!--/noindex-->
+
+      <div class="site-overview-wrap sidebar-panel">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+    <img class="site-author-image" itemprop="image" alt="zkyTech"
+      src="http://qiniu.zkytech.top/%E9%BE%99%E7%8C%AB%E5%A4%B4%E5%83%8F.jpg">
+  <p class="site-author-name" itemprop="name">zkyTech</p>
+  <div class="site-description" itemprop="description"></div>
+</div>
+<div class="site-state-wrap motion-element">
+  <nav class="site-state">
+      <div class="site-state-item site-state-posts">
+          <a href="/archives/">
+        
+          <span class="site-state-item-count">11</span>
+          <span class="site-state-item-name">日志</span>
+        </a>
+      </div>
+      <div class="site-state-item site-state-categories">
+            <a href="/categories/">
+          
+        <span class="site-state-item-count">3</span>
+        <span class="site-state-item-name">分类</span></a>
+      </div>
+      <div class="site-state-item site-state-tags">
+            <a href="/tags/">
+          
+        <span class="site-state-item-count">20</span>
+        <span class="site-state-item-name">标签</span></a>
+      </div>
+  </nav>
+</div>
+  <div class="links-of-author motion-element">
+      <span class="links-of-author-item">
+        <span class="exturl" data-url="aHR0cHM6Ly9naXRodWIuY29tL3preXRlY2g=" title="GitHub → https:&#x2F;&#x2F;github.com&#x2F;zkytech"><i class="fab fa-github fa-fw"></i>GitHub</span>
+      </span>
+      <span class="links-of-author-item">
+        <a href="/zhangkunyuan@hotmail.com" title="E-Mail → zhangkunyuan@hotmail.com"><i class="fa fa-envelope fa-fw"></i>E-Mail</a>
+      </span>
+  </div>
+
+
+
+      </div>
+
+    </div>
+  </aside>
+  <div id="sidebar-dimmer"></div>
+
+
+      </div>
+    </main>
+
+    <footer class="footer">
+      <div class="footer-inner">
+        
+
+        
+  <div class="beian"><span class="exturl" data-url="aHR0cDovL3d3dy5iZWlhbi5taWl0Lmdvdi5jbg==">浙ICP备2020034053号-1 </span>
+      <img src="http://qiniu.zkytech.top/%E5%A4%87%E6%A1%88%E5%9B%BE%E6%A0%87.png" style="display: inline-block;"><span class="exturl" data-url="aHR0cDovL3d3dy5iZWlhbi5nb3YuY24vcG9ydGFsL3JlZ2lzdGVyU3lzdGVtSW5mbz9yZWNvcmRjb2RlPTMzMDExMDAyMDE1MDEx">浙公网安备 33011002015011号 </span>
+  </div>
+
+<div class="copyright">
+  
+  &copy; 
+  <span itemprop="copyrightYear">2020</span>
+  <span class="with-love">
+    <i class="fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">zkyTech</span>
+</div>
+
+        
+<div class="busuanzi-count">
+  <script async src="https://busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+    <span class="post-meta-item" id="busuanzi_container_site_uv" style="display: none;">
+      <span class="post-meta-item-icon">
+        <i class="fa fa-user"></i>
+      </span>
+      <span class="site-uv" title="总访客量">
+        <span id="busuanzi_value_site_uv"></span>
+      </span>
+    </span>
+    <span class="post-meta-divider">|</span>
+    <span class="post-meta-item" id="busuanzi_container_site_pv" style="display: none;">
+      <span class="post-meta-item-icon">
+        <i class="fa fa-eye"></i>
+      </span>
+      <span class="site-pv" title="总访问量">
+        <span id="busuanzi_value_site_pv"></span>
+      </span>
+    </span>
+</div>
+
+
+
+
+
+
+
+
+      </div>
+    </footer>
+  </div>
+
+  
+  <script src="/lib/anime.min.js"></script>
+  <script src="/lib/velocity/velocity.min.js"></script>
+  <script src="/lib/velocity/velocity.ui.min.js"></script>
+
+<script src="/js/utils.js"></script>
+
+<script src="/js/motion.js"></script>
+
+
+<script src="/js/schemes/pisces.js"></script>
+
+
+<script src="/js/next-boot.js"></script>
+
+
+
+
+  
+
+
+
+
+  
+<script src="/js/local-search.js"></script>
+
+
+
+
+
+
+
+
+
+
+
+<script>
+if (document.querySelectorAll('pre.mermaid').length) {
+  NexT.utils.getScript('https://cdn.bootcss.com/mermaid/8.5.0/mermaid.min.js', () => {
+    mermaid.initialize({
+      theme    : 'forest',
+      logLevel : 3,
+      flowchart: { curve     : 'linear' },
+      gantt    : { axisFormat: '%m/%d/%Y' },
+      sequence : { actorMargin: 50 }
+    });
+  }, window.mermaid);
+}
+</script>
+
+
+  
+
+  
+
+  
+
+</body>
+</html>

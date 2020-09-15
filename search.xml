@@ -1,0 +1,1209 @@
+<?xml version="1.0" encoding="utf-8"?>
+<search>
+  <entry>
+    <title>Snort安装教程 以及 DARPA1999、DARPA2000数据处理方法</title>
+    <url>/2020/01/04/%E5%85%B6%E5%AE%83/Snort%E5%AE%89%E8%A3%85%E6%95%99%E7%A8%8B%20%E4%BB%A5%E5%8F%8A%20DARPA1999%E3%80%81DARPA2000%E6%95%B0%E6%8D%AE%E5%A4%84%E7%90%86%E6%96%B9%E6%B3%95/</url>
+    <content><![CDATA[<h4 id="参考"><a class="markdownIt-Anchor" href="#参考"></a> 参考：</h4>
+<ul>
+<li>
+<p><span class="exturl" data-url="aHR0cHM6Ly91cGNsb3VkLmNvbS9jb21tdW5pdHkvdHV0b3JpYWxzL2luc3RhbGxpbmctc25vcnQtb24tY2VudG9zLw==">centOS snort 安装<i class="fa fa-external-link-alt"></i></span></p>
+</li>
+<li>
+<p><span class="exturl" data-url="aHR0cHM6Ly93d3cueW91dHViZS5jb20vd2F0Y2g/dj1Sd1dNMHNyTFNnMA==">windows snort 安装（视频）<i class="fa fa-external-link-alt"></i></span></p>
+</li>
+<li>
+<p><span class="exturl" data-url="aHR0cHM6Ly93d3cueW91dHViZS5jb20vd2F0Y2g/dj1PQTRoU0Z4eVhYVQ==">使用 snort 分析 DARPA 数据（视频）<i class="fa fa-external-link-alt"></i></span></p>
+</li>
+</ul>
+<p>  因为毕业论文涉及到网络安全，需要对 DARPA 1999 这类数据进行分析，过程中发现<code>Snort</code>安装、使用相关的中文教程实在罕见，且安装配置过程较复杂，自己也踩了不少坑，为了以后方便，在这里对国外的一些实用教程进行汇总。</p>
+<a id="more"></a>
+<p>  如果觉得文字不好理解可直接看参考中的视频教程。</p>
+<h3 id="snort在windows上的安装过程"><a class="markdownIt-Anchor" href="#snort在windows上的安装过程"></a> <code>Snort</code>在<code>Windows</code>上的安装过程</h3>
+<p>  这里仅介绍在 Windows 上的安装教程，centOS 教程在参考中列出了</p>
+<h4 id="下载"><a class="markdownIt-Anchor" href="#下载"></a> 下载</h4>
+<p><span class="exturl" data-url="aHR0cHM6Ly93d3cuc25vcnQub3JnLyNnZXQtc3RhcnRlZA==">官网<i class="fa fa-external-link-alt"></i></span>下载两个文件：</p>
+<ul>
+<li>snort 安装文件<code>Snort_x_x_x_Installer.exe</code></li>
+<li>版本号对应的规则文件<code>snortrules-snapshot-xxxxx.tar.gz</code>(注意检查版本号，要与安装文件匹配)</li>
+</ul>
+<h4 id="安装"><a class="markdownIt-Anchor" href="#安装"></a> 安装</h4>
+<p>  安装<code>snort</code>后，将<code>snortrules-snapshot-xxxxx.tar.gz</code>中的<code>rules</code>和<code>preproc_rules</code>文件夹解压并覆盖到<code>snort</code>安装根目录</p>
+<h4 id="编辑snortconf文件"><a class="markdownIt-Anchor" href="#编辑snortconf文件"></a> 编辑<code>snort.conf</code>文件</h4>
+<p>  由于简书不支持 diff 语法，不在这里贴出修改后的文件了，请移步 github 参考<span class="exturl" data-url="aHR0cHM6Ly9naXRodWIuY29tL3preXRlY2gvZG9jdW1lbnRzL2lzc3Vlcy8x">diff 示例<i class="fa fa-external-link-alt"></i></span>对<code>Snort\etc\snort.conf</code>进行修改。</p>
+<h4 id="规则文件"><a class="markdownIt-Anchor" href="#规则文件"></a> 规则文件</h4>
+<p>  <code>Snort</code>官网免费提供的规则文件对于 DARPA2000 这类比较久远的数据集而言十分鸡肋（比如针对<code>DDoS</code>的规则文件直接就是一个空文件，而<code>DARPA2000</code>的主要内容就是<code>DDoS</code>）。原因很简单，时代变了，很多在十几年前有效的规则不再适用于当前的网络环境，所以被删除了。即使你去使用付费订阅的规则集也未必对 DARPA 数据集有效。<br />
+  snort 在版本迭代过程中删除的所有规则都可以在官网规则中的<code>deleted.rules</code>里面找到。但可惜的是，我找不到一个完整的修改日志，也就是说无法通过<code>deleted.rules</code>将规则还原到指定年代。我们用 DARPA2000 做研究又必须依赖那些比较老的规则集，而<code>Snort</code>官网已经不再提供这些老版本的下载途径。下面给出我自己搜集的<code>Snort老版本规则</code>以及一些<code>第三方规则</code>资源。</p>
+<p>snort 老版本规则：<br />
+链接: <span class="exturl" data-url="aHR0cHM6Ly9wYW4uYmFpZHUuY29tL3MvMUloTjdmeHE2WmpvMHFHUktVMlVydnc=">https://pan.baidu.com/s/1IhN7fxq6Zjo0qGRKU2Urvw<i class="fa fa-external-link-alt"></i></span> 提取码: qw1q</p>
+<ul>
+<li><span class="exturl" data-url="aHR0cHM6Ly9naXRodWIuY29tL1Jhamt1bWFyU2hhaC9Tbm9ydC1mb3ItRERvUy0=">针对 DDoS 规则文件<i class="fa fa-external-link-alt"></i></span></li>
+<li><span class="exturl" data-url="aHR0cHM6Ly9naXRodWIuY29tL2NvZGVjYXQwMDcvc25vcnQtcnVsZXM=">综合性规则文件(缺少 DDoS 检测)<i class="fa fa-external-link-alt"></i></span></li>
+<li><span class="exturl" data-url="aHR0cHM6Ly9ydWxlcy5lbWVyZ2luZ3RocmVhdHMubmV0L29wZW4vc25vcnQtMi45LjAv">Emerging Threats rule<i class="fa fa-external-link-alt"></i></span> (这个规则集亲测有效，但也不全面)</li>
+</ul>
+<h5 id="关于darpa2000"><a class="markdownIt-Anchor" href="#关于darpa2000"></a> 关于<code>DARPA2000</code></h5>
+<p>  针对<code>DARPA2000</code>需要特别说明一下，这个数据集的<code>DDoS</code>攻击是内网主机被黑客控制向外网地址发出攻击，并且攻击过程中会随机地生成 IP 地址来隐藏源 IP。要想检测到这个 DDoS 攻击，规则中的 ip 和端口必须是<code>any any -&gt; any any</code>，而不是<code>$EXTERNAL_NET any -&gt; $HOME_NET any</code>。</p>
+<h4 id="修改告警存储方式"><a class="markdownIt-Anchor" href="#修改告警存储方式"></a> 修改告警存储方式</h4>
+<p>  默认存储的<code>xxx.ids</code>文件便于阅读，但不便于用程序分析。通过修改<code>snort.conf</code>可以将<code>Snort</code>告警的存储格式修改为<code>csv</code>，添加如下配置：</p>
+<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">output alert_csv: alert.csv default</span><br></pre></td></tr></table></figure>
+<p>详细配置参数说明参照<span class="exturl" data-url="aHR0cDovL21hbnVhbC1zbm9ydC1vcmcuczMtd2Vic2l0ZS11cy1lYXN0LTEuYW1hem9uYXdzLmNvbS9ub2RlMjEuaHRtbA==">文档<i class="fa fa-external-link-alt"></i></span></p>
+<p>需要注意：当配置了 csv 输出时，不会输出威胁等级。目前没有找到解决方法</p>
+<h3 id="darpa-数据处理"><a class="markdownIt-Anchor" href="#darpa-数据处理"></a> DARPA 数据处理</h3>
+<h4 id="错误示例"><a class="markdownIt-Anchor" href="#错误示例"></a> 错误示例</h4>
+<p>  在很多文献中，使用<code>Snort</code>进行实验的步骤是</p>
+<ol>
+<li>以 IDS 模式运行<code>Snort</code>:</li>
+</ol>
+<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">snort -x 100 -i ens33 -c D:\Snort\etc\snort.conf -l D:\Snort\log -A full</span><br></pre></td></tr></table></figure>
+<ol start="2">
+<li>
+<p>使用<code>tcpreplay</code>对数据进行重放</p>
+</li>
+<li>
+<p><code>Snort</code>检测到攻击并生成日志</p>
+</li>
+<li>
+<p>由于在重播时使用了倍速重播，还要解决时间间隔与原始数据不一致的问题。</p>
+</li>
+</ol>
+<h4 id="正确的做法"><a class="markdownIt-Anchor" href="#正确的做法"></a> 正确的做法</h4>
+<p>  上面这种做法在你确实需要仿真环境做其它一些事情的时候，可能是一个很好的方案。但大多数情况下我们只是想要<strong>获取<code>Snort</code>的告警日志</strong>，其实用下面这一行代码就够了：</p>
+<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">snort -c D:\Snort\etc\snort.conf -r D:\data\DARPA1999\inside.tcpdump -l D:\Snort\log</span><br></pre></td></tr></table></figure>
+<p>  <code>Snort</code>会自动地处理所有数据并生成告警日志，这种方式可以节省很多时间。生成的日志文件位于<code>D:\Snort\log</code>，且时间与<code>inside.tcpdump</code>完全一致。</p>
+]]></content>
+      <categories>
+        <category>其它</category>
+      </categories>
+      <tags>
+        <tag>Snort</tag>
+        <tag>DARPA</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>manjaro i3wm安装配置</title>
+    <url>/2020/05/27/%E5%85%B6%E5%AE%83/manjaro%20i3wm%E5%AE%89%E8%A3%85%E9%85%8D%E7%BD%AE/</url>
+    <content><![CDATA[<h3 id="切换到国内源"><a class="markdownIt-Anchor" href="#切换到国内源"></a> 切换到国内源</h3>
+<p>shell运行</p>
+<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line"><span class="comment"># 运行后选择一个即可</span></span><br><span class="line">sudo pacman-mirrors -i -c China -m rank</span><br><span class="line"><span class="comment"># 更新数据源</span></span><br><span class="line">sudo pacman -Syy</span><br></pre></td></tr></table></figure>
+<a id="more"></a>
+<p>修改<code>/etc/pacman.conf</code>，在其末尾添加</p>
+<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">[archlinuxcn]</span><br><span class="line">SigLevel &#x3D; Optional TrustedOnly</span><br><span class="line">Server &#x3D; https:&#x2F;&#x2F;mirrors.tuna.tsinghua.edu.cn&#x2F;archlinuxcn&#x2F;$arch</span><br></pre></td></tr></table></figure>
+<p>继续在shell中运行</p>
+<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line"><span class="comment"># 更新源列表</span></span><br><span class="line">sudo pacman-mirrors -g</span><br><span class="line"><span class="comment"># 全面更新系统</span></span><br><span class="line">sudo pacman -Syyu</span><br><span class="line"><span class="comment"># 防止签名错误</span></span><br><span class="line">sudo pacman -S archlinuxcn-keyring</span><br></pre></td></tr></table></figure>
+<h3 id="修正桌面显示日期方块的问题"><a class="markdownIt-Anchor" href="#修正桌面显示日期方块的问题"></a> 修正桌面显示日期方块的问题</h3>
+<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line"><span class="comment"># 备份</span></span><br><span class="line">cp /usr/share/conky/conky_maia /usr/share/conky/conky_maia.bak</span><br><span class="line">vim /usr/share/conky/conky_maia</span><br></pre></td></tr></table></figure>
+<p>之后将文件中的所有<code>Bitstream Vera</code>替换为<code>anti</code>即可。</p>
+<h3 id="中文字体"><a class="markdownIt-Anchor" href="#中文字体"></a> 中文字体</h3>
+<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">sudo pacman -S ttf-roboto noto-fonts ttf-dejavu</span><br><span class="line"><span class="comment"># 文泉驿</span></span><br><span class="line">sudo pacman -S wqy-bitmapfont wqy-microhei wqy-microhei-lite wqy-zenhei</span><br><span class="line"><span class="comment"># 思源字体</span></span><br><span class="line">sudo pacman -S noto-fonts-cjk adobe-source-han-sans-cn-fonts adobe-source-han-serif-cn-fonts</span><br></pre></td></tr></table></figure>
+<h3 id="中文输入法"><a class="markdownIt-Anchor" href="#中文输入法"></a> 中文输入法</h3>
+<p>这里只是中文输入法，不是搜狗输入法</p>
+<p>参考<span class="exturl" data-url="aHR0cHM6Ly93aWtpLmFyY2hsaW51eC5vcmcvaW5kZXgucGhwL0ZjaXR4XyglRTclQUUlODAlRTQlQkQlOTMlRTQlQjglQUQlRTYlOTYlODcp">ArchWiki<i class="fa fa-external-link-alt"></i></span></p>
+<p>安装fcitx</p>
+<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line"># 一路回车即可</span><br><span class="line">sudo pacman -S fcitx fcitx-im</span><br></pre></td></tr></table></figure>
+<p>在文件<code>~/.pam_environment</code>中添加以下内容</p>
+<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">GTK_IM_MODULE&#x3D;fcitx</span><br><span class="line">QT_IM_MODULE&#x3D;fcitx</span><br><span class="line">XMODIFIERS&#x3D;@im&#x3D;fcitx</span><br></pre></td></tr></table></figure>
+<p>设置fcitx开机启动<br />
+编辑i3配置文件<code>~/.i3/config</code>，添加以下内容</p>
+<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">exec_always --no-startup-id fcitx-autostart</span><br></pre></td></tr></table></figure>
+<p>配置fcitx</p>
+<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">sudo pacman -S fcitx-configtool</span><br><span class="line">fcitx-config-gtk3</span><br></pre></td></tr></table></figure>
+<h3 id="home目录下文件夹改为英文命名"><a class="markdownIt-Anchor" href="#home目录下文件夹改为英文命名"></a> home目录下文件夹改为英文命名</h3>
+<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">sudo pacman -S xdg-user-dirs-gtk</span><br><span class="line"><span class="built_in">export</span> LANG=en_US</span><br><span class="line">xdg-user-dirs-gtk-update</span><br><span class="line"><span class="comment"># 选择更新名称</span></span><br><span class="line"><span class="built_in">export</span> LANG=zh_CN.UTF-8</span><br><span class="line">xdg-user-dirs-gtk-update</span><br><span class="line"><span class="comment"># 选择不更新名称</span></span><br></pre></td></tr></table></figure>
+<h3 id="软件启动器rofi"><a class="markdownIt-Anchor" href="#软件启动器rofi"></a> 软件启动器rofi</h3>
+<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">sudo pacman -S rofi</span><br></pre></td></tr></table></figure>
+<p>修改<code>~/.i3/config</code> 使用<code>rofi</code>替代<code>dmenu</code></p>
+<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">bindsym $mod+d exec --no-startup-id rofi -show combi</span><br></pre></td></tr></table></figure>
+<h3 id="科学上网qv2ray"><a class="markdownIt-Anchor" href="#科学上网qv2ray"></a> 科学上网qv2ray</h3>
+<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">sudo pacman -S v2ray qv2ray</span><br></pre></td></tr></table></figure>
+<h4 id="浏览器"><a class="markdownIt-Anchor" href="#浏览器"></a> 浏览器</h4>
+<p>i3wm环境下，代理的配置并不像KDE那么简单，经测试，以下方法可行：</p>
+<ol>
+<li>chromium或firefox通过命令<code>chromium --proxy-server=&quot;socks://localhost:1088&quot;</code>启动即可</li>
+<li>firefox直接安装插件<code>Switchy Omega</code>，配置好proxy并在autoswitch中添加autoproxy规则文件<code>https://raw.githubusercontent.com/gfwlist/gfwlist/master/gfwlist.txt</code>。</li>
+<li>chromium也可以安装<span class="exturl" data-url="aHR0cHM6Ly9jaHJvbWUuZ29vZ2xlLmNvbS93ZWJzdG9yZS9kZXRhaWwvcHJveHktc3dpdGNoeW9tZWdhL3BhZGVrZ2NlbWxva2JhZG9oZ2tpZmlqb21jbGdqZ2lm">Switchy Omega<i class="fa fa-external-link-alt"></i></span></li>
+</ol>
+<blockquote>
+<p>经测试google-chrome无法通过代理上网</p>
+</blockquote>
+<h4 id="终端"><a class="markdownIt-Anchor" href="#终端"></a> 终端</h4>
+<p><code>export ALL_PROXY=socks5://127.0.0.1:1088</code></p>
+<blockquote>
+<p>测试:<code>curl https://www.google.com</code></p>
+</blockquote>
+<h3 id="github加速"><a class="markdownIt-Anchor" href="#github加速"></a> github加速</h3>
+<p>编辑<code>/etc/hosts</code>，添加以下解析记录</p>
+<blockquote>
+<p>hosts需要经常进行更新</p>
+</blockquote>
+<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">199.232.28.133  raw.githubusercontent.com</span><br><span class="line">192.30.253.112  github.com</span><br><span class="line">151.101.184.133  assets-cdn.github.com</span><br><span class="line">151.101.185.194  github.global.ssl.fastly.net</span><br></pre></td></tr></table></figure>
+<h3 id="常用软件及配置"><a class="markdownIt-Anchor" href="#常用软件及配置"></a> 常用软件及配置</h3>
+<h4 id="nodejs-yarn-npm"><a class="markdownIt-Anchor" href="#nodejs-yarn-npm"></a> nodejs yarn npm</h4>
+<p>一方面是开发需要，另一方面 后面安装的部分插件也依赖这个环境</p>
+<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">sudo pacman -S nodejs npm yarn</span><br><span class="line"><span class="comment"># 设置淘宝源</span></span><br><span class="line">npm config <span class="built_in">set</span> registry https://registry.npm.taobao.org</span><br><span class="line">yarn config <span class="built_in">set</span> registry https://registry.npm.taobao.org</span><br></pre></td></tr></table></figure>
+<h4 id="zsh"><a class="markdownIt-Anchor" href="#zsh"></a> zsh</h4>
+<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line"><span class="comment"># 安装zsh</span></span><br><span class="line">sudo pacman -S zsh</span><br><span class="line"><span class="comment"># 安装oh-my-zsh</span></span><br><span class="line">sh -c <span class="string">"<span class="variable">$(curl -fsSL https://raw.github.com/ohmyzsh/ohmyzsh/master/tools/install.sh)</span>"</span></span><br><span class="line"><span class="comment"># 恢复配置文件</span></span><br><span class="line"><span class="comment"># 这里是我个人的配置文件，谨慎使用</span></span><br><span class="line">curl -fLo ~/.zshrc https://raw.githubusercontent.com/zkytech/linux_config_files/master/~/.zshrc</span><br><span class="line"><span class="comment"># 安装插件</span></span><br><span class="line"><span class="comment"># autojump</span></span><br><span class="line">sudo pacman -S autojump</span><br><span class="line"><span class="comment"># zsh-autosuggestions</span></span><br><span class="line">git <span class="built_in">clone</span> https://github.com/zsh-users/zsh-autosuggestions <span class="variable">$&#123;ZSH_CUSTOM:-~/.oh-my-zsh/custom&#125;</span>/plugins/zsh-autosuggestions</span><br><span class="line"><span class="comment"># zsh-syntax-highlighting</span></span><br><span class="line">git <span class="built_in">clone</span> https://github.com/zsh-users/zsh-syntax-highlighting.git <span class="variable">$&#123;ZSH_CUSTOM:-~/.oh-my-zsh/custom&#125;</span>/plugins/zsh-syntax-highlighting</span><br></pre></td></tr></table></figure>
+<h4 id="vim-neovim"><a class="markdownIt-Anchor" href="#vim-neovim"></a> vim neovim</h4>
+<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">sudo pacman -S neovim gvim</span><br><span class="line"># 安装vim-plug</span><br><span class="line">curl -fLo ~&#x2F;.vim&#x2F;autoload&#x2F;plug.vim --create-dirs \</span><br><span class="line">    https:&#x2F;&#x2F;raw.githubusercontent.com&#x2F;junegunn&#x2F;vim-plug&#x2F;master&#x2F;plug.vim</span><br><span class="line"># 恢复配置文件</span><br><span class="line">git clone https:&#x2F;&#x2F;github.com.cnpmjs.org&#x2F;https:&#x2F;&#x2F;github.com&#x2F;zkytech&#x2F;linux_config_files.git ~&#x2F;Downloads&#x2F;zkytech_linux_config</span><br><span class="line"># 创建软链接</span><br><span class="line">cp -r ~&#x2F;Downloads&#x2F;zkytech_linux_config&#x2F;~&#x2F;.config&#x2F;nvim  ~&#x2F;.config&#x2F;nvim</span><br></pre></td></tr></table></figure>
+<h4 id="compton-非必须"><a class="markdownIt-Anchor" href="#compton-非必须"></a> compton (非必须)</h4>
+<p>似乎是桌面图形渲染工具？我没有具体去了解，但后面alacritty的背景透明需要依赖这个，其实不装也行(更稳定)。</p>
+<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line"><span class="comment"># 安装compton</span></span><br><span class="line">sudo pacman -S compton</span><br><span class="line"><span class="comment"># 创建配置文件</span></span><br><span class="line"><span class="comment"># 这里使用的是我自己的配置文件</span></span><br><span class="line">curl -fLo ~/.config/compton.conf \</span><br><span class="line">    https://raw.githubusercontent.com/zkytech/linux_config_files/master/~/.config/compton.conf</span><br></pre></td></tr></table></figure>
+<p>已知BUG<br />
+1.导致chromium的画中画开启失败。需要先按<code>Mod+T</code>关闭campton，然后开启画中画，再按<code>Mod+Ctrl+T</code>启动campton即可<br />
+2.导致部分软件图形界面渲染异常，已知的有keepassxc(直接不显示)</p>
+<h4 id="alacritty"><a class="markdownIt-Anchor" href="#alacritty"></a> alacritty</h4>
+<p>告别i3丑陋的默认终端</p>
+<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line"># 安装alacritty</span><br><span class="line">sudo pacman -S alacritty</span><br><span class="line"># 恢复配置文件</span><br><span class="line"># 这里使用的是我自己的配置文件</span><br><span class="line">mkdir ~&#x2F;.config&#x2F;alacritty</span><br><span class="line"></span><br><span class="line">curl -fLo ~&#x2F;.config&#x2F;alacritty&#x2F;alacritty.yml --create-dirs \</span><br><span class="line">    https:&#x2F;&#x2F;raw.githubusercontent.com&#x2F;zkytech&#x2F;linux_config_files&#x2F;master&#x2F;~&#x2F;.config&#x2F;alacritty&#x2F;alacritty.yml</span><br></pre></td></tr></table></figure>
+<p>编辑i3的配置文件<code>~/.i3/config</code>，将默认的terminal替换为alacritty</p>
+<h4 id="keepass"><a class="markdownIt-Anchor" href="#keepass"></a> keepass</h4>
+<p>keepassXC与我的compton配置不兼容。因此使用keepass作为密码管理工具，keepass安装后可能会出现中文全部变成方框的情况。<br />
+进入<code>tools-&gt;options-&gt;select list font</code>选择一个中文字体即可，一般是“文泉驿XXX”</p>
+<h5 id="chrome插件"><a class="markdownIt-Anchor" href="#chrome插件"></a> chrome插件</h5>
+<p>参照<span class="exturl" data-url="aHR0cHM6Ly93aWtpLmFyY2hsaW51eC5vcmcvaW5kZXgucGhwL0tlZVBhc3MjS2VlUGFzcw==">ArchWiki<i class="fa fa-external-link-alt"></i></span><br />
+插件<span class="exturl" data-url="aHR0cHM6Ly9naXRodWIuY29tL3preXRlY2gvbGludXhfY29uZmlnX2ZpbGVzL3Jhdy9tYXN0ZXIvS2VlUGFzc1JQQy5wbGd4">下载地址<i class="fa fa-external-link-alt"></i></span></p>
+<p>将插件放到<code>/usr/share/keepass/plugins</code>再启动keepass即可</p>
+<p>配合chrome插件<code>Kee</code>使用</p>
+<h4 id="其它"><a class="markdownIt-Anchor" href="#其它"></a> 其它</h4>
+<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line"># 坚果云，chromium, firefox, variety（壁纸软件）, code，tldr-太长不看</span><br><span class="line">sudo pacman -S nutstore chromium firefox variety tldr</span><br></pre></td></tr></table></figure>
+<h4 id="我的配置文件"><a class="markdownIt-Anchor" href="#我的配置文件"></a> 我的配置文件</h4>
+<p><span class="exturl" data-url="aHR0cHM6Ly9naXRodWIuY29tL3preXRlY2gvbGludXhfY29uZmlnX2ZpbGVzLw==">Github<i class="fa fa-external-link-alt"></i></span></p>
+]]></content>
+      <categories>
+        <category>其它</category>
+      </categories>
+      <tags>
+        <tag>manjaro</tag>
+        <tag>i3wm</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>vim配置</title>
+    <url>/2020/05/24/%E5%85%B6%E5%AE%83/vim%E9%85%8D%E7%BD%AE/</url>
+    <content><![CDATA[<h3 id="neovim"><a class="markdownIt-Anchor" href="#neovim"></a> neovim</h3>
+<p>增强版vim</p>
+<p>安装<span class="exturl" data-url="aHR0cHM6Ly9uZW92aW0uaW8v">neovim<i class="fa fa-external-link-alt"></i></span></p>
+<p><span class="exturl" data-url="aHR0cHM6Ly9uZW92aW0uaW8vZG9jL3VzZXIvbnZpbS5odG1sI252aW0tZnJvbS12aW0=">导入vim的配置文件<i class="fa fa-external-link-alt"></i></span></p>
+<a id="more"></a>
+<h3 id="vim-plug"><a class="markdownIt-Anchor" href="#vim-plug"></a> vim-plug</h3>
+<p>vim插件管理<span class="exturl" data-url="aHR0cHM6Ly9naXRodWIuY29tL2p1bmVndW5uL3ZpbS1wbHVn">vim-plug<i class="fa fa-external-link-alt"></i></span></p>
+<p>执行<code>vim -c 'PlugInstall|q'</code>会安装.vimrc中的所有插件</p>
+<h3 id="文件树"><a class="markdownIt-Anchor" href="#文件树"></a> 文件树</h3>
+<p><span class="exturl" data-url="aHR0cHM6Ly9naXRodWIuY29tL3ByZXNlcnZpbS9uZXJkdHJlZQ==">nerdtree<i class="fa fa-external-link-alt"></i></span></p>
+<p>默认配置下的常用快捷键</p>
+<table>
+<thead>
+<tr>
+<th>快捷键</th>
+<th>效果</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>Ctrl+n</code></td>
+<td>打开文件树</td>
+</tr>
+<tr>
+<td><code>m</code></td>
+<td>打开选项菜单(可在菜单中选择进行创建、删除操作)</td>
+</tr>
+</tbody>
+</table>
+<h3 id="底部状态栏"><a class="markdownIt-Anchor" href="#底部状态栏"></a> 底部状态栏</h3>
+<p><span class="exturl" data-url="aHR0cHM6Ly9naXRodWIuY29tL2l0Y2h5bnkvbGlnaHRsaW5lLnZpbQ==">lightline<i class="fa fa-external-link-alt"></i></span></p>
+<h3 id="markdown预览"><a class="markdownIt-Anchor" href="#markdown预览"></a> markdown预览</h3>
+<p><span class="exturl" data-url="aHR0cHM6Ly9naXRodWIuY29tL2lhbWNjby9tYXJrZG93bi1wcmV2aWV3Lm52aW0=">markdown-preview.nvim<i class="fa fa-external-link-alt"></i></span></p>
+<p>vim中运行<code>:PreviewMarkdown</code>后会在浏览器中打开markdown实时预览</p>
+<h3 id="代码提示-补全-跳转"><a class="markdownIt-Anchor" href="#代码提示-补全-跳转"></a> 代码提示、补全、跳转</h3>
+<p><span class="exturl" data-url="aHR0cHM6Ly9naXRodWIuY29tL25lb2NsaWRlL2NvYy5udmlt">coc.nvim<i class="fa fa-external-link-alt"></i></span></p>
+<p>这个需要安装对应的language<br />
+server才能进行补全，除了代码补全，还可以通过安装coc插件实现很多其他功能，但我这里只用作代码提示、补全、跳转</p>
+<p>可选的插件可以通过<span class="exturl" data-url="aHR0cHM6Ly93d3cubnBtanMuY29tL3NlYXJjaD9xPWtleXdvcmRzJTNBY29jLm52aW0mYW1wO3BhZ2U9MCZhbXA7cGVyUGFnZT0yMCZhbXA7cmFua2luZz1wb3B1bGFyaXR5">npmjs.com<i class="fa fa-external-link-alt"></i></span>查看</p>
+<p>推荐通过<span class="exturl" data-url="aHR0cHM6Ly9naXRodWIuY29tL2Zhbm5oZXl3YXJkL2NvYy1tYXJrZXRwbGFjZQ==">coc-marketplace<i class="fa fa-external-link-alt"></i></span>安装coc插件/Language Server</p>
+<p><span class="exturl" data-url="aHR0cHM6Ly9naXRodWIuY29tL25lb2NsaWRlL2NvYy5udmltL3dpa2kvVXNpbmctY29jLWV4dGVuc2lvbnMjaW1wbGVtZW50ZWQtY29jLWV4dGVuc2lvbnM=">官方文档<i class="fa fa-external-link-alt"></i></span>给出了部分插件列表</p>
+<p>官方文档默认配置中的快捷键</p>
+<table>
+<thead>
+<tr>
+<th>快捷键</th>
+<th>说明</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>插入模式：<code>tab</code></td>
+<td>在候选补全项目间切换</td>
+</tr>
+<tr>
+<td>普通模式：<code>Ctrl+space</code></td>
+<td>显示代码补全提示</td>
+</tr>
+<tr>
+<td>普通模式：<code>K</code></td>
+<td>显示函数文档</td>
+</tr>
+<tr>
+<td>普通模式：<code>[g</code></td>
+<td>代码诊断-上一条</td>
+</tr>
+<tr>
+<td>普通模式：<code>]g</code></td>
+<td>代码诊断-下一条</td>
+</tr>
+<tr>
+<td>普通模式：<code>space a</code></td>
+<td>显示所有代码诊断信息</td>
+</tr>
+<tr>
+<td>普通模式：<code>gd</code></td>
+<td>跳转到函数定义 go definition</td>
+</tr>
+<tr>
+<td>普通模式：<code>gy</code></td>
+<td>跳转到类型定义 go type definition</td>
+</tr>
+<tr>
+<td>普通模式：<code>gi</code></td>
+<td>go implementation</td>
+</tr>
+<tr>
+<td>普通模式：<code>gr</code></td>
+<td>跳转到函数调用位置 go references</td>
+</tr>
+<tr>
+<td>普通模式：<code>rn</code></td>
+<td>重命名变量 rename</td>
+</tr>
+<tr>
+<td>可视模式 或 普通模式：<code>\f</code></td>
+<td>格式化代码 formatting selected code</td>
+</tr>
+<tr>
+<td>普通模式：<code>\qf</code></td>
+<td>快速（自动）修复代码问题 quick fix</td>
+</tr>
+<tr>
+<td>操作等待 或 可视模式：<code>if</code></td>
+<td>选定function内的代码块 in function</td>
+</tr>
+<tr>
+<td>操作等待 或 可视模式：<code>ic</code></td>
+<td>选定class内的代码块 in class</td>
+</tr>
+<tr>
+<td>操作等待 或 可视模式：<code>af</code></td>
+<td>选定整个function的代码 all of function</td>
+</tr>
+<tr>
+<td>操作等待 或 可视模式：<code>ac</code></td>
+<td>选定整个class的代码 all of class</td>
+</tr>
+<tr>
+<td>普通模式：<code>zO</code></td>
+<td>递归展开代码块</td>
+</tr>
+<tr>
+<td>普通模式：<code>zo</code></td>
+<td>展开一级代码块</td>
+</tr>
+<tr>
+<td>普通模式：<code>zC</code></td>
+<td>递归折叠代码块</td>
+</tr>
+<tr>
+<td>普通模式：<code>zc</code></td>
+<td>折叠一级代码块</td>
+</tr>
+<tr>
+<td>普通模式：<code>space o</code></td>
+<td>显示当前文件中所有的变量、函数</td>
+</tr>
+</tbody>
+</table>
+<p>常用命令</p>
+<table>
+<thead>
+<tr>
+<th>命令</th>
+<th>说明</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>:Format</code></td>
+<td>格式化当前文档</td>
+</tr>
+<tr>
+<td><code>:OR</code></td>
+<td>整理import语句 organize imports</td>
+</tr>
+<tr>
+<td><code>:Fold</code></td>
+<td>折叠代码</td>
+</tr>
+</tbody>
+</table>
+<h3 id="vimrc"><a class="markdownIt-Anchor" href="#vimrc"></a> .vimrc</h3>
+<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">&quot;快捷键映射</span><br><span class="line">map R     :source ~&#x2F;.vimrc&lt;CR&gt;</span><br><span class="line">map S     :w&lt;CR&gt;</span><br><span class="line">map &lt;C-n&gt; :NERDTreeToggle&lt;CR&gt;</span><br><span class="line"></span><br><span class="line">&quot;&quot;&quot;&quot;&quot;&quot;&quot;&quot;&quot;&quot;&quot;&quot;&quot;&quot;&quot;&quot;&quot;&quot;&quot;&quot;&quot;&quot;&quot;&quot;&quot;&quot;&quot;&quot;&quot;&quot;&quot;&quot;&quot;&quot;&quot;&quot;&quot;&quot;&quot;&quot;&quot;&quot;</span><br><span class="line">&quot;&quot;&quot;&quot;&quot;&quot;&quot;&quot;&quot;&quot;&quot;&quot;插件</span><br><span class="line">call plug#begin(&#39;~&#x2F;.vim&#x2F;plugged&#39;)</span><br><span class="line">&quot;提供各种语言的语法分析支持</span><br><span class="line">&quot;Plug &#39;sheerun&#x2F;vim-polyglot&#39;</span><br><span class="line">&quot;文件树</span><br><span class="line">Plug &#39;preservim&#x2F;nerdtree&#39;</span><br><span class="line">&quot;代码补全</span><br><span class="line">Plug &#39;neoclide&#x2F;coc.nvim&#39;, &#123;&#39;branch&#39;: &#39;release&#39;&#125;</span><br><span class="line">&quot;打开文件时自动打开文件树</span><br><span class="line">&quot;autocmd vimenter * NERDTree</span><br><span class="line">&quot;markdown自动折叠</span><br><span class="line">&quot;Plug &#39;godlygeek&#x2F;tabular&#39;</span><br><span class="line">&quot;Plug &#39;plasticboy&#x2F;vim-markdown&#39;</span><br><span class="line">&quot;markdown预览</span><br><span class="line">Plug &#39;iamcco&#x2F;markdown-preview.nvim&#39;, &#123; &#39;do&#39;: &#39;cd app &amp; yarn install&#39;  &#125;</span><br><span class="line">&quot;底部状态栏</span><br><span class="line">Plug &#39;itchyny&#x2F;lightline.vim&#39;</span><br><span class="line">&quot;自动打开markdown预览窗口</span><br><span class="line">&quot;let g:mkdp_auto_start &#x3D; 1</span><br><span class="line">call plug#end()</span><br><span class="line">&quot;&quot;&quot;&quot;&quot;&quot;&quot;&quot;&quot;&quot;&quot;&quot;&quot;&quot;&quot;&quot;&quot;&quot;&quot;&quot;&quot;&quot;&quot;&quot;&quot;&quot;&quot;&quot;&quot;&quot;&quot;&quot;&quot;&quot;&quot;&quot;&quot;&quot;&quot;&quot;&quot;&quot;</span><br><span class="line"></span><br><span class="line">&quot;&quot;&quot;&quot;&quot;&quot;&quot;&quot;&quot;&quot;&quot;&quot;&quot;&quot;&quot;&quot;&quot;&quot;&quot;&quot;&quot;&quot;&quot;&quot;&quot;&quot;&quot;&quot;&quot;&quot;&quot;&quot;&quot;&quot;&quot;&quot;&quot;&quot;&quot;&quot;&quot;&quot;</span><br><span class="line">&quot;&quot;&quot;&quot;&quot;&quot;&quot;&quot;自动补全插件coc.nvim相关配置</span><br><span class="line">&quot;&quot;&quot;&quot;&quot;&quot;&quot;&quot;https:&#x2F;&#x2F;github.com&#x2F;neoclide&#x2F;coc.nvim</span><br><span class="line">&quot;使vim能够解析coc.nvim的json配置文件的注释语法</span><br><span class="line">autocmd FileType json syntax match Comment +\&#x2F;\&#x2F;.\+$+</span><br><span class="line">&quot;如果不设置这一项，可能会影响自动补全工作</span><br><span class="line">set hidden</span><br><span class="line"></span><br><span class="line">&quot;不创建备份文件</span><br><span class="line">&quot;自动补全的部分language server可能会受到备份文件的影响</span><br><span class="line">set nobackup</span><br><span class="line">set nowritebackup</span><br><span class="line"></span><br><span class="line">&quot;为自动补全消息提供更大的显示空间</span><br><span class="line">set cmdheight&#x3D;2</span><br><span class="line"></span><br><span class="line">&quot;自动补全更新延时 默认是4000ms</span><br><span class="line">set updatetime&#x3D;300</span><br><span class="line"></span><br><span class="line">&quot;Don&#39;t pass messages to |ins-completion-menu|</span><br><span class="line">set shortmess+&#x3D;c</span><br><span class="line"></span><br><span class="line">&quot; Always show the signcolumn, otherwise it would shift the text each time</span><br><span class="line">&quot; diagnostics appear&#x2F;become resolved.</span><br><span class="line">if has(&quot;patch-8.1.1564&quot;)</span><br><span class="line">  &quot; Recently vim can merge signcolumn and number column into one</span><br><span class="line">  set signcolumn&#x3D;number</span><br><span class="line">else</span><br><span class="line">  set signcolumn&#x3D;yes</span><br><span class="line">endif</span><br><span class="line"></span><br><span class="line">&quot; 使用tab键来选择首个候选项</span><br><span class="line">&quot; NOTE: 使用命令&#39;:verbose imap &lt;tab&gt;&#39; 查看tab键是否被其它插件使用</span><br><span class="line">inoremap &lt;silent&gt;&lt;expr&gt; &lt;TAB&gt;</span><br><span class="line">      \ pumvisible() ? &quot;\&lt;C-n&gt;&quot; :</span><br><span class="line">      \ &lt;SID&gt;check_back_space() ? &quot;\&lt;TAB&gt;&quot; :</span><br><span class="line">      \ coc#refresh()</span><br><span class="line">inoremap &lt;expr&gt;&lt;S-TAB&gt; pumvisible() ? &quot;\&lt;C-p&gt;&quot; : &quot;\&lt;C-h&gt;&quot;</span><br><span class="line"></span><br><span class="line">function! s:check_back_space() abort</span><br><span class="line">  let col &#x3D; col(&#39;.&#39;) - 1</span><br><span class="line">  return !col || getline(&#39;.&#39;)[col - 1]  &#x3D;~# &#39;\s&#39;</span><br><span class="line">endfunction</span><br><span class="line"></span><br><span class="line">&quot; 使用 &lt;c-space&gt; 触发代码补全提示</span><br><span class="line">inoremap &lt;silent&gt;&lt;expr&gt; &lt;c-space&gt; coc#refresh()</span><br><span class="line"></span><br><span class="line">&quot; 使用&lt;cr&gt; 确认代码补全选项, &#96;&lt;C-g&gt;u&#96; means break undo chain at current</span><br><span class="line">&quot; position. Coc only does snippet and additional edit on confirm.</span><br><span class="line">&quot; &lt;cr&gt; could be remapped by other vim plugin, try &#96;:verbose imap &lt;CR&gt;&#96;.</span><br><span class="line">if exists(&#39;*complete_info&#39;)</span><br><span class="line">  inoremap &lt;expr&gt; &lt;cr&gt; complete_info()[&quot;selected&quot;] !&#x3D; &quot;-1&quot; ? &quot;\&lt;C-y&gt;&quot; : &quot;\&lt;C-g&gt;u\&lt;CR&gt;&quot;</span><br><span class="line">else</span><br><span class="line">  inoremap &lt;expr&gt; &lt;cr&gt; pumvisible() ? &quot;\&lt;C-y&gt;&quot; : &quot;\&lt;C-g&gt;u\&lt;CR&gt;&quot;</span><br><span class="line">endif</span><br><span class="line"></span><br><span class="line">&quot; Use &#96;[g&#96; and &#96;]g&#96; to navigate diagnostics</span><br><span class="line">nmap &lt;silent&gt; [g &lt;Plug&gt;(coc-diagnostic-prev)</span><br><span class="line">nmap &lt;silent&gt; ]g &lt;Plug&gt;(coc-diagnostic-next)</span><br><span class="line"></span><br><span class="line">&quot; GoTo code navigation.</span><br><span class="line">nmap &lt;silent&gt; gd &lt;Plug&gt;(coc-definition)</span><br><span class="line">nmap &lt;silent&gt; gy &lt;Plug&gt;(coc-type-definition)</span><br><span class="line">nmap &lt;silent&gt; gi &lt;Plug&gt;(coc-implementation)</span><br><span class="line">nmap &lt;silent&gt; gr &lt;Plug&gt;(coc-references)</span><br><span class="line"></span><br><span class="line">&quot; Use K to show documentation in preview window.</span><br><span class="line">nnoremap &lt;silent&gt; K :call &lt;SID&gt;show_documentation()&lt;CR&gt;</span><br><span class="line"></span><br><span class="line">function! s:show_documentation()</span><br><span class="line">  if (index([&#39;vim&#39;,&#39;help&#39;], &amp;filetype) &gt;&#x3D; 0)</span><br><span class="line">    execute &#39;h &#39;.expand(&#39;&lt;cword&gt;&#39;)</span><br><span class="line">  else</span><br><span class="line">    call CocAction(&#39;doHover&#39;)</span><br><span class="line">  endif</span><br><span class="line">endfunction</span><br><span class="line"></span><br><span class="line">&quot; Highlight the symbol and its references when holding the cursor.</span><br><span class="line">autocmd CursorHold * silent call CocActionAsync(&#39;highlight&#39;)</span><br><span class="line"></span><br><span class="line">&quot; Symbol renaming.</span><br><span class="line">nmap &lt;leader&gt;rn &lt;Plug&gt;(coc-rename)</span><br><span class="line"></span><br><span class="line">&quot; Formatting selected code.</span><br><span class="line">xmap &lt;leader&gt;f  &lt;Plug&gt;(coc-format-selected)</span><br><span class="line">nmap &lt;leader&gt;f  &lt;Plug&gt;(coc-format-selected)</span><br><span class="line"></span><br><span class="line">augroup mygroup</span><br><span class="line">  autocmd!</span><br><span class="line">  &quot; Setup formatexpr specified filetype(s).</span><br><span class="line">  autocmd FileType typescript,json setl formatexpr&#x3D;CocAction(&#39;formatSelected&#39;)</span><br><span class="line">  &quot; Update signature help on jump placeholder.</span><br><span class="line">  autocmd User CocJumpPlaceholder call CocActionAsync(&#39;showSignatureHelp&#39;)</span><br><span class="line">augroup end</span><br><span class="line">&quot; Applying codeAction to the selected region.</span><br><span class="line">&quot; Example: &#96;&lt;leader&gt;aap&#96; for current paragraph</span><br><span class="line">xmap &lt;leader&gt;a  &lt;Plug&gt;(coc-codeaction-selected)</span><br><span class="line">nmap &lt;leader&gt;a  &lt;Plug&gt;(coc-codeaction-selected)</span><br><span class="line"></span><br><span class="line">&quot; Remap keys for applying codeAction to the current buffer.</span><br><span class="line">nmap &lt;leader&gt;ac  &lt;Plug&gt;(coc-codeaction)</span><br><span class="line">&quot; Apply AutoFix to problem on the current line.</span><br><span class="line">nmap &lt;leader&gt;qf  &lt;Plug&gt;(coc-fix-current)</span><br><span class="line"></span><br><span class="line">&quot; Map function and class text objects</span><br><span class="line">&quot; NOTE: Requires &#39;textDocument.documentSymbol&#39; support from the language server.</span><br><span class="line">xmap if &lt;Plug&gt;(coc-funcobj-i)</span><br><span class="line">omap if &lt;Plug&gt;(coc-funcobj-i)</span><br><span class="line">xmap af &lt;Plug&gt;(coc-funcobj-a)</span><br><span class="line">omap af &lt;Plug&gt;(coc-funcobj-a)</span><br><span class="line">xmap ic &lt;Plug&gt;(coc-classobj-i)</span><br><span class="line">omap ic &lt;Plug&gt;(coc-classobj-i)</span><br><span class="line">xmap ac &lt;Plug&gt;(coc-classobj-a)</span><br><span class="line">omap ac &lt;Plug&gt;(coc-classobj-a)</span><br><span class="line"></span><br><span class="line">&quot; Use CTRL-S for selections ranges.</span><br><span class="line">&quot; Requires &#39;textDocument&#x2F;selectionRange&#39; support of LS, ex: coc-tsserver</span><br><span class="line">nmap &lt;silent&gt; &lt;C-s&gt; &lt;Plug&gt;(coc-range-select)</span><br><span class="line">xmap &lt;silent&gt; &lt;C-s&gt; &lt;Plug&gt;(coc-range-select)</span><br><span class="line"></span><br><span class="line">&quot; Add &#96;:Format&#96; command to format current buffer.</span><br><span class="line">command! -nargs&#x3D;0 Format :call CocAction(&#39;format&#39;)</span><br><span class="line"></span><br><span class="line">&quot; Add &#96;:Fold&#96; command to fold current buffer.</span><br><span class="line">command! -nargs&#x3D;? Fold :call     CocAction(&#39;fold&#39;, &lt;f-args&gt;)</span><br><span class="line"></span><br><span class="line">&quot; Add &#96;:OR&#96; command for organize imports of the current buffer.</span><br><span class="line">command! -nargs&#x3D;0 OR   :call     CocAction(&#39;runCommand&#39;, &#39;editor.action.organizeImport&#39;)</span><br><span class="line"></span><br><span class="line">&quot; Add (Neo)Vim&#39;s native statusline support.</span><br><span class="line">&quot; NOTE: Please see &#96;:h coc-status&#96; for integrations with external plugins that</span><br><span class="line">&quot; provide custom statusline: lightline.vim, vim-airline.</span><br><span class="line">&quot;set statusline&#x3D;%&#123;coc#status()&#125;</span><br><span class="line"></span><br><span class="line">&quot; Mappings using CoCList:</span><br><span class="line">&quot; Show all diagnostics.</span><br><span class="line">nnoremap &lt;silent&gt; &lt;space&gt;a  :&lt;C-u&gt;CocList diagnostics&lt;cr&gt;</span><br><span class="line">&quot; Manage extensions.</span><br><span class="line">nnoremap &lt;silent&gt; &lt;space&gt;e  :&lt;C-u&gt;CocList extensions&lt;cr&gt;</span><br><span class="line">&quot; Show commands.</span><br><span class="line">nnoremap &lt;silent&gt; &lt;space&gt;c  :&lt;C-u&gt;CocList commands&lt;cr&gt;</span><br><span class="line">&quot; Find symbol of current document.</span><br><span class="line">nnoremap &lt;silent&gt; &lt;space&gt;o  :&lt;C-u&gt;CocList outline&lt;cr&gt;</span><br><span class="line">&quot; Search workspace symbols.</span><br><span class="line">nnoremap &lt;silent&gt; &lt;space&gt;s  :&lt;C-u&gt;CocList -I symbols&lt;cr&gt;</span><br><span class="line">&quot; Do default action for next item.</span><br><span class="line">nnoremap &lt;silent&gt; &lt;space&gt;j  :&lt;C-u&gt;CocNext&lt;CR&gt;</span><br><span class="line">&quot; Do default action for previous item.</span><br><span class="line">nnoremap &lt;silent&gt; &lt;space&gt;k  :&lt;C-u&gt;CocPrev&lt;CR&gt;</span><br><span class="line">&quot; Resume latest coc list.</span><br><span class="line">nnoremap &lt;silent&gt; &lt;space&gt;p  :&lt;C-u&gt;CocListResume&lt;CR&gt;</span><br><span class="line">&quot; coc-highlight，高亮显示当前变量</span><br><span class="line">autocmd CursorHold * silent call CocActionAsync(&#39;highlight&#39;)</span><br><span class="line">&quot;&quot;&quot;&quot;&quot;&quot;&quot;&quot;&quot;&quot;&quot;&quot;&quot;&quot;&quot;&quot;&quot;&quot;&quot;&quot;&quot;&quot;&quot;&quot;&quot;&quot;&quot;&quot;&quot;&quot;&quot;&quot;&quot;&quot;&quot;&quot;&quot;&quot;&quot;&quot;&quot;&quot;</span><br><span class="line">&quot;代码高亮</span><br><span class="line">syntax on</span><br><span class="line">&quot;不与vi兼容</span><br><span class="line">set nocompatible</span><br><span class="line">&quot;在底部显示，当前处于命令模式还是插入模式</span><br><span class="line">set showmode</span><br><span class="line">&quot;&quot;命令模式下，在底部显示当前键入的命令</span><br><span class="line">set showcmd</span><br><span class="line">&quot;支持使用鼠标</span><br><span class="line">&quot;set mouse&#x3D;a</span><br><span class="line">&quot;&quot;使用utf-8编码</span><br><span class="line">set encoding&#x3D;utf-8</span><br><span class="line">&quot;启用256色</span><br><span class="line">set t_Co&#x3D;256</span><br><span class="line">&quot;开启文件类型检查，并且载入与该类型对应的缩进规则。</span><br><span class="line">filetype indent on</span><br><span class="line">&quot;按下回车键后，下一行的缩进会自动跟上一行的缩进保持一致</span><br><span class="line">set autoindent</span><br><span class="line">&quot;&quot;按下Tab键后vim显示的空格数</span><br><span class="line">set tabstop&#x3D;2</span><br><span class="line">&quot;在文本上按下&gt;&gt;（增加一级缩进）、&lt;&lt;（取消一级缩进）或者&#x3D;&#x3D;（取消全部缩进）时，每一级的字符数</span><br><span class="line">set shiftwidth&#x3D;4</span><br><span class="line">&quot;由于Tab键在不同的编辑器缩进不一致，该设置自动将Tab转为空格</span><br><span class="line">set expandtab</span><br><span class="line">&quot;Tab转为多少个空格</span><br><span class="line">set softtabstop&#x3D;2</span><br><span class="line">&quot;显示行号</span><br><span class="line">set number</span><br><span class="line">&quot;显示光标所在的当前行的行号，其他行都为相对于该行的相对行号</span><br><span class="line">set relativenumber</span><br><span class="line">&quot;光标所在的当前行高亮</span><br><span class="line">set cursorline</span><br><span class="line">&quot;设置行宽，即一行显示多少个字符</span><br><span class="line">set textwidth&#x3D;80</span><br><span class="line">&quot;自动折行，即太长的行分成几行显示</span><br><span class="line">set wrap</span><br><span class="line">&quot;关闭自动折行</span><br><span class="line">&quot;set nowrap</span><br><span class="line">&quot;制定折行处与编辑窗口的右边缘之间空出的字符数</span><br><span class="line">set wrapmargin&#x3D;2</span><br><span class="line">&quot;垂直滚动时，光标距离顶部&#x2F;底部的位置（单位：行）</span><br><span class="line">set scrolloff&#x3D;5</span><br><span class="line">&quot;水平滚动时，光标距离行首或行尾的位置（单位：字符）。该配置在不折行时比较有用</span><br><span class="line">set sidescrolloff&#x3D;15</span><br><span class="line">&quot;是否显示状态栏。0 表示不显示，1 表示只在多窗口时显示， 2 表示显示</span><br><span class="line">set laststatus&#x3D;2</span><br><span class="line">&quot;在状态栏显示光标当前位置（位于哪一行哪一列）</span><br><span class="line">set ruler</span><br><span class="line">&quot;光标遇到圆括号、方括号、大括号时，自动高亮对应的另一个圆括号、方括号和大括号。</span><br><span class="line">set showmatch</span><br><span class="line">&quot;搜索时高亮匹配结果</span><br><span class="line">set hlsearch</span><br><span class="line">&quot;输入搜索模式时，每输入一个字符，就自动跳到第一个匹配的结果。</span><br><span class="line">set incsearch</span><br><span class="line">&quot;搜索时忽略大小写</span><br><span class="line">set ignorecase</span><br><span class="line">&quot;如果同事打开了ignorecase，那么对于只有一个大写字母的搜索词，将大小写敏感；其他情况都是大小写不敏感。比如，搜索Test时，将不匹配test；搜索test时，将匹配Test</span><br><span class="line">&quot;set smartcase</span><br><span class="line">&quot;打开英语单词的拼写检查</span><br><span class="line">&quot;set spell spelllang&#x3D;en_us</span><br><span class="line"></span><br><span class="line">&quot;不创建交换文件，交换文件主要用于系统崩溃时恢复文件，文件名的开头是&quot;.&quot;,结尾是&quot;.swp&quot;</span><br><span class="line">&quot;set noswapfile</span><br><span class="line">&quot;保留撤销历史</span><br><span class="line">&quot;Vim 会在编辑时保存操作历史，用来供用户撤消更改。默认情况下，操作记录只在本次编辑时有效，一旦编辑结束、文件关闭，操作历史就消失了。</span><br><span class="line">&quot;打开这个设置，可以在文件关闭后，操作记录保留在一个文件里面，继续存在。这意味着，重新打开一个文件，可以撤销上一次编辑时的操作。撤消文件是跟原文件保存在一起的隐藏文件，文件名以.un~开头。</span><br><span class="line">&quot;set undofile</span><br><span class="line">&quot;设置备份文件、交换文件、操作历史文件的保存位置。</span><br><span class="line">&quot;结尾的&#x2F;&#x2F;表示生成的文件名带有绝对路径，路径中用%替换目录分隔符，这样可以防止文件重名。</span><br><span class="line">set backupdir&#x3D;~&#x2F;.vim&#x2F;.backup&#x2F;&#x2F;</span><br><span class="line">set directory&#x3D;~&#x2F;.vim&#x2F;.swp&#x2F;&#x2F;</span><br><span class="line">set undodir&#x3D;~&#x2F;.vim&#x2F;.undo&#x2F;&#x2F;</span><br><span class="line">&quot;自动切换工作目录。这主要用在一个 Vim 会话之中打开多个文件的情况，默认的工作目录是打开的第一个文件的目录。该配置可以将工作目录自动切换到，正在编辑的文件的目录。</span><br><span class="line">set autochdir</span><br><span class="line">&quot;出错时，不要发出响声</span><br><span class="line">&quot;set noerrorbells</span><br><span class="line">&quot;出错时，发出视觉提示，通常是屏幕闪烁</span><br><span class="line">&quot;set visualbell</span><br><span class="line">&quot;vim需要记住多少次历史操作</span><br><span class="line">set history&#x3D;1000</span><br><span class="line">&quot;打开文件监视，如果在编辑过程中文件发生外部改变（比如被别的编辑器编辑了），就会发出提示</span><br><span class="line">set autoread</span><br><span class="line">&quot;命令模式下，底部操作指令按下 Tab 键自动补全。第一次按下 Tab，会显示所有匹配的操作指令的清单；第二次按下 Tab，会依次选择各个指令。</span><br><span class="line">set wildmenu</span><br><span class="line">set wildmode&#x3D;longest:list,full</span><br></pre></td></tr></table></figure>
+]]></content>
+      <categories>
+        <category>其它</category>
+      </categories>
+      <tags>
+        <tag>vim</tag>
+        <tag>linux</tag>
+        <tag>终端</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>实用软件/插件</title>
+    <url>/2020/04/03/%E5%85%B6%E5%AE%83/%E5%AE%9E%E7%94%A8%E8%BD%AF%E4%BB%B6%E6%8F%92%E4%BB%B6/</url>
+    <content><![CDATA[<h3 id="软件"><a class="markdownIt-Anchor" href="#软件"></a> 软件</h3>
+<h5 id="listary"><a class="markdownIt-Anchor" href="#listary"></a> Listary</h5>
+<p>  用于快速启动软件，以及全盘检索，可通过关键字来指定搜索某一类文件或文件夹。</p>
+<p>收费软件，但免费功能已经够用。<span class="exturl" data-url="aHR0cHM6Ly93d3cubGlzdGFyeS5jb20v">官网地址<i class="fa fa-external-link-alt"></i></span></p>
+<a id="more"></a>
+<p><img src="https://i.imgur.com/jeTEfAw.png" alt="listary" /></p>
+<h5 id="groupy"><a class="markdownIt-Anchor" href="#groupy"></a> Groupy</h5>
+<p>  用标签的方式管理所有程序窗口。效果直接看下面图片吧。当需要多开软件进行工作时，非常有用。<span class="exturl" data-url="aHR0cHM6Ly9zdG9yZS5zdGVhbXBvd2VyZWQuY29tL2FwcC85MTIxNzAvR3JvdXB5Lw==">steam 商店购入<i class="fa fa-external-link-alt"></i></span></p>
+<p><img src="https://i.imgur.com/9mHUgXk.png" alt="groupy" /></p>
+<h4 id="keepass"><a class="markdownIt-Anchor" href="#keepass"></a> keePass</h4>
+<p>  全平台密码管理工具——<span class="exturl" data-url="aHR0cHM6Ly93d3cuamlhbnNodS5jb20vcC9iM2E2ZmQyYzFmOGI=">食用指南<i class="fa fa-external-link-alt"></i></span></p>
+<h4 id="fdm"><a class="markdownIt-Anchor" href="#fdm"></a> FDM</h4>
+<p>  Free Download Manager，完全免费的多线程下载工具，IDM 虽好，可它贵啊。<span class="exturl" data-url="aHR0cHM6Ly93d3cuZnJlZWRvd25sb2FkbWFuYWdlci5vcmcvemgv">官网<i class="fa fa-external-link-alt"></i></span></p>
+<p><img src="https://i.imgur.com/NREQDqp.png" alt="" /></p>
+<h3 id="插件"><a class="markdownIt-Anchor" href="#插件"></a> 插件</h3>
+<p>烂大街插件我就不提了。</p>
+<h4 id="adguard"><a class="markdownIt-Anchor" href="#adguard"></a> ADGUARD</h4>
+<p>最强广告拦截。</p>
+<p><img src="https://i.imgur.com/zl9pETq.png" alt="ad" /></p>
+<h4 id="keepassxc-browser"><a class="markdownIt-Anchor" href="#keepassxc-browser"></a> KeePassXC-Browser</h4>
+<p>配合 KeePassXC 实现密码自动填充。</p>
+<p><img src="https://i.imgur.com/k9ILv1Z.png" alt="KPXC" /></p>
+<h4 id="video-picture-in-picture"><a class="markdownIt-Anchor" href="#video-picture-in-picture"></a> Video picture in picture</h4>
+<p>强制开启画中画，边敲代码边看番。</p>
+<p><img src="https://i.imgur.com/7ILLxWm.jpg" alt="pip" /></p>
+<h4 id="mate-translate"><a class="markdownIt-Anchor" href="#mate-translate"></a> Mate Translate</h4>
+<p>翻译。</p>
+<p><img src="http://qiniu.zkytech.top/image-20200403115705203.png" alt="" /></p>
+<h4 id="购物党自动比价工具"><a class="markdownIt-Anchor" href="#购物党自动比价工具"></a> 购物党自动比价工具</h4>
+<p>购物防坑必备！ 必备！</p>
+<p><img src="https://i.imgur.com/ia2AfMD.png" alt="" /></p>
+<h4 id="京价保"><a class="markdownIt-Anchor" href="#京价保"></a> 京价保</h4>
+<p>自动申请京东价格保护</p>
+<p><img src="https://i.imgur.com/YhFAjTP.png" alt="" /></p>
+<h4 id="octotree"><a class="markdownIt-Anchor" href="#octotree"></a> Octotree</h4>
+<p>Github 浏览体验增强。</p>
+<p><img src="https://i.imgur.com/1XbOwPy.png" alt="" /></p>
+<h4 id="enhanced-github"><a class="markdownIt-Anchor" href="#enhanced-github"></a> Enhanced GitHub</h4>
+<p>Github 浏览体验增强。</p>
+<p><img src="https://i.imgur.com/syPfwMm.png" alt="" /></p>
+]]></content>
+      <categories>
+        <category>其它</category>
+      </categories>
+      <tags>
+        <tag>软件</tag>
+        <tag>插件</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>Threejs + wepack externals踩坑</title>
+    <url>/2019/08/27/%E5%89%8D%E7%AB%AF/Threejs%20+%20wepack%20externals%E8%B8%A9%E5%9D%91/</url>
+    <content><![CDATA[<p>  <code>threejs</code>本身体积有 100+KB，在使用<code>webpack</code>的项目中自然会想到把它作为<code>external</code>来引入。但这种方式引入存在两个需要注意的点：</p>
+<a id="more"></a>
+<ol>
+<li>在 controls 中（比如<code>TrackballControls</code>）会丢失表示按键的常量，在<code>TrackballControls</code>中是代表鼠标按键的常量，会导致无法使用鼠标进行镜头控制，而触控正常。此时只需将对应常量写入 controls 文件中即可。<code>TrackballControls</code>中加入以下常量的声明即可解决问题。</li>
+</ol>
+<figure class="highlight javascript"><table><tr><td class="code"><pre><span class="line">MOUSE = &#123;</span><br><span class="line">	LEFT: <span class="number">0</span>,</span><br><span class="line">	MIDDLE: <span class="number">1</span>,</span><br><span class="line">	RIGHT: <span class="number">2</span>,</span><br><span class="line">	ROTATE: <span class="number">0</span>,</span><br><span class="line">	DOLLY: <span class="number">1</span>,</span><br><span class="line">	PAN: <span class="number">2</span>,</span><br><span class="line">&#125;;</span><br></pre></td></tr></table></figure>
+<ol start="2">
+<li>如果你使用<code>react</code>，且包含<code>threejs</code>内容的组件经常需要被加载和卸载，那么请千万不要将 threejs 放入<code>webpack externals</code>中，这会导致<code>threejs</code>无法被正常卸载，从而在后台占用大量计算资源。目前原因未知，但只要将<code>threejs</code>从<code>externals</code>中清除，问题就可以得到解决。</li>
+</ol>
+]]></content>
+      <categories>
+        <category>前端</category>
+      </categories>
+      <tags>
+        <tag>Threejs</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>d3js绘制树图</title>
+    <url>/2020/06/16/%E5%89%8D%E7%AB%AF/d3js%E7%BB%98%E5%88%B6%E6%A0%91%E5%9B%BE/</url>
+    <content><![CDATA[<h2 id="准备数据"><a class="markdownIt-Anchor" href="#准备数据"></a> 准备数据</h2>
+<p>既然要构建树图，那输入的数据自然也必须是树状（层次）结构的</p>
+<p>d3 默认接受的树图数据格式如下所示：</p>
+<a id="more"></a>
+<figure class="highlight json"><table><tr><td class="code"><pre><span class="line">&#123;</span><br><span class="line">	<span class="attr">"name"</span>: <span class="string">"Eve"</span>,</span><br><span class="line">	<span class="attr">"children"</span>: [</span><br><span class="line">		&#123;</span><br><span class="line">			<span class="attr">"name"</span>: <span class="string">"Cain"</span></span><br><span class="line">		&#125;,</span><br><span class="line">		&#123;</span><br><span class="line">			<span class="attr">"name"</span>: <span class="string">"Seth"</span>,</span><br><span class="line">			<span class="attr">"children"</span>: [</span><br><span class="line">				&#123;</span><br><span class="line">					<span class="attr">"name"</span>: <span class="string">"Enos"</span></span><br><span class="line">				&#125;,</span><br><span class="line">				&#123;</span><br><span class="line">					<span class="attr">"name"</span>: <span class="string">"Noam"</span></span><br><span class="line">				&#125;</span><br><span class="line">			]</span><br><span class="line">		&#125;,</span><br><span class="line">		&#123;</span><br><span class="line">			<span class="attr">"name"</span>: <span class="string">"Abel"</span></span><br><span class="line">		&#125;,</span><br><span class="line">		&#123;</span><br><span class="line">			<span class="attr">"name"</span>: <span class="string">"Awan"</span>,</span><br><span class="line">			<span class="attr">"children"</span>: [</span><br><span class="line">				&#123;</span><br><span class="line">					<span class="attr">"name"</span>: <span class="string">"Enoch"</span></span><br><span class="line">				&#125;</span><br><span class="line">			]</span><br><span class="line">		&#125;,</span><br><span class="line">		&#123;</span><br><span class="line">			<span class="attr">"name"</span>: <span class="string">"Azura"</span></span><br><span class="line">		&#125;</span><br><span class="line">	]</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>将上述数据通过<code>d3.hierarchy(data)</code>处理后生成 d3 能够处理的标准的层次结构数据。<br />
+<code>d3.hierarchy(data)</code>返回的节点（<code>Node</code>对象）和每一个后代会被附加如下属性:</p>
+<ul>
+<li>node.data - 关联的数据，由 constructor 指定.</li>
+<li>node.depth - 当前节点的深度, 根节点为 0.</li>
+<li>node.height - 当前节点的高度, 叶节点为 0.</li>
+<li>node.parent - 当前节点的父节点, 根节点为 null.</li>
+<li>node.children - 当前节点的孩子节点(如果有的话); 叶节点为 undefined.</li>
+<li>node.value - 当前节点以及 descendants(后代节点) 的总计值; 可以通过 node.sum 和 node.count 计算.</li>
+</ul>
+<h2 id="计算布局"><a class="markdownIt-Anchor" href="#计算布局"></a> 计算布局</h2>
+<figure class="highlight typescript"><table><tr><td class="code"><pre><span class="line"><span class="comment">// 初始化一个树布局，并设定其宽高</span></span><br><span class="line"><span class="keyword">const</span> tree = d3.tree().size(height, width);</span><br><span class="line"><span class="comment">// 生成d3.tree能够处理的层次结构的数据</span></span><br><span class="line"><span class="keyword">const</span> nodes_ = d3.hierarchy(data);</span><br><span class="line"><span class="comment">// 计算树布局中各节点的位置，计算得到的默认布局是垂直的</span></span><br><span class="line"><span class="keyword">const</span> nodes = tree(nodes_);</span><br></pre></td></tr></table></figure>
+<p>其中 nodes 中的每个节点都会在<code>d3.hierarchy(data)</code>返回的<code>Node</code>对象的基础上附加上坐标位置属性：</p>
+<ul>
+<li>node.x - 节点的 x 坐标</li>
+<li>node.y - 节点的 y 坐标</li>
+</ul>
+<h2 id="绘制树图"><a class="markdownIt-Anchor" href="#绘制树图"></a> 绘制树图</h2>
+<figure class="highlight typescript"><table><tr><td class="code"><pre><span class="line"><span class="comment">// 创建容器svg</span></span><br><span class="line"><span class="keyword">const</span> svg = d3</span><br><span class="line">	.select(<span class="string">"body"</span>)</span><br><span class="line">	.append(<span class="string">"svg"</span>)</span><br><span class="line">	.attr(<span class="string">"height"</span>, height)</span><br><span class="line">	.attr(<span class="string">"width"</span>, width);</span><br><span class="line"><span class="comment">// 树图容器</span></span><br><span class="line"><span class="keyword">const</span> g = svg.append(<span class="string">"g"</span>);</span><br><span class="line"><span class="comment">// 标题</span></span><br><span class="line">svg.append(<span class="string">"text"</span>).attr(<span class="string">"class"</span>, <span class="string">"title"</span>).text(<span class="string">"Title of Tree"</span>);</span><br><span class="line"><span class="comment">// 树图节点之间的连线</span></span><br><span class="line"><span class="keyword">const</span> link = g</span><br><span class="line">	.selectAll(<span class="string">".link"</span>)</span><br><span class="line">	<span class="comment">// 获取节点的连接信息，nodes.links()返回的数据类型是 &#123;source:Node,target:Node&#125;[]</span></span><br><span class="line">	.data(nodes.links())</span><br><span class="line">	.enter()</span><br><span class="line">	.append(<span class="string">"path"</span>)</span><br><span class="line">	.attr(<span class="string">"class"</span>, <span class="string">"link"</span>)</span><br><span class="line">	.attr(</span><br><span class="line">		<span class="string">"d"</span>,</span><br><span class="line">		<span class="comment">// @ts-ignore</span></span><br><span class="line">		d3</span><br><span class="line">			<span class="comment">// 用于生成曲线连线</span></span><br><span class="line">			.linkHorizontal()</span><br><span class="line">			<span class="comment">// 为了生成水平方向的树图，将坐标x、y对换</span></span><br><span class="line">			.x(<span class="function">(<span class="params">d</span>) =&gt;</span> d.y)</span><br><span class="line">			.y(<span class="function">(<span class="params">d</span>) =&gt;</span> d.x)</span><br><span class="line">	);</span><br><span class="line"><span class="comment">// 树图节点</span></span><br><span class="line"><span class="keyword">const</span> node = g</span><br><span class="line">	.selectAll(<span class="string">".node"</span>)</span><br><span class="line">	<span class="comment">// 获取一个包含所有节点数据的列表，nodes.descendants()返回的数据类型是 Node[]</span></span><br><span class="line">	.data(nodes.descendants())</span><br><span class="line">	.enter()</span><br><span class="line">	.append(<span class="string">"g"</span>)</span><br><span class="line">	<span class="comment">// 为了生成水平方向的树图，将坐标x、y对换</span></span><br><span class="line">	.attr(<span class="string">"transform"</span>, <span class="function">(<span class="params">d: <span class="built_in">any</span></span>) =&gt;</span> <span class="string">`translate(<span class="subst">$&#123;d.y&#125;</span>,<span class="subst">$&#123;d.x&#125;</span>)`</span>);</span><br><span class="line"><span class="comment">// 绘制代表节点的圆形</span></span><br><span class="line">node</span><br><span class="line">	.append(<span class="string">"circle"</span>)</span><br><span class="line">	<span class="comment">// 设置节点圆形的半径</span></span><br><span class="line">	.attr(<span class="string">"r"</span>, <span class="number">5</span>);</span><br><span class="line"><span class="comment">// 节点文本</span></span><br><span class="line">node</span><br><span class="line">	.append(<span class="string">"text"</span>)</span><br><span class="line">	.attr(<span class="string">"x"</span>, <span class="function">(<span class="params">d: <span class="built_in">any</span></span>) =&gt;</span> (d.data.childern ? <span class="number">-15</span> : <span class="number">10</span>))</span><br><span class="line">	.attr(<span class="string">"y"</span>, <span class="function">(<span class="params">d: <span class="built_in">any</span></span>) =&gt;</span> (d.data.children ? <span class="number">-13</span> : <span class="number">4</span>))</span><br><span class="line">	.text(<span class="function">(<span class="params">d: <span class="built_in">any</span></span>) =&gt;</span> d.data.name);</span><br></pre></td></tr></table></figure>
+<p>css</p>
+<figure class="highlight css"><table><tr><td class="code"><pre><span class="line"><span class="selector-tag">svg</span> <span class="selector-class">.title</span> &#123;</span><br><span class="line">	<span class="attribute">font</span>: <span class="number">26px</span> sans-serif;</span><br><span class="line">	<span class="attribute">font-weight</span>: <span class="number">500</span>;</span><br><span class="line">	<span class="attribute">stroke</span>: <span class="number">#007aa3</span>;</span><br><span class="line">	<span class="attribute">fill</span>: <span class="number">#007aa3</span>;</span><br><span class="line">	<span class="attribute">letter-spacing</span>: <span class="number">2px</span>;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="selector-class">.node</span> <span class="selector-tag">circle</span> &#123;</span><br><span class="line">	<span class="attribute">fill</span>: <span class="number">#fff</span>;</span><br><span class="line">	<span class="attribute">stroke</span>: grey;</span><br><span class="line">	<span class="attribute">stroke-width</span>: <span class="number">2px</span>;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="selector-class">.node</span> <span class="selector-tag">text</span> &#123;</span><br><span class="line">	<span class="attribute">font</span>: <span class="number">12px</span> sans-serif;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="selector-class">.link</span> &#123;</span><br><span class="line">	<span class="attribute">fill</span>: none;</span><br><span class="line">	<span class="attribute">stroke</span>: <span class="number">#ccc</span>;</span><br><span class="line">	<span class="attribute">stroke-width</span>: <span class="number">2px</span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p><img src="http://qiniu.zkytech.top/msedge_xC1VQ9QUts.png" alt="树图示例" /><br />
+当然，d3 可以绘制的不仅仅是这种树图，可以在<span class="exturl" data-url="aHR0cHM6Ly9naXRodWIuY29tL3hzd2VpL2QzLWhpZXJhcmNoeS9ibG9iL21hc3Rlci9SRUFETUUubWQjdHJlZQ==">d3-hierarchy<i class="fa fa-external-link-alt"></i></span>中找到绘制其它层次结构的图的相关方法。</p>
+]]></content>
+      <categories>
+        <category>前端</category>
+      </categories>
+      <tags>
+        <tag>d3</tag>
+        <tag>树图</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>hexo插件开发</title>
+    <url>/2020/04/15/%E5%89%8D%E7%AB%AF/hexo%E6%8F%92%E4%BB%B6%E5%BC%80%E5%8F%91/</url>
+    <content><![CDATA[<p>  hexo官方文档虽然有给出api说明，但官方文档的说明太晦涩难懂。实际上最简单的方式就是去阅读github上一些hexo插件的源码。下面给出我个人觉得常用的api的说明。</p>
+<a id="more"></a>
+<h4 id="使插件在执行hexo-generate-hexo-deploy时自动执行"><a class="markdownIt-Anchor" href="#使插件在执行hexo-generate-hexo-deploy时自动执行"></a> 使插件在执行<code>hexo generate</code>、<code>hexo deploy</code>时自动执行</h4>
+<figure class="highlight javascript"><table><tr><td class="code"><pre><span class="line">hexo.extend.filter.register(type, <span class="function"><span class="keyword">function</span>(<span class="params"></span>)</span>&#123;&#125;, priority);</span><br></pre></td></tr></table></figure>
+<p>参数说明：</p>
+<table>
+<thead>
+<tr>
+<th>参数</th>
+<th>required</th>
+<th>说明</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>type</td>
+<td>true</td>
+<td>官网称为<code>过滤器类型</code>，我认为叫<code>钩子类型</code>或者<code>事件类型</code>更合适，这是决定后面的<code>function</code>在何时执行</td>
+</tr>
+<tr>
+<td>function(){}</td>
+<td>true</td>
+<td>需要执行的函数</td>
+</tr>
+<tr>
+<td>priority</td>
+<td>false</td>
+<td>执行优先级，值越小优先级越高。默认为10</td>
+</tr>
+</tbody>
+</table>
+<p>事件类型：参考<a href="%5Bhttps://hexo.io/zh-cn/api/filter#%E8%BF%87%E6%BB%A4%E5%99%A8%E5%88%97%E8%A1%A8%5D(https://hexo.io/zh-cn/api/filter#%E8%BF%87%E6%BB%A4%E5%99%A8%E5%88%97%E8%A1%A8)">hexo官方文档</a></p>
+<h5 id="实例"><a class="markdownIt-Anchor" href="#实例"></a> 实例</h5>
+<p>  现在用一个最简单的<code>hello world</code>来说明这个api的作用。假设现在需要编写一个插件，在运行<code>hexo generate</code>开始前执行。</p>
+<ol>
+<li>
+<p>按照<a href="%5Bhttps://blog.zkytech.top/2020/04/14/%E5%89%8D%E7%AB%AF/npm%E5%8C%85%E5%BC%80%E5%8F%91%E5%92%8C%E5%8F%91%E5%B8%83/%5D(https://blog.zkytech.top/2020/04/14/%E5%89%8D%E7%AB%AF/npm%E5%8C%85%E5%BC%80%E5%8F%91%E5%92%8C%E5%8F%91%E5%B8%83/)">教程</a>创建一个npm包，并用<code>npm ln</code>安装到hexo项目中。注意：经过测试，<strong>包名必须以<code>hexo-</code>开头</strong>，否比如<code>hexo-demo-project</code>，否则无法使用hexo提供的api。</p>
+<blockquote>
+<p>从这点来看，hexo是通过扫描package.json中以<code>hexo-</code>开头的包名来实现这些api的。</p>
+</blockquote>
+</li>
+<li>
+<p>在<code>index.js</code>中写入以下内容:</p>
+</li>
+</ol>
+<figure class="highlight javascript"><table><tr><td class="code"><pre><span class="line">hexo.extend.filter.register(<span class="string">'before_generate'</span>, <span class="function"><span class="keyword">function</span>(<span class="params"></span>)</span>&#123;</span><br><span class="line">    <span class="built_in">console</span>.log(<span class="string">'hello world! (before)'</span>)</span><br><span class="line">&#125;);</span><br></pre></td></tr></table></figure>
+<ol start="3">
+<li>在hexo项目中运行<code>hexo generate</code></li>
+</ol>
+<p><img src="http://qiniu.zkytech.top/image-20200415133458381.png" alt="image-20200415133458381" /></p>
+<h4 id="输入hexo-command运行插件"><a class="markdownIt-Anchor" href="#输入hexo-command运行插件"></a> 输入<code>hexo command</code>运行插件</h4>
+<p>  比如我写的一个插件<code>hexo-localimage-to-qiniu</code>，在控制台运行<code>hexo imgtoqiniu</code>即可运行插件来上传markdown中的本地文件，并替换图片链接。这里要说的就是怎么注册<code>imgtoqiniu</code>这个指令。</p>
+<figure class="highlight javascript"><table><tr><td class="code"><pre><span class="line">hexo.extend.console.register(</span><br><span class="line">    <span class="comment">// 这就是注册的command, 注册后运行hexo demo即可调用</span></span><br><span class="line">	<span class="string">"demo"</span>,		</span><br><span class="line">    <span class="comment">// 对command的说明，运行hexo demo --help 会提示该信息</span></span><br><span class="line">	<span class="string">"hexo console command demo"</span>,</span><br><span class="line">	&#123;</span><br><span class="line">        <span class="comment">// 使用方法说明，hexo demo --help 会提示该信息</span></span><br><span class="line">		usage: <span class="string">"[action] [--date post_date]"</span>, </span><br><span class="line">        <span class="comment">// 虽然命名为"arguments"，我觉得叫"action"更为贴切，使用示例：hexo demo layout</span></span><br><span class="line">		<span class="built_in">arguments</span>: [ </span><br><span class="line">			&#123; <span class="attr">name</span>: <span class="string">"layout"</span>, <span class="attr">desc</span>: <span class="string">"Post layout"</span> &#125;,</span><br><span class="line">			&#123; <span class="attr">name</span>: <span class="string">"title"</span>, <span class="attr">desc</span>: <span class="string">"Post title"</span> &#125;,</span><br><span class="line">		],</span><br><span class="line">        <span class="comment">// 这个叫arguments更合适，因为这里是可以接收参数的。比如: hexo demo -d "2020年4月15日"</span></span><br><span class="line">		options: [&#123; <span class="attr">name</span>: <span class="string">"-d, --date"</span>, <span class="attr">desc</span>: <span class="string">"post date"</span> &#125;], </span><br><span class="line">	&#125;,</span><br><span class="line">    <span class="comment">// 主函数，args即上面接收的参数，无论参数是否输入正确都会执行。</span></span><br><span class="line">	<span class="function"><span class="keyword">function</span> (<span class="params">args</span>) </span>&#123; </span><br><span class="line">		<span class="built_in">console</span>.log(<span class="string">"args:"</span>,args);</span><br><span class="line">	&#125;</span><br><span class="line">);</span><br></pre></td></tr></table></figure>
+<p>运行<code>hexo demo --help</code>，得到以下提示</p>
+<figure class="highlight shell"><table><tr><td class="code"><pre><span class="line"><span class="meta">#</span><span class="bash"> 查看参数说明</span></span><br><span class="line"><span class="meta">&gt;</span><span class="bash">&gt; hexo demo --<span class="built_in">help</span></span></span><br><span class="line">Usage: hexo demo [action] [--date post_date]</span><br><span class="line"></span><br><span class="line">Description:</span><br><span class="line">hexo console command demo</span><br><span class="line"></span><br><span class="line">Arguments:</span><br><span class="line">  layout  Post layout</span><br><span class="line">  title   Post title</span><br><span class="line"></span><br><span class="line">Options:</span><br><span class="line">  -d, --date  post date</span><br><span class="line"></span><br><span class="line"><span class="meta">#</span><span class="bash"> 测试</span></span><br><span class="line"><span class="meta">&gt;</span><span class="bash">&gt; hexo demo layout -d <span class="string">"2020年4月15日"</span></span></span><br><span class="line">args: &#123; _: [ 'layout' ], d: '2020年4月15日' &#125;</span><br></pre></td></tr></table></figure>
+]]></content>
+      <categories>
+        <category>前端</category>
+      </categories>
+      <tags>
+        <tag>插件</tag>
+        <tag>hexo</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>npm包开发</title>
+    <url>/2020/04/14/%E5%89%8D%E7%AB%AF/npm%E5%8C%85%E5%BC%80%E5%8F%91%E5%92%8C%E5%8F%91%E5%B8%83/</url>
+    <content><![CDATA[<h4 id="初始化"><a class="markdownIt-Anchor" href="#初始化"></a> 初始化</h4>
+<ol>
+<li>
+<p>创建项目目录<code>npm-demo-project</code></p>
+</li>
+<li>
+<p><code>cd npm-demo-project</code></p>
+</li>
+<li>
+<p><code>npm init -y</code>运行后会在项目根目录生成一个<code>package.json</code>，其内容如下所示</p>
+</li>
+</ol>
+<a id="more"></a>
+<figure class="highlight json"><table><tr><td class="code"><pre><span class="line">&#123;</span><br><span class="line">	<span class="attr">"name"</span>: <span class="string">"npm-demo-project"</span>, <span class="comment">// 包名，该名称不能与已存在的npm包重复。发布后可使用npm install npm-demo-project进行安装</span></span><br><span class="line">	<span class="attr">"version"</span>: <span class="string">"1.0.0"</span>, <span class="comment">// 发布版本，每次发布前一定要更新版本号。</span></span><br><span class="line">	<span class="attr">"description"</span>: <span class="string">""</span>,</span><br><span class="line">	<span class="attr">"main"</span>: <span class="string">"index.js"</span>, <span class="comment">//入口文件，比如import * as ndp from 'npm-demo-project'就是相当于import * as ndp from 'index.js'</span></span><br><span class="line">	<span class="attr">"scripts"</span>: &#123;</span><br><span class="line">		<span class="attr">"test"</span>: <span class="string">"echo \"Error: no test specified\" &amp;&amp; exit 1"</span></span><br><span class="line">	&#125;,</span><br><span class="line">	<span class="attr">"keywords"</span>: [],</span><br><span class="line">	<span class="attr">"author"</span>: <span class="string">""</span>,</span><br><span class="line">	<span class="attr">"license"</span>: <span class="string">"ISC"</span></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<ol start="4">
+<li>创建文件<code>index.js</code></li>
+</ol>
+<h4 id="开发测试"><a class="markdownIt-Anchor" href="#开发测试"></a> 开发&amp;测试</h4>
+<p>  虽然可以直接在项目内做测试，但很多场景下都是因为自身项目需求去开发一个 npm 包，需要直接在项目里测试 npm 包。假设该项目为<code>project_a</code>，此时按以下步骤操作：</p>
+<ol>
+<li>在<code>npm-demo-project</code>的根目录下运行<code>npm ln</code></li>
+<li>在<code>project_a</code>目录下运行<code>npm ln npm-demo-project</code></li>
+<li>在<code>project_a</code>的<code>package.json</code>的<code>dependencies</code>中添加依赖<code>npm-demo-project:^1.0.0</code></li>
+</ol>
+<p>  步骤 2 和 3 就相当于运行了<code>npm install npm-demo-project</code>，且此时对<code>npm-demo-project</code>的修改会直接反映到<code>project_a</code>中。</p>
+<h4 id="发布"><a class="markdownIt-Anchor" href="#发布"></a> 发布</h4>
+<h5 id="排除文件"><a class="markdownIt-Anchor" href="#排除文件"></a> 排除文件</h5>
+<p>  可能有部分文件不需要发布到 npm 包中，在根目录新建文件<code>.npmignore</code>，按照<code>.gitignore</code>的规则去填写即可排除文件。</p>
+<h5 id="publish"><a class="markdownIt-Anchor" href="#publish"></a> publish</h5>
+<p>如果 npm 使用淘宝源：</p>
+<p><code>&gt;&gt; npm publish --registry=https://registry.npmjs.org</code></p>
+<p>如果没有使用淘宝源：</p>
+<p><code>&gt;&gt; npm publish</code></p>
+<h4 id="使用-typescript"><a class="markdownIt-Anchor" href="#使用-typescript"></a> 使用 TypeScript</h4>
+<ol>
+<li><code>&gt;&gt; npm install typescript -D</code></li>
+<li><code>&gt;&gt; tsc --init</code></li>
+<li>在根目录创建<code>index.ts</code></li>
+<li>创建目录<code>dist</code>，<code>tsc</code>编译出来的文件会存储在这里</li>
+<li>修改<code>tsconfig.json</code></li>
+</ol>
+<figure class="highlight json"><table><tr><td class="code"><pre><span class="line">&#123;</span><br><span class="line">	<span class="attr">"compilerOptions"</span>: &#123;</span><br><span class="line">		<span class="attr">"target"</span>: <span class="string">"es5"</span>,</span><br><span class="line">		<span class="attr">"module"</span>: <span class="string">"commonjs"</span>,</span><br><span class="line">		<span class="attr">"strict"</span>: <span class="literal">true</span>,</span><br><span class="line">		<span class="attr">"esModuleInterop"</span>: <span class="literal">true</span>,</span><br><span class="line">		<span class="attr">"forceConsistentCasingInFileNames"</span>: <span class="literal">true</span>,</span><br><span class="line">		<span class="attr">"outDir"</span>: <span class="string">"./dist"</span></span><br><span class="line">	&#125;,</span><br><span class="line">	<span class="attr">"include"</span>: [<span class="string">"index.ts"</span>]</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<ol start="6">
+<li>修改<code>package.json</code></li>
+</ol>
+<figure class="highlight diff"><table><tr><td class="code"><pre><span class="line">&#123;</span><br><span class="line">  "name": "npm-demo-project",</span><br><span class="line">  "version": "1.0.0",</span><br><span class="line">  "description": "",</span><br><span class="line"><span class="deletion">- "main": "index.js",</span></span><br><span class="line"><span class="addition">+ "main": "./dist/index.js",</span></span><br><span class="line">  "scripts": &#123;</span><br><span class="line">    "test": "echo \"Error: no test specified\" &amp;&amp; exit 1"</span><br><span class="line">  &#125;,</span><br><span class="line">  "keywords": [],</span><br><span class="line">  "author": "",</span><br><span class="line">  "license": "ISC"</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<ol start="7">
+<li><code>&gt;&gt; tsc -watch</code></li>
+</ol>
+<p>然后就可以用<code>typescript</code>愉快地开发了。</p>
+<h4 id="可执行的-npm-包"><a class="markdownIt-Anchor" href="#可执行的-npm-包"></a> 可执行的 npm 包</h4>
+<p>  比如，在全局安装静态博客<code>hexo-cli</code>后，能直接在命令行运行<code>hexo init blog</code>来创建静态博客。这里要说的就是怎么使 npm 包可直接通过命令行运行。</p>
+<ol>
+<li>创建在<code>hello.js</code>，并在<code>hello.js</code>首行添加<code>#!/usr/bin/env node</code></li>
+<li>在<code>hello.js</code>中写入以下内容</li>
+</ol>
+<figure class="highlight javascript"><table><tr><td class="code"><pre><span class="line"><span class="meta">#!/usr/bin/env node</span></span><br><span class="line"><span class="built_in">console</span>.log(<span class="string">"hello world!"</span>);</span><br></pre></td></tr></table></figure>
+<ol start="3">
+<li>编辑<code>package.json</code></li>
+</ol>
+<figure class="highlight diff"><table><tr><td class="code"><pre><span class="line">&#123;</span><br><span class="line">  "name": "npm-demo-project",</span><br><span class="line">  "version": "1.0.0",</span><br><span class="line">  "description": "",</span><br><span class="line">  "main": "index.js",</span><br><span class="line">  "scripts": &#123;</span><br><span class="line">    "test": "echo \"Error: no test specified\" &amp;&amp; exit 1"</span><br><span class="line">  &#125;,</span><br><span class="line">  "keywords": [],</span><br><span class="line">  "author": "",</span><br><span class="line">  "license": "ISC",</span><br><span class="line"><span class="addition">+ "bin": &#123;</span></span><br><span class="line"><span class="addition">+  "hello": "hello.js",</span></span><br><span class="line"><span class="addition">+ &#125;</span></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<ol start="4">
+<li>运行<code>npm ln</code>模拟全局安装</li>
+<li>在 npm 包项目根目录下</li>
+</ol>
+<figure class="highlight shell"><table><tr><td class="code"><pre><span class="line"><span class="meta">#</span><span class="bash"> 在项目根目录下直接运行`hello`是打开文件，所以用npx hello</span></span><br><span class="line"><span class="meta">&gt;</span><span class="bash">&gt; npx hello</span></span><br><span class="line">hello world!</span><br><span class="line"><span class="meta">&gt;</span><span class="bash">&gt; <span class="built_in">cd</span> ..</span></span><br><span class="line"><span class="meta">#</span><span class="bash"> 离开了项目根目录，直接运行hello</span></span><br><span class="line"><span class="meta">&gt;</span><span class="bash">&gt; hello</span></span><br><span class="line">hello world!</span><br></pre></td></tr></table></figure>
+]]></content>
+      <categories>
+        <category>前端</category>
+      </categories>
+      <tags>
+        <tag>npm</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>在es6 Proxy中，推荐使用Reflect.get而不是target[key]的原因</title>
+    <url>/2019/10/20/%E5%89%8D%E7%AB%AF/%E5%9C%A8es6%20Proxy%E4%B8%AD%EF%BC%8C%E6%8E%A8%E8%8D%90%E4%BD%BF%E7%94%A8Reflect.get%E8%80%8C%E4%B8%8D%E6%98%AFtarget%5Bkey%5D%E7%9A%84%E5%8E%9F%E5%9B%A0/</url>
+    <content><![CDATA[<p>目前中文检索得不到这个问题的答案，大多数的博客都是直接使用了<code>Reflect.get</code>而没有给出原因。为了解释这个问题，首先还要说明另一个问题。</p>
+<a id="more"></a>
+<h2 id="reflectgettarget-prop-receiver-以及-proxy-中的-handlergettarget-prop-receiver-这当中的receiver是什么"><a class="markdownIt-Anchor" href="#reflectgettarget-prop-receiver-以及-proxy-中的-handlergettarget-prop-receiver-这当中的receiver是什么"></a> <code>Reflect.get(target, prop, receiver)</code> 以及 Proxy 中的 <code>handler.get(target, prop, receiver)</code> 这当中的<code>receiver</code>是什么？</h2>
+<p>直接摘抄 MDN 的说明</p>
+<blockquote>
+<p><code>Reflect.get(target, prop, receiver)</code>中的参数<code>receiver</code>：如果 target 对象中指定了 getter，receiver 则为 getter 调用时的 this 值。</p>
+</blockquote>
+<blockquote>
+<p><code>handler.get(target, prop, receiver)</code>中的参数<code>receiver</code>：Proxy 或者继承 Proxy 的对象。</p>
+</blockquote>
+<h3 id="参数receiver存在的意义"><a class="markdownIt-Anchor" href="#参数receiver存在的意义"></a> 参数<code>receiver</code>存在的意义</h3>
+<p>单独来看，我很难想出<code>receiver</code>参数的使用场景，甚至会认为这个参数没有存在的意义，但既然这么设计就一定有它存在的意义。先看下面的例子：</p>
+<figure class="highlight javascript"><table><tr><td class="code"><pre><span class="line"><span class="keyword">let</span> People = <span class="keyword">new</span> <span class="built_in">Proxy</span>(</span><br><span class="line">	&#123;</span><br><span class="line">		_name: <span class="string">"zky"</span>,</span><br><span class="line">		<span class="keyword">get</span> name() &#123;</span><br><span class="line">			<span class="keyword">return</span> <span class="keyword">this</span>._name;</span><br><span class="line">		&#125;,</span><br><span class="line">	&#125;,</span><br><span class="line">	&#123;</span><br><span class="line">		<span class="keyword">get</span>: function (target, prop, receiver) &#123;</span><br><span class="line">			<span class="keyword">return</span> target[prop];</span><br><span class="line">		&#125;,</span><br><span class="line">	&#125;</span><br><span class="line">);</span><br><span class="line"><span class="keyword">let</span> Man = &#123; <span class="attr">_name</span>: <span class="string">"zky_man"</span> &#125;;</span><br><span class="line">Man.__proto__ = People; <span class="comment">// Man继承People</span></span><br><span class="line"><span class="built_in">console</span>.log(Man._name); <span class="comment">// zky_man</span></span><br><span class="line"><span class="built_in">console</span>.log(Man.name); <span class="comment">// zky</span></span><br></pre></td></tr></table></figure>
+<blockquote>
+<p>问题来了，<code>Man</code>中已经存在<code>_name</code>属性，但这里<code>Man.name</code>返回的却是原型链上的<code>_name</code>属性，<br />
+原因很好解释：<code>get name</code>中的<code>this</code>默认绑定为<code>People</code>。</p>
+</blockquote>
+<p>那怎么解决这个问题呢？这里就该<code>receiver</code>上场了，修改上面的例子：</p>
+<figure class="highlight javascript"><table><tr><td class="code"><pre><span class="line"><span class="keyword">let</span> People = <span class="keyword">new</span> <span class="built_in">Proxy</span>(</span><br><span class="line">	&#123; <span class="attr">_name</span>: <span class="string">"zky"</span> &#125;,</span><br><span class="line">	&#123;</span><br><span class="line">		<span class="keyword">get</span>: function (target, prop, receiver) &#123;</span><br><span class="line">			<span class="comment">// receiver指向的是get的调用者</span></span><br><span class="line">			<span class="keyword">return</span> <span class="built_in">Reflect</span>.get(target, prop, receiver); <span class="comment">// 调用get name函数时，this被绑定到receiver</span></span><br><span class="line">		&#125;,</span><br><span class="line">	&#125;</span><br><span class="line">);</span><br><span class="line"><span class="keyword">let</span> Man = &#123;</span><br><span class="line">	_name: <span class="string">"zky_man"</span>,</span><br><span class="line">	<span class="keyword">get</span> name() &#123;</span><br><span class="line">		<span class="keyword">return</span> <span class="keyword">this</span>._name;</span><br><span class="line">	&#125;,</span><br><span class="line">&#125;;</span><br><span class="line">Man.__proto__ = People; <span class="comment">// Man继承People</span></span><br><span class="line"><span class="built_in">console</span>.log(Man._name); <span class="comment">// zky_man</span></span><br><span class="line"><span class="built_in">console</span>.log(Man.name); <span class="comment">// zky_man</span></span><br></pre></td></tr></table></figure>
+<p>到这里问题就已经完美解决了，这也就是<code>Reflect.get</code>比<code>target[key]</code>更好的原因。</p>
+<p>调用<code>Man.name</code>时经过了以下几步</p>
+<ol>
+<li>被<code>proxy</code>拦截，调用<code>handler.get</code></li>
+<li><code>handler.get</code>中传入的<code>receiver</code>参数指向调用者–<code>Man</code></li>
+<li>调用<code>Reflect.get</code>，由于<code>target</code>中的<code>name</code>指定了<code>getter</code>，<code>Reflect.get</code>自动将调用的<code>getter</code>函数的<code>this</code>绑定到<code>receiver</code>，也就是<code>Man</code></li>
+</ol>
+<p>如果没看懂请结合例子及上面对<code>receiver</code>参数的说明进行理解</p>
+<p>参考文献：<span class="exturl" data-url="aHR0cHM6Ly9qYXZhc2NyaXB0LmluZm8vcHJveHk/dGRzb3VyY2V0YWc9c19wY3RpbV9haW9tc2cjcHJveHlpbmctYS1nZXR0ZXI=">https://javascript.info/proxy?tdsourcetag=s_pctim_aiomsg#proxying-a-getter<i class="fa fa-external-link-alt"></i></span></p>
+]]></content>
+      <categories>
+        <category>前端</category>
+      </categories>
+      <tags>
+        <tag>es6</tag>
+        <tag>proxy</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>Java权限认证实现原理</title>
+    <url>/2019/08/18/%E5%90%8E%E7%AB%AF/Java%E6%9D%83%E9%99%90%E8%AE%A4%E8%AF%81%E5%AE%9E%E7%8E%B0%E5%8E%9F%E7%90%86/</url>
+    <content><![CDATA[<p>  我们往往需要在很多不方便传值的地方获取用户的身份信息，此时如果通过传参的方式传递用户信息将会使代码变得十分难看。那么要怎样不通过传参直接获取用户的身份信息呢？</p>
+<a id="more"></a>
+<p>  原理很简单，程序在接收用户请求时会新建一个线程专门去处理，对该请求的操作都是在这个线程上进行的，那么我们将用户信息绑定到线程的上下文，这样就可以在处理请求的任意位置直接获取到用户信息了。</p>
+<p> 我们先新建一个表示用户信息的 bean</p>
+<figure class="highlight java"><table><tr><td class="code"><pre><span class="line"></span><br><span class="line"><span class="keyword">import</span> lombok.Builder;</span><br><span class="line"><span class="keyword">import</span> lombok.Data;</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="meta">@Builder</span></span><br><span class="line"><span class="meta">@Data</span></span><br><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">AuthContext</span> </span>&#123;</span><br><span class="line">    <span class="keyword">private</span> String username;</span><br><span class="line">    <span class="keyword">private</span> String role;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>接下来创建一个操作线程上下文的类</p>
+<figure class="highlight java"><table><tr><td class="code"><pre><span class="line"></span><br><span class="line"><span class="comment">/**</span></span><br><span class="line"><span class="comment"> * 将授权信息绑定到线程上，从而实现在该线程执行的任意位置获取授权信息</span></span><br><span class="line"><span class="comment"> */</span></span><br><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">AuthContextHolder</span> </span>&#123;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">private</span> <span class="keyword">static</span> <span class="keyword">final</span> ThreadLocal&lt;AuthContext&gt; contextHolder = <span class="keyword">new</span> ThreadLocal&lt;&gt;();</span><br><span class="line"></span><br><span class="line">    <span class="comment">/** 清空上下文 */</span></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">clearContext</span><span class="params">()</span></span>&#123;contextHolder.remove();&#125;</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">public</span> AuthContext <span class="title">createEmptyContext</span><span class="params">()</span></span>&#123;<span class="keyword">return</span> AuthContext.builder().build();&#125;</span><br><span class="line"></span><br><span class="line">    <span class="comment">/** 获取线程上下文 */</span></span><br><span class="line">    <span class="function"><span class="keyword">public</span> AuthContext <span class="title">getContext</span><span class="params">()</span></span>&#123;</span><br><span class="line">        AuthContext ctx = contextHolder.get();</span><br><span class="line">        <span class="keyword">if</span> (ctx == <span class="keyword">null</span>)&#123;</span><br><span class="line">            ctx = createEmptyContext();</span><br><span class="line">            contextHolder.set(ctx);</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="keyword">return</span> ctx;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="comment">/** 设置上下文信息 */</span></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">setContext</span><span class="params">(AuthContext authContext)</span></span>&#123; contextHolder.set(authContext); &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>在密码校验或 session 校验的位置用<code>setContext</code>把用户信息保存到上下文。 然后在后续的任意位置可直接通过<code>AuthContextHolder</code>从线程上下文读取用户信息</p>
+]]></content>
+      <categories>
+        <category>后端</category>
+      </categories>
+      <tags>
+        <tag>java</tag>
+        <tag>权限</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>springboot环境下GraphQL权限认证的实现方法</title>
+    <url>/2019/08/18/%E5%90%8E%E7%AB%AF/springboot%E7%8E%AF%E5%A2%83%E4%B8%8BGraphQL%E6%9D%83%E9%99%90%E8%AE%A4%E8%AF%81%E7%9A%84%E5%AE%9E%E7%8E%B0%E6%96%B9%E6%B3%95/</url>
+    <content><![CDATA[<p>先放上 github 的链接<span class="exturl" data-url="aHR0cHM6Ly9naXRodWIuY29tL3preXRlY2gvZ3JhcGhxbF9kZW1v">GraphQL demo<i class="fa fa-external-link-alt"></i></span></p>
+<a id="more"></a>
+<p><code>pom.xml</code></p>
+<figure class="highlight xml"><table><tr><td class="code"><pre><span class="line"></span><br><span class="line"><span class="comment">&lt;!--        graphQL依赖--&gt;</span></span><br><span class="line"></span><br><span class="line">        <span class="tag">&lt;<span class="name">dependency</span>&gt;</span></span><br><span class="line"></span><br><span class="line">            <span class="tag">&lt;<span class="name">groupId</span>&gt;</span>org.jetbrains.kotlin<span class="tag">&lt;/<span class="name">groupId</span>&gt;</span></span><br><span class="line"></span><br><span class="line">            <span class="tag">&lt;<span class="name">artifactId</span>&gt;</span>kotlin-stdlib<span class="tag">&lt;/<span class="name">artifactId</span>&gt;</span></span><br><span class="line"></span><br><span class="line">            <span class="tag">&lt;<span class="name">version</span>&gt;</span>$&#123;kotlin.version&#125;<span class="tag">&lt;/<span class="name">version</span>&gt;</span></span><br><span class="line"></span><br><span class="line">        <span class="tag">&lt;/<span class="name">dependency</span>&gt;</span></span><br><span class="line"></span><br><span class="line">        <span class="tag">&lt;<span class="name">dependency</span>&gt;</span></span><br><span class="line"></span><br><span class="line">            <span class="tag">&lt;<span class="name">groupId</span>&gt;</span>com.graphql-java-kickstart<span class="tag">&lt;/<span class="name">groupId</span>&gt;</span></span><br><span class="line"></span><br><span class="line">            <span class="tag">&lt;<span class="name">artifactId</span>&gt;</span>graphql-spring-boot-starter<span class="tag">&lt;/<span class="name">artifactId</span>&gt;</span></span><br><span class="line"></span><br><span class="line">            <span class="tag">&lt;<span class="name">version</span>&gt;</span>5.10.0<span class="tag">&lt;/<span class="name">version</span>&gt;</span></span><br><span class="line"></span><br><span class="line">        <span class="tag">&lt;/<span class="name">dependency</span>&gt;</span></span><br><span class="line"></span><br><span class="line">        <span class="tag">&lt;<span class="name">dependency</span>&gt;</span></span><br><span class="line"></span><br><span class="line">            <span class="tag">&lt;<span class="name">groupId</span>&gt;</span>com.graphql-java-kickstart<span class="tag">&lt;/<span class="name">groupId</span>&gt;</span></span><br><span class="line"></span><br><span class="line">            <span class="tag">&lt;<span class="name">artifactId</span>&gt;</span>altair-spring-boot-starter<span class="tag">&lt;/<span class="name">artifactId</span>&gt;</span></span><br><span class="line"></span><br><span class="line">            <span class="tag">&lt;<span class="name">version</span>&gt;</span>5.10.0<span class="tag">&lt;/<span class="name">version</span>&gt;</span></span><br><span class="line"></span><br><span class="line">            <span class="tag">&lt;<span class="name">scope</span>&gt;</span>test<span class="tag">&lt;/<span class="name">scope</span>&gt;</span></span><br><span class="line"></span><br><span class="line">        <span class="tag">&lt;/<span class="name">dependency</span>&gt;</span></span><br><span class="line"></span><br><span class="line">        <span class="tag">&lt;<span class="name">dependency</span>&gt;</span></span><br><span class="line"></span><br><span class="line">            <span class="tag">&lt;<span class="name">groupId</span>&gt;</span>com.graphql-java-kickstart<span class="tag">&lt;/<span class="name">groupId</span>&gt;</span></span><br><span class="line"></span><br><span class="line">            <span class="tag">&lt;<span class="name">artifactId</span>&gt;</span>graphiql-spring-boot-starter<span class="tag">&lt;/<span class="name">artifactId</span>&gt;</span></span><br><span class="line"></span><br><span class="line">            <span class="tag">&lt;<span class="name">version</span>&gt;</span>5.10.0<span class="tag">&lt;/<span class="name">version</span>&gt;</span></span><br><span class="line"></span><br><span class="line">            <span class="tag">&lt;<span class="name">scope</span>&gt;</span>test<span class="tag">&lt;/<span class="name">scope</span>&gt;</span></span><br><span class="line"></span><br><span class="line">        <span class="tag">&lt;/<span class="name">dependency</span>&gt;</span></span><br><span class="line"></span><br><span class="line">        <span class="tag">&lt;<span class="name">dependency</span>&gt;</span></span><br><span class="line"></span><br><span class="line">            <span class="tag">&lt;<span class="name">groupId</span>&gt;</span>com.graphql-java-kickstart<span class="tag">&lt;/<span class="name">groupId</span>&gt;</span></span><br><span class="line"></span><br><span class="line">            <span class="tag">&lt;<span class="name">artifactId</span>&gt;</span>playground-spring-boot-starter<span class="tag">&lt;/<span class="name">artifactId</span>&gt;</span></span><br><span class="line"></span><br><span class="line">            <span class="tag">&lt;<span class="name">version</span>&gt;</span>5.10.0<span class="tag">&lt;/<span class="name">version</span>&gt;</span></span><br><span class="line"></span><br><span class="line">            <span class="tag">&lt;<span class="name">scope</span>&gt;</span>test<span class="tag">&lt;/<span class="name">scope</span>&gt;</span></span><br><span class="line"></span><br><span class="line">        <span class="tag">&lt;/<span class="name">dependency</span>&gt;</span></span><br></pre></td></tr></table></figure>
+<p>GraphQL 要实现权限认证主要是依靠<code>directive</code></p>
+<p>先创建一个<code>directive</code></p>
+<figure class="highlight java"><table><tr><td class="code"><pre><span class="line"></span><br><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">RoleDirective</span> <span class="keyword">implements</span> <span class="title">SchemaDirectiveWiring</span> </span>&#123;</span><br><span class="line"></span><br><span class="line">    <span class="meta">@Override</span></span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">public</span> GraphQLFieldDefinition <span class="title">onField</span><span class="params">(SchemaDirectiveWiringEnvironment&lt;GraphQLFieldDefinition&gt; env)</span> </span>&#123;</span><br><span class="line"></span><br><span class="line">        List&lt;String&gt; targetRoles = (List&lt;String&gt;) env.getDirective().getArgument(<span class="string">"roles"</span>).getValue();</span><br><span class="line"></span><br><span class="line">        DataFetcher originDataFetcher = env.getFieldDataFetcher();</span><br><span class="line"></span><br><span class="line">        env.setFieldDataFetcher(<span class="keyword">new</span> DataFetcher() &#123;</span><br><span class="line"></span><br><span class="line">            <span class="meta">@Override</span></span><br><span class="line"></span><br><span class="line">            <span class="function"><span class="keyword">public</span> Object <span class="title">get</span><span class="params">(DataFetchingEnvironment environment)</span> <span class="keyword">throws</span> Exception </span>&#123;</span><br><span class="line"></span><br><span class="line">                <span class="comment">// 从线程上下文中获取用户身份信息</span></span><br><span class="line"></span><br><span class="line">                AuthContextHolder authContextHolder = <span class="keyword">new</span> AuthContextHolder();</span><br><span class="line"></span><br><span class="line">                AuthContext authContext = authContextHolder.getContext();</span><br><span class="line"></span><br><span class="line">                <span class="comment">// 权限认证逻辑</span></span><br><span class="line"></span><br><span class="line">                <span class="keyword">if</span> (targetRoles.contains(authContext.getRole())) &#123;</span><br><span class="line"></span><br><span class="line">                    <span class="comment">// 用户身份在给定的role列表中，调用dataFetcher返回数据</span></span><br><span class="line"></span><br><span class="line">                    <span class="keyword">return</span> originDataFetcher.get(environment);</span><br><span class="line"></span><br><span class="line">                &#125; <span class="keyword">else</span> &#123;</span><br><span class="line"></span><br><span class="line">                    <span class="comment">// 用户身份不在role列表中，直接返回null</span></span><br><span class="line"></span><br><span class="line">                    <span class="keyword">return</span> <span class="keyword">null</span>;</span><br><span class="line"></span><br><span class="line">                &#125;</span><br><span class="line"></span><br><span class="line">            &#125;</span><br><span class="line"></span><br><span class="line">        &#125;);</span><br><span class="line"></span><br><span class="line">        <span class="keyword">return</span> env.getElement();</span><br><span class="line"></span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>接下来就是对<code>directive</code>进行配置</p>
+<figure class="highlight java"><table><tr><td class="code"><pre><span class="line"></span><br><span class="line"><span class="comment">// 像这样添加roleDirective，如果要添加多个就创建多个类似的Bean</span></span><br><span class="line"></span><br><span class="line"><span class="meta">@Bean</span></span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">public</span> SchemaDirective <span class="title">myCustomDirective</span><span class="params">()</span> </span>&#123;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">return</span> <span class="keyword">new</span> SchemaDirective(<span class="string">"role"</span>, <span class="keyword">new</span> RoleDirective());</span><br><span class="line"></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p><code>.graphqls</code>文件写法</p>
+<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">directive @role(roles: [String!]!) on FIELD_DEFINITION</span><br><span class="line"></span><br><span class="line">type Book &#123;</span><br><span class="line">	id: ID</span><br><span class="line"></span><br><span class="line">	name: String</span><br><span class="line"></span><br><span class="line">	pageNum: Int @role(roles: [&quot;ADMIN&quot;])</span><br><span class="line"></span><br><span class="line">	authorId: ID @role(roles: [&quot;ADMIN&quot;])</span><br><span class="line"></span><br><span class="line">	author: Author</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>至此，对 GraphQL 的权限认证配置就完成了。<br />
+<code>AuthContextHolder</code>的实现可以看这片文章<span class="exturl" data-url="aHR0cHM6Ly93d3cuamlhbnNodS5jb20vcC84MjE5YzBiMzA2MTU=">Java 权限认证实现原理<i class="fa fa-external-link-alt"></i></span></p>
+]]></content>
+      <categories>
+        <category>后端</category>
+      </categories>
+      <tags>
+        <tag>GraphQL</tag>
+        <tag>springboot</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title></title>
+    <url>/404.html</url>
+    <content><![CDATA[<!DOCTYPE html>
+<html>
+	<head>
+		<meta http-equiv="content-type" content="text/html;charset=utf-8;" />
+		<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1" />
+		<meta name="robots" content="all" />
+		<meta name="robots" content="index,follow" />
+		<link
+			rel="stylesheet"
+			type="text/css"
+			href="https://qzone.qq.com/gy/404/style/404style.css"
+		/>
+	</head>
+	<body>
+		<script
+			type="text/plain"
+			src="http://www.qq.com/404/search_children.js"
+			charset="utf-8"
+			homePageUrl="/"
+			homePageName="回到我的主页"
+		></script>
+		<script src="https://qzone.qq.com/gy/404/data.js" charset="utf-8"></script>
+		<script src="https://qzone.qq.com/gy/404/page.js" charset="utf-8"></script>
+	</body>
+</html>
+]]></content>
+  </entry>
+  <entry>
+    <title>分类</title>
+    <url>/categories/index.html</url>
+    <content><![CDATA[]]></content>
+  </entry>
+  <entry>
+    <title></title>
+    <url>/js/utteranc_client.js</url>
+    <content><![CDATA[parcelRequire=function(e){var r="function"==typeof parcelRequire&&parcelRequire,n="function"==typeof require&&require,i={};function u(e,u){if(e in i)return i[e];var t="function"==typeof parcelRequire&&parcelRequire;if(!u&&t)return t(e,!0);if(r)return r(e,!0);if(n&&"string"==typeof e)return n(e);var o=new Error("Cannot find module '"+e+"'");throw o.code="MODULE_NOT_FOUND",o}return u.register=function(e,r){i[e]=r},i=e(u),u.modules=i,u}(function (require) {var c={};function h(e){for(var r,o=/\+/g,n=/([^&=]+)=?([^&]*)/g,p=function(e){return decodeURIComponent(e.replace(o," "))},a={};r=n.exec(e);)a[p(r[1])]=p(r[2]);return a}function d(e){var r=[];for(var o in e)e.hasOwnProperty(o)&&e[o]&&r.push(encodeURIComponent(o)+"="+encodeURIComponent(e[o]));return r.join("&")}c.deparam=h,c.param=d;var e=h(location.search.substr(1)),i=e.utterances;if(i){delete e.utterances;var f=d(e);f.length&&(f="?"+f),history.replaceState(void 0,document.title,location.pathname+f+location.hash)}var b=document.currentScript;void 0===b&&(b=document.querySelector("script[src^=\"https://utteranc.es/client.js\"],script[src^=\"http://localhost:4000/client.js\"]"));for(var a={},g=0;g<b.attributes.length;g++){var j=b.attributes.item(g);a[j.name.replace(/^data-/,"")]=j.value}var k=document.querySelector("link[rel='canonical']");a.url=k?k.href:location.origin+location.pathname+location.search,a.origin=location.origin,a.pathname=location.pathname.length<2?"index":location.pathname.substr(1).replace(/\.\w+$/,""),a.title=document.title;var l=document.querySelector("meta[name='description']");a.description=l?l.content:"";var m=document.querySelector("meta[property='og:title'],meta[name='og:title']");a["og:title"]=m?m.content:"",a.token=i,document.head.insertAdjacentHTML("afterbegin","<style>\n    .utterances {\n      position: relative;\n      box-sizing: border-box;\n      width: 100%;\n      max-width: 760px;\n      margin-left: auto;\n      margin-right: auto;\n    }\n    .utterances-frame {\n      position: absolute;\n      left: 0;\n      right: 0;\n      width: 1px;\n      min-width: 100%;\n      max-width: 100%;\n      height: 100%;\n      border: 0;\n    }\n  </style>");var n=b.src.match(/^https:\/\/utteranc\.es|http:\/\/localhost:\d+/)[0],o=n+"/utterances.html";b.insertAdjacentHTML("afterend","<div class=\"utterances\">\n    <iframe class=\"utterances-frame\" title=\"Comments\" scrolling=\"no\" src=\""+o+"?"+d(a)+"\"></iframe>\n  </div>");var p=b.nextElementSibling;b.parentElement.removeChild(b),addEventListener("message",function(t){if(t.origin===n){var a=t.data;a&&"resize"===a.type&&a.height&&(p.style.height=a.height+"px")}});c.__esModule=true;return{"D53L":{},"ieWq":c};});]]></content>
+  </entry>
+  <entry>
+    <title>标签</title>
+    <url>/tags/index.html</url>
+    <content><![CDATA[]]></content>
+  </entry>
+  <entry>
+    <title>OneDrive使用指南</title>
+    <url>/%E8%AE%BA%E6%96%87%E6%8E%92%E7%89%88%E6%8C%87%E5%8D%97/OneDrive.html</url>
+    <content><![CDATA[<p>  OneDrive 是 Windows 10 自带的网盘，非常适合存储重要文件。</p>
+<h3 id="写论文为什么要用-onedrive"><a class="markdownIt-Anchor" href="#写论文为什么要用-onedrive"></a> 写论文为什么要用 OneDrive</h3>
+<ol>
+<li>
+<p>OneDrive 提供了文件历史版本回溯功能。这个功能可以保证你的论文绝对安全（即使受到勒索病毒攻击也可以还原到以前的版本）。</p>
+<p><img src="http://qiniu.zkytech.top/image-20200416192535942.png" alt="image-20200416192535942" /></p>
+</li>
+<li>
+<p>解锁 Office 自动保存功能，避免因死机等意外丢失工作。</p>
+<p><img src="http://qiniu.zkytech.top/image-20200416192406142.png" alt="image-20200416192406142" /></p>
+</li>
+<li>
+<p>自动同步、备份到所有设备。</p>
+</li>
+</ol>
+<h3 id="如何回溯历史版本"><a class="markdownIt-Anchor" href="#如何回溯历史版本"></a> 如何回溯历史版本</h3>
+<p><img src="http://qiniu.zkytech.top/%E5%8A%A8%E7%94%BB(39).gif" alt="" /></p>
+<pre class="mermaid">graph LR
+打开OneDrive --> 选中需要回溯的文件--> 右键-查看历史版本记录 --> 选择要回溯的时间 --> 点击右边的选项菜单 --> 还原</pre>
+]]></content>
+  </entry>
+  <entry>
+    <title>论文排版指南</title>
+    <url>/%E8%AE%BA%E6%96%87%E6%8E%92%E7%89%88%E6%8C%87%E5%8D%97/index.html</url>
+    <content><![CDATA[<div class="note info">
+            <p>目录在页面顶部  $ \uparrow$</p>
+          </div>
+<p>  这是我在毕业论文写作排版过程总结出来的全部经验，里面的所有内容都是针对毕业论文排版的。如果想要独立完成论文排版，这里介绍的 word 技能都是必备的。</p>
+<blockquote>
+<ol>
+<li>本文所有的演示、截图都是在 Office 365 上进行的。</li>
+<li>工欲善其事必先利其器，请保证你的 Office 版本为最新（至少 Office 2019）。</li>
+<li>推荐组队订阅 Office 365 家庭版，平均每人 40 元左右，还附带 1TB 的 Onedrive。</li>
+</ol>
+</blockquote>
+<div class="note primary">
+            <p>推荐阅读顺序：</p>
+          </div>
+<pre class="mermaid">graph TD
+样式 --> 自动目录 --> 踩坑
+样式 --> 自动编号 --> 交叉引用 --> 踩坑
+自动编号 --> 分节符
+自动编号 --> 图片 --> 踩坑
+自动编号 --> 三线表</pre>
+]]></content>
+  </entry>
+  <entry>
+    <title>三线表</title>
+    <url>/%E8%AE%BA%E6%96%87%E6%8E%92%E7%89%88%E6%8C%87%E5%8D%97/%E4%B8%89%E7%BA%BF%E8%A1%A8.html</url>
+    <content><![CDATA[<div class="note info">
+            <p>相关内容：<a href="/%E8%AE%BA%E6%96%87%E6%8E%92%E7%89%88%E6%8C%87%E5%8D%97/%E8%87%AA%E5%8A%A8%E7%BC%96%E5%8F%B7/%E8%A1%A8%E6%A0%BC.html">表格自动编号</a></p>
+          </div>
+<h3 id="效果示例"><a class="markdownIt-Anchor" href="#效果示例"></a> 效果示例</h3>
+<p><img src="http://qiniu.zkytech.top/image-20200416103817785.png" alt="image-20200416103817785" /></p>
+<h3 id="设置过程"><a class="markdownIt-Anchor" href="#设置过程"></a> 设置过程</h3>
+<p><img src="http://qiniu.zkytech.top/%E5%8A%A8%E7%94%BB(24).gif" alt="" /></p>
+<pre class="mermaid">graph LR
+插入 --> 表格 --> 设计 --> 边框 --> 无框线 --> 选择框线-1.0磅 --> 使用边框刷绘制三线表第二条线 --> 完成
+无框线 --> 选择框线-1.5磅 --> 使用边框刷绘制三线表的上下框线 --> 完成</pre>
+]]></content>
+  </entry>
+  <entry>
+    <title>交叉引用</title>
+    <url>/%E8%AE%BA%E6%96%87%E6%8E%92%E7%89%88%E6%8C%87%E5%8D%97/%E4%BA%A4%E5%8F%89%E5%BC%95%E7%94%A8.html</url>
+    <content><![CDATA[<div class="note info">
+            <p>交叉引用对所有自动编号内容都有效。<br />相关内容：<a href="/%E8%AE%BA%E6%96%87%E6%8E%92%E7%89%88%E6%8C%87%E5%8D%97/%E8%87%AA%E5%8A%A8%E7%BC%96%E5%8F%B7/%E8%A1%A8%E6%A0%BC.html">表格自动编号</a>，<a href="/%E8%AE%BA%E6%96%87%E6%8E%92%E7%89%88%E6%8C%87%E5%8D%97/%E8%87%AA%E5%8A%A8%E7%BC%96%E5%8F%B7/%E5%9B%BE%E7%89%87.html">图片自动编号</a>，<a href="/%E8%AE%BA%E6%96%87%E6%8E%92%E7%89%88%E6%8C%87%E5%8D%97/%E8%87%AA%E5%8A%A8%E7%BC%96%E5%8F%B7/%E5%8F%82%E8%80%83%E6%96%87%E7%8C%AE.html">参考文献自动编号</a>，<a href="/%E8%AE%BA%E6%96%87%E6%8E%92%E7%89%88%E6%8C%87%E5%8D%97/%E8%87%AA%E5%8A%A8%E7%BC%96%E5%8F%B7/%E5%85%AC%E5%BC%8F.html">公式自动编号</a></p>
+          </div>
+<h3 id="效果示例"><a class="markdownIt-Anchor" href="#效果示例"></a> 效果示例</h3>
+<p><img src="http://qiniu.zkytech.top/%E5%8A%A8%E7%94%BB(12).gif" alt="" /></p>
+<h3 id="主要作用"><a class="markdownIt-Anchor" href="#主要作用"></a> 主要作用</h3>
+<ol>
+<li>
+<p>图片、表格、引用文献、公式的序号变更后，可以直接通过选中相关内容然后按<code>F9</code>来<strong>更新</strong>引用的序号。这个功能能够自动帮你维护文中所有的这类叙述中的编号：”文献[25]指出XXXX“、”XXX如表3.5所示“、“XXX如图5.6所示”、“XXX如式(2.5)所示”。毕业论文篇幅达到三四万是很常见的，如果手动去维护这些编号，谁敢保证不出错？</p>
+<blockquote>
+<p><code>F9</code>是&quot;更新域&quot;的快捷键</p>
+</blockquote>
+</li>
+<li>
+<p>生成超链接，按住<code>Ctrl</code>并点击文中引用的序号后可直接跳转到引用对象的位置。</p>
+</li>
+</ol>
+<p>  使用好这个功能，你就不必再担心哪里插入了一条引用文献，就要手动修改其后面所有引用的编号。图片、表格的编号同理。</p>
+<h3 id="怎样插入交叉引用"><a class="markdownIt-Anchor" href="#怎样插入交叉引用"></a> 怎样插入交叉引用</h3>
+<p><img src="http://qiniu.zkytech.top/%E5%8A%A8%E7%94%BB(13).gif" alt="" /></p>
+<p>引用参考文献：</p>
+<pre class="mermaid">graph LR
+开始 --> A[插入] --> 交叉引用 --> 选择引用类型-编号项 --> 选择引用内容-段落编号 --> 选择要引用的参考文献 --> B[插入]</pre>
+<p>引用图片：</p>
+<pre class="mermaid">graph LR
+开始 --> A[插入] --> 交叉引用 --> 选择引用类型-图 --> 选择引用内容-仅标签和编号 --> 选择要引用的图片题注 --> B[插入]</pre>
+<p>引用表格：</p>
+<pre class="mermaid">graph LR
+开始 --> A[插入] --> 交叉引用 --> 选择引用类型-表 --> 选择引用内容-仅标签和编号 --> 选择要引用的表格题注 --> B[插入]</pre>
+<h3 id="进阶范围引用"><a class="markdownIt-Anchor" href="#进阶范围引用"></a> 进阶：范围引用</h3>
+<p>  直接插入的交叉引用无法实现引用文献<code>[1-5]</code>这样的范围引用，因此要修改交叉引用的域代码。具体操作：</p>
+<ol>
+<li>
+<p>插入交叉引用<code>[1]</code>和<code>[5]</code></p>
+</li>
+<li>
+<p>在交叉引用<code>[1]</code>和<code>[5]</code>上右键选择“切换域代码”</p>
+</li>
+<li>
+<p>在<code>[1]</code>和<code>[5]</code>的域代码中间插入<code>-</code></p>
+</li>
+<li>
+<p>在<code>[1]</code>对应的域代码末尾加入<code>\#&quot;[0&quot;</code>，在<code>[5]</code>对应的域代码末尾加入<code>\#&quot;0]&quot;</code></p>
+</li>
+<li>
+<p>选中所有域代码，按<code>F9</code></p>
+<p>域代码编辑前后对比示例：<br />
+<img src="http://qiniu.zkytech.top/GHZL6A.png" alt="GHZL6A.png" /></p>
+</li>
+</ol>
+]]></content>
+  </entry>
+  <entry>
+    <title>分节符</title>
+    <url>/%E8%AE%BA%E6%96%87%E6%8E%92%E7%89%88%E6%8C%87%E5%8D%97/%E5%88%86%E8%8A%82%E7%AC%A6.html</url>
+    <content><![CDATA[<h3 id="分节符的作用"><a class="markdownIt-Anchor" href="#分节符的作用"></a> 分节符的作用</h3>
+<ol>
+<li>
+<p>实现重置页码/打断页码</p>
+<p><img src="http://qiniu.zkytech.top/%E5%8A%A8%E7%94%BB(32).gif" alt="" /></p>
+</li>
+<li>
+<p>分割页眉</p>
+</li>
+</ol>
+<p><img src="http://qiniu.zkytech.top/image-20200416145903523.png" alt="image-20200416145903523" /></p>
+<h3 id="插入分节符"><a class="markdownIt-Anchor" href="#插入分节符"></a> 插入分节符</h3>
+<p><img src="http://qiniu.zkytech.top/%E5%8A%A8%E7%94%BB(34).gif" alt="" /></p>
+<pre class="mermaid">graph LR
+布局 --> 分隔符 --> 分节符 --> 下一页</pre>
+<h3 id="查看分节符"><a class="markdownIt-Anchor" href="#查看分节符"></a> 查看分节符</h3>
+<p>快捷键：<code>Ctrl Shift 8</code>   (最后的<code>8</code>不是小键盘)</p>
+<p>或者点击开始菜单的图标开关：</p>
+<p><img src="http://qiniu.zkytech.top/image-20200416150718820.png" alt="image-20200416150718820" /></p>
+]]></content>
+  </entry>
+  <entry>
+    <title>使用EndNote生成GB/T 7714-2015格式的参考文献</title>
+    <url>/%E8%AE%BA%E6%96%87%E6%8E%92%E7%89%88%E6%8C%87%E5%8D%97/%E5%8F%82%E8%80%83%E6%96%87%E7%8C%AE%E6%A0%87%E5%87%86%E6%A0%BC%E5%BC%8F.html</url>
+    <content><![CDATA[<p><strong>GB/T 7714-2015</strong>是国内的参考文献标准格式，也是知网默认导出格式。但 Google 学术的引文导出并没有这一格式，此教程适用于将 Google 学术中查找到的文献导出为<strong>GB/T 7714-2015</strong>格式的引文。</p>
+<h4 id="下载"><a class="markdownIt-Anchor" href="#下载"></a> 下载</h4>
+<p>下载 EndNote 安装包并按照安装说明进行安装，并记住安装目录的位置。</p>
+<p>链接: <span class="exturl" data-url="aHR0cHM6Ly9wYW4uYmFpZHUuY29tL3MvMS1EVWhmdmsyUmFPQzFuSElyNnZBVlE=">https://pan.baidu.com/s/1-DUhfvk2RaOC1nHIr6vAVQ<i class="fa fa-external-link-alt"></i></span> 提取码: af83</p>
+<p>下载<span class="exturl" data-url="aHR0cHM6Ly9jbnpoeC5uZXQvZGwvb3RoZXIvWlpfTU9ESUZJRURfR0VFQklORi5FTlMuemlw">GB/T 7714-2015 样式文件<i class="fa fa-external-link-alt"></i></span></p>
+<a id="more"></a>
+<h4 id="创建库"><a class="markdownIt-Anchor" href="#创建库"></a> 创建库</h4>
+<p><img src="http://qiniu.zkytech.top/I2wDG4sjgohTc5V.png" alt="EndNote_GG12o0f6G3.png" /></p>
+<p>将样式文件复制到 EndNote 安装目录下的<code>Styles</code>文件夹下，默认位置是<code>C:\Program Files (x86)\EndNote X9\Styles</code></p>
+<h4 id="应用样式"><a class="markdownIt-Anchor" href="#应用样式"></a> 应用样式</h4>
+<p><img src="http://qiniu.zkytech.top/image-20200416213144521.png" alt="EndNote_gQrG8nHfw5.png" /></p>
+<p>勾选刚刚复制的样式文件</p>
+<p><img src="http://qiniu.zkytech.top/image-20200416213235087.png" alt="EndNote_onoDIJgsmi.png" /></p>
+<p>关闭样式管理器</p>
+<p><img src="http://qiniu.zkytech.top/image-20200416213344694.png" alt="image-20200416213344694" /></p>
+<p>应用样式</p>
+<p><img src="http://qiniu.zkytech.top/image-20200416213428831.png" alt="image-20200416213428831" /></p>
+<h4 id="导出文献"><a class="markdownIt-Anchor" href="#导出文献"></a> 导出文献</h4>
+<p>现在可以打开 Google 学术搜索文献了</p>
+<p><img src="http://qiniu.zkytech.top/image-20200416213521566.png" alt="image-20200416213521566" /></p>
+<p>点击后会下载一个<code>scholar.enw</code>，直接双击打开这个文件。</p>
+<p><img src="http://qiniu.zkytech.top/image-20200416213716833.png" alt="image-20200416213716833" /></p>
+<p>这样就得到了标准的<strong>GB/T 7714-2015</strong>格式引文。</p>
+<h4 id="其他资料"><a class="markdownIt-Anchor" href="#其他资料"></a> 其他资料</h4>
+<p>更加详细的<span class="exturl" data-url="aHR0cHM6Ly96aHVhbmxhbi56aGlodS5jb20vcC84Nzc0OTc5Nw==">使用教程<i class="fa fa-external-link-alt"></i></span></p>
+<p>样式文件<span class="exturl" data-url="aHR0cHM6Ly9jbnpoeC5uZXQvYmxvZy9lbmRub3RlLW91dHB1dC1zdHlsZS1jbnpoeC8=">来源<i class="fa fa-external-link-alt"></i></span></p>
+]]></content>
+  </entry>
+  <entry>
+    <title>图片</title>
+    <url>/%E8%AE%BA%E6%96%87%E6%8E%92%E7%89%88%E6%8C%87%E5%8D%97/%E5%9B%BE%E7%89%87.html</url>
+    <content><![CDATA[<div class="note info">
+            <p>相关内容：<a href="/%E8%AE%BA%E6%96%87%E6%8E%92%E7%89%88%E6%8C%87%E5%8D%97/%E8%87%AA%E5%8A%A8%E7%BC%96%E5%8F%B7/%E5%9B%BE%E7%89%87.html">图片自动编号</a></p>
+          </div>
+<p>  本教程中所有图片布局均为<code>文字环绕</code>，这不是必选项，只是因为我个人习惯这样用。</p>
+<h3 id="组合"><a class="markdownIt-Anchor" href="#组合"></a> 组合</h3>
+<p>  将题注与图片组合到一起，避免每次移动图片后还要回来拖题注。</p>
+<p><img src="http://qiniu.zkytech.top/%E5%8A%A8%E7%94%BB(29).gif" alt="" /></p>
+<pre class="mermaid">graph LR
+粘贴图片 --> 设置文字环绕-上下型环绕 --> 选中图片 --> 右键-插入题注 --> 确定 --> 按住Ctrl先后点击题注框与图片 --> 右键-组合-组合</pre>
+<h3 id="进阶锚点"><a class="markdownIt-Anchor" href="#进阶锚点"></a> 进阶：锚点</h3>
+<p>  选中图片后可以看到一个蓝色的锚，这就是锚点：</p>
+<p><img src="http://qiniu.zkytech.top/image-20200416142937447.png" alt="" /></p>
+<p>  在word中，图片通过锚点依附在文字段落上，可以将图片视为这个段落的一部分。</p>
+<div class="note danger">
+            <p>锚点一个很重要的特性是：图片和锚点所在的段落必须处于同一页，这这一特性导致了下面动图中的问题。</p>
+          </div>
+<p><img src="http://qiniu.zkytech.top/%E5%8A%A8%E7%94%BB(30).gif" alt="" /><br />
+  动图中，在移动图片到下一页之后，原来那一页就出现了大块的空白，并且无法选中无法编辑。这是因为图片锚点将本该存在于空白处的段落固定在图片所在的页面。只要将锚点移动到后续段落，即可将本该存在于空白处的段落释放。</p>
+<div class="note danger">
+            <p>锚点还会影响图片的自动编号顺序，当同一页面内存在多张图片时，建议手动调整锚点的排序以保证图片编号正确。</p>
+          </div>
+<p><img src="http://qiniu.zkytech.top/%E5%8A%A8%E7%94%BB(31).gif" alt="" /></p>
+<blockquote>
+<p>锚点是图片使用过程中必须理解的概念。理解它之后可以解决很多问题，这个过程必须自己动手。光看动图是很难理解的。</p>
+</blockquote>
+]]></content>
+  </entry>
+  <entry>
+    <title>常用快捷键</title>
+    <url>/%E8%AE%BA%E6%96%87%E6%8E%92%E7%89%88%E6%8C%87%E5%8D%97/%E5%B8%B8%E7%94%A8%E5%BF%AB%E6%8D%B7%E9%94%AE.html</url>
+    <content><![CDATA[<table>
+<thead>
+<tr>
+<th>快捷键</th>
+<th>说明</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>F9</code></td>
+<td>更新<code>域</code>。所有自动编号都是<code>域</code>，对自动编号项目的交叉引用也是<code>域</code>，目录也是<code>域</code>。这些对象都可以通过<code>F9</code>来更新</td>
+</tr>
+<tr>
+<td><code>Alt+=</code></td>
+<td>插入公式</td>
+</tr>
+<tr>
+<td><code>Ctrl+Shift+=</code></td>
+<td>上标</td>
+</tr>
+<tr>
+<td><code>Ctrl+=</code></td>
+<td>下标</td>
+</tr>
+<tr>
+<td><code>Ctrl+E</code></td>
+<td>居中对齐</td>
+</tr>
+</tbody>
+</table>
+<p><code>F9</code>常常搭配<code>Ctrl+A</code>使用，可以快速更新全文文本中的域，但**<a href="/%E8%AE%BA%E6%96%87%E6%8E%92%E7%89%88%E6%8C%87%E5%8D%97/%E8%B8%A9%E5%9D%91.html">无法更新图片题注中的编号(域)</a>。**</p>
+<p>word中任何按钮都可以在其上面<code>右键 -&gt; 添加到快速访问工具栏</code>，之后Word顶部就会出现该功能的快捷按钮。</p>
+<p><img src="http://qiniu.zkytech.top/%E5%8A%A8%E7%94%BB(36).gif" alt="" /></p>
+]]></content>
+  </entry>
+  <entry>
+    <title>样式</title>
+    <url>/%E8%AE%BA%E6%96%87%E6%8E%92%E7%89%88%E6%8C%87%E5%8D%97/%E6%A0%B7%E5%BC%8F.html</url>
+    <content><![CDATA[<blockquote class="blockquote-center">
+            <i class="fa fa-quote-left"></i>
+            <p>样式是论文排版的基础，也是一切排版的前提。</p>
+
+            <i class="fa fa-quote-right"></i>
+          </blockquote>
+<h3 id="效果示例"><a class="markdownIt-Anchor" href="#效果示例"></a> 效果示例</h3>
+<p><img src="http://qiniu.zkytech.top/%E5%8A%A8%E7%94%BB(26).gif" alt="" /></p>
+<h3 id="创建样式"><a class="markdownIt-Anchor" href="#创建样式"></a> 创建样式</h3>
+<p><img src="http://qiniu.zkytech.top/%E5%8A%A8%E7%94%BB(27).gif" alt="" /></p>
+<p>  下面介绍创建样式的过程以及部分常用设置项。</p>
+<pre class="mermaid">graph LR
+开始 --> 样式 --> 创建样式 --> 修改
+修改 --> 样式基准 --> 样式的所有属性从样式基准中继承
+修改 --> 后续段落样式 --> 按回车后生成的下个段落的样式
+修改 --> 格式 --> 段落 --> 缩进和间距 --> 缩进\行距\对齐方式\大纲级别
+修改 --> 编号 --> 设置段落编号样式</pre>
+<div class="note danger">
+            <p>在样式创建和修改过程中有以下几点必须注意：</p><ol><li>论文标题样式请直接在 word 默认提供的<code>标题1</code>的基础上修改，<strong>不要创建新的标题样式</strong>。因为只有 word 默认标题样式能够提供完整的自动编号功能。</li><li>word 默认提供的<code>正文</code>样式是几乎所有样式的<code>样式基准</code>（用 IT 行业的话来说就是大多数样式<code>继承</code>了<code>正文</code>，对<code>正文</code>的修改会直接影响到这些样式）。所以<strong>不要修改<code>正文</code>样式！不要修改<code>正文</code>样式！不要修改<code>正文</code>样式！</strong></li></ol>
+          </div>
+<h3 id="查看所有样式"><a class="markdownIt-Anchor" href="#查看所有样式"></a> 查看所有样式</h3>
+<p>  word 默认隐藏了部分不常用的样式，这些样式可通过下面动图中的方法查看。</p>
+<p><img src="http://qiniu.zkytech.top/%E5%8A%A8%E7%94%BB(40).gif" alt="" /></p>
+<h3 id="英文-数字换行"><a class="markdownIt-Anchor" href="#英文-数字换行"></a> 英文、数字换行</h3>
+<p><img src="http://qiniu.zkytech.top/%E5%8A%A8%E7%94%BB(28).gif" alt="" /></p>
+<blockquote>
+<p>在论文中请不要直接对<strong>正文段落样式</strong>设置英文换行。一般来说英文单词是不允许换行打断的。只有在示例中这样非常影响显示效果的才要打断。</p>
+</blockquote>
+]]></content>
+  </entry>
+  <entry>
+    <title>自动目录</title>
+    <url>/%E8%AE%BA%E6%96%87%E6%8E%92%E7%89%88%E6%8C%87%E5%8D%97/%E8%87%AA%E5%8A%A8%E7%9B%AE%E5%BD%95.html</url>
+    <content><![CDATA[<p>  因为毕业论文对目录的格式也有要求。这里的重点是说明如何修改自动目录的样式。</p>
+<blockquote>
+<p>GIF是为了告诉你在哪里修改自动目录样式，我在里面设置的样式是为了凸显修改的效果，实际样式请按照学校的要求来。</p>
+</blockquote>
+<p><img src="http://qiniu.zkytech.top/%E5%8A%A8%E7%94%BB(25).gif" alt="" /></p>
+<pre class="mermaid">graph LR
+引用 --> 目录 --> 自定义目录
+自定义目录 --> 制表符前导符 --> 这里可以修改目录中的点点点.......的样式
+自定义目录 --> A[修改]
+A[修改] --> 选择-TOC1 --> B[点击-修改] --> 设置一级标题在目录中的显示样式
+A[修改] --> 选择-TOC2 --> C[点击-修改] --> 设置二级标题在目录中的显示样式
+A[修改] --> 选择-TOC3 --> D[点击-修改] --> 设置三级标题在目录中的显示样式</pre>
+]]></content>
+  </entry>
+  <entry>
+    <title>踩坑</title>
+    <url>/%E8%AE%BA%E6%96%87%E6%8E%92%E7%89%88%E6%8C%87%E5%8D%97/%E8%B8%A9%E5%9D%91.html</url>
+    <content><![CDATA[<h3 id="目录中的某个标题前面出现多余的空格"><a class="markdownIt-Anchor" href="#目录中的某个标题前面出现多余的空格"></a> 目录中的某个标题前面出现多余的空格</h3>
+<blockquote>
+<p>请不要尝试手动删除空格来解决这个问题，因为下次更新目录后它又会出现。</p>
+</blockquote>
+<h4 id="原因"><a class="markdownIt-Anchor" href="#原因"></a> 原因</h4>
+<p>  **锚点在自动目录中会体现为一个空格符。**下图中，在侧边导航中章节 1.1与其它章节的对齐是一致的，但在目录中，却多了一个空格，这个空格就是因为锚点挂在了章节 1.1 的标题上。</p>
+<p><img src="http://qiniu.zkytech.top/image-20200416152013064.png" alt="image-20200416152013064" /></p>
+<h4 id="解决方法"><a class="markdownIt-Anchor" href="#解决方法"></a> 解决方法</h4>
+<p>  <strong>千万不要把锚点挂在章节标题上</strong>，如果页面内只有一个标题可以依附锚点，那就补充几个回车换行符，每个换行符都是可以被视为一个段落，可以将锚点依附在上面。</p>
+<h3 id="ctrla-f9无法更新图片编号"><a class="markdownIt-Anchor" href="#ctrla-f9无法更新图片编号"></a> <code>ctrl+A</code>   <code>F9</code>无法更新图片编号</h3>
+<p><code>ctrl+A</code>   <code>F9</code> 操作是 <code>选中全文 --&gt; 更新域</code></p>
+<h4 id="原因-2"><a class="markdownIt-Anchor" href="#原因-2"></a> 原因</h4>
+<p>  <code>ctrl+A</code>实际上只能选中锚点。无法选中题注文本框，自然也就没有选中其内部的编号项。</p>
+<p><img src="http://qiniu.zkytech.top/%E5%8A%A8%E7%94%BB(35).gif" alt="" /></p>
+<h4 id="解决方法-2"><a class="markdownIt-Anchor" href="#解决方法-2"></a> 解决方法</h4>
+<pre class="mermaid">graph LR
+选择一个题注中的所有内容--> 菜单 --> 开始 --> 选择 --> 选择格式相似的文本 --> 按F9</pre>]]></content>
+  </entry>
+  <entry>
+    <title></title>
+    <url>/%E8%AE%BA%E6%96%87%E6%8E%92%E7%89%88%E6%8C%87%E5%8D%97/%E8%87%AA%E5%8A%A8%E7%BC%96%E5%8F%B7/index.html</url>
+    <content><![CDATA[<div class="note info">
+            <p>请不要因为自动编号设置过程麻烦就放弃它，自动编号能给你节省很多检查论文的时间。哪怕是花上一整天搞懂自动编号也绝对是值得的。</p>
+          </div>
+<p>推荐阅读顺序：</p>
+<pre class="mermaid">graph LR
+自动编号 --> 章节自动编号
+自动编号 --> 参考文献自动编号 --> 交叉引用
+章节自动编号 --> 图片自动编号 --> 交叉引用
+章节自动编号 --> 表格自动编号 --> 交叉引用
+章节自动编号 --> 公式自动编号 --> 交叉引用</pre>
+<div class="note danger">
+            <p><a href="/%E8%AE%BA%E6%96%87%E6%8E%92%E7%89%88%E6%8C%87%E5%8D%97/%E8%87%AA%E5%8A%A8%E7%BC%96%E5%8F%B7/%E7%AB%A0%E8%8A%82.html">章节自动编号</a>是图片、表格、公式自动编号的前提。一定要先实现<a href="/%E8%AE%BA%E6%96%87%E6%8E%92%E7%89%88%E6%8C%87%E5%8D%97/%E8%87%AA%E5%8A%A8%E7%BC%96%E5%8F%B7/%E7%AB%A0%E8%8A%82.html">章节自动编号</a>再看其它的。</p>
+          </div>
+]]></content>
+  </entry>
+  <entry>
+    <title>公式自动编号</title>
+    <url>/%E8%AE%BA%E6%96%87%E6%8E%92%E7%89%88%E6%8C%87%E5%8D%97/%E8%87%AA%E5%8A%A8%E7%BC%96%E5%8F%B7/%E5%85%AC%E5%BC%8F.html</url>
+    <content><![CDATA[<div class="note success">
+            <p>请在<a href="/%E8%AE%BA%E6%96%87%E6%8E%92%E7%89%88%E6%8C%87%E5%8D%97/%E8%87%AA%E5%8A%A8%E7%BC%96%E5%8F%B7/%E7%AB%A0%E8%8A%82.html">章节自动编号</a>设置成功后阅读本文</p>
+          </div>
+<h3 id="效果示例"><a class="markdownIt-Anchor" href="#效果示例"></a> 效果示例</h3>
+<p><img src="http://qiniu.zkytech.top/%E5%8A%A8%E7%94%BB(38).gif" alt="" /></p>
+<h3 id="设置过程"><a class="markdownIt-Anchor" href="#设置过程"></a> 设置过程</h3>
+<blockquote>
+<p>快捷键<code>ctrl+F9</code>:创建域</p>
+</blockquote>
+<p><img src="http://qiniu.zkytech.top/%E5%8A%A8%E7%94%BB(37).gif" alt="" /></p>
+<p>  过程：</p>
+<ol>
+<li>
+<p>创建两个域，在其中间插入分隔符&quot;.&quot;，得到<code>{ }.{ }</code></p>
+</li>
+<li>
+<p>编辑域代码，得到<code>{ STYLEREF 1 \s }.{ SEQ eq \* ARABIC \s 1 }</code></p>
+</li>
+<li>
+<p>选中刚刚编辑的域代码，按 F9 得到数字编号</p>
+</li>
+<li>
+<p>创建并编辑公式</p>
+</li>
+<li>
+<p>在公式框（内）末尾输入<code>#</code>。注意从这里开始的操作都是在公式框<strong>里面</strong>。</p>
+</li>
+</ol>
+<blockquote>
+<p><code>#</code>配合回车使编号右对齐</p>
+</blockquote>
+<ol start="6">
+<li>
+<p>在公式框（内）末尾粘贴刚刚编辑的域代码</p>
+</li>
+<li>
+<p>在公式框（内）末尾按回车</p>
+</li>
+</ol>
+]]></content>
+  </entry>
+  <entry>
+    <title>参考文献自动编号</title>
+    <url>/%E8%AE%BA%E6%96%87%E6%8E%92%E7%89%88%E6%8C%87%E5%8D%97/%E8%87%AA%E5%8A%A8%E7%BC%96%E5%8F%B7/%E5%8F%82%E8%80%83%E6%96%87%E7%8C%AE.html</url>
+    <content><![CDATA[<h3 id="效果示例"><a class="markdownIt-Anchor" href="#效果示例"></a> 效果示例</h3>
+<p><img src="http://qiniu.zkytech.top/%E5%8A%A8%E7%94%BB(18).gif" alt="" /></p>
+<h3 id="设置过程"><a class="markdownIt-Anchor" href="#设置过程"></a> 设置过程</h3>
+<p><img src="http://qiniu.zkytech.top/%E5%8A%A8%E7%94%BB(19).gif" alt="" /></p>
+<pre class="mermaid">graph LR
+	A[创建样式] --> B[修改] --> C[格式]
+	C --> 编号 --> 定义新编号格式 --> 编号格式 --> 修改为中括号包裹编号 --> 确定
+	C --> 段落 --> 特殊 --> 悬挂 --> 设置为2字符 --> 确定</pre>
+]]></content>
+  </entry>
+  <entry>
+    <title>图片自动编号</title>
+    <url>/%E8%AE%BA%E6%96%87%E6%8E%92%E7%89%88%E6%8C%87%E5%8D%97/%E8%87%AA%E5%8A%A8%E7%BC%96%E5%8F%B7/%E5%9B%BE%E7%89%87.html</url>
+    <content><![CDATA[<div class="note success">
+            <p>请在<a href="/%E8%AE%BA%E6%96%87%E6%8E%92%E7%89%88%E6%8C%87%E5%8D%97/%E8%87%AA%E5%8A%A8%E7%BC%96%E5%8F%B7/%E7%AB%A0%E8%8A%82.html">章节自动编号</a>设置成功后阅读本文</p>
+          </div>
+<h3 id="效果示例"><a class="markdownIt-Anchor" href="#效果示例"></a> 效果示例</h3>
+<p><img src="http://qiniu.zkytech.top/%E5%8A%A8%E7%94%BB(20).gif" alt="" /></p>
+<h3 id="设置过程"><a class="markdownIt-Anchor" href="#设置过程"></a> 设置过程</h3>
+<p><img src="http://qiniu.zkytech.top/%E5%8A%A8%E7%94%BB(21).gif" alt="" /></p>
+<pre class="mermaid">graph LR
+选中图片 --> 右键 --> A[插入题注]
+A --> 新建标签 --> 输入-图 --> 确定
+A --> 编号 --> 勾选-包含章节号 --> 分隔符 --> 选择-句点 --> 确定</pre>
+]]></content>
+  </entry>
+  <entry>
+    <title>章节自动编号</title>
+    <url>/%E8%AE%BA%E6%96%87%E6%8E%92%E7%89%88%E6%8C%87%E5%8D%97/%E8%87%AA%E5%8A%A8%E7%BC%96%E5%8F%B7/%E7%AB%A0%E8%8A%82.html</url>
+    <content><![CDATA[<h3 id="效果示例"><a class="markdownIt-Anchor" href="#效果示例"></a> 效果示例</h3>
+<p><img src="http://qiniu.zkytech.top/%E5%8A%A8%E7%94%BB(14).gif" alt="" /></p>
+<blockquote>
+<p>章节自动编号是表格、图片、公式自动编号的前提，因此这里必须设置好。</p>
+</blockquote>
+<h3 id="设置过程"><a class="markdownIt-Anchor" href="#设置过程"></a> 设置过程</h3>
+<p><img src="http://qiniu.zkytech.top/%E5%8A%A8%E7%94%BB(16).gif" alt="" /></p>
+<ol>
+<li>
+<p><code>开始 -&gt; 多级列表 -&gt; 定义新的多级列表</code></p>
+</li>
+<li>
+<p>如果窗口左下角显示<code>更多</code>，点击<code>更多</code></p>
+</li>
+<li>
+<p>选中<code>级别1</code></p>
+</li>
+<li>
+<p>编辑<code>编号格式</code></p>
+</li>
+<li>
+<p>设置<code>左对齐</code>、<code>文本缩进</code>0、<code>对齐位置</code>0、<code>编号之后 -&gt; 空格</code></p>
+</li>
+<li>
+<p>点击<code>设置所有级别</code>，全部设置为 0，确定</p>
+</li>
+<li>
+<p><code>将级别链接到样式 -&gt; 标题1</code></p>
+<div class="note warning">
+            <p>注意：这里必须链接到 word 默认提供的标题样式，也就是<code>标题1、标题2、标题3</code>，自己创建的样式是不行的。</p>
+          </div>
+</li>
+<li>
+<p>同样方式设置<code>级别2</code>、<code>级别3</code>。一般来说，论文里到<code>级别3</code>就够了</p>
+</li>
+</ol>
+<h3 id="进阶避免摘要-目录-参考文献-致谢等标题受自动编号影响"><a class="markdownIt-Anchor" href="#进阶避免摘要-目录-参考文献-致谢等标题受自动编号影响"></a> 进阶：避免摘要、目录、参考文献、致谢等标题受自动编号影响</h3>
+<h4 id="摘要-目录"><a class="markdownIt-Anchor" href="#摘要-目录"></a> 摘要、目录</h4>
+<p>  摘要和目录的标题不需要出现在目录中，所以专门为其新建一个标题样式。</p>
+<p><img src="http://qiniu.zkytech.top/%E5%8A%A8%E7%94%BB(17).gif" alt="" /></p>
+<h4 id="参考文献-致谢"><a class="markdownIt-Anchor" href="#参考文献-致谢"></a> 参考文献、致谢</h4>
+<p>  参考文献和致谢等需要出现在目录中，但不需要编号，同样也是为其新建一个标题样式。与摘要等的区别在于，需要设置<code>段落 -&gt; 大纲级别 -&gt; 1级</code>。</p>
+<p><img src="http://qiniu.zkytech.top/image-20200415235344116.png" alt="" /></p>
+]]></content>
+  </entry>
+  <entry>
+    <title>表格自动编号</title>
+    <url>/%E8%AE%BA%E6%96%87%E6%8E%92%E7%89%88%E6%8C%87%E5%8D%97/%E8%87%AA%E5%8A%A8%E7%BC%96%E5%8F%B7/%E8%A1%A8%E6%A0%BC.html</url>
+    <content><![CDATA[<div class="note success">
+            <p>请在<a href="/%E8%AE%BA%E6%96%87%E6%8E%92%E7%89%88%E6%8C%87%E5%8D%97/%E8%87%AA%E5%8A%A8%E7%BC%96%E5%8F%B7/%E7%AB%A0%E8%8A%82.html">章节自动编号</a>设置成功后阅读本文</p>
+          </div>
+<h3 id="效果示例"><a class="markdownIt-Anchor" href="#效果示例"></a> 效果示例</h3>
+<p><img src="http://qiniu.zkytech.top/%E5%8A%A8%E7%94%BB(22).gif" alt="" /></p>
+<h3 id="设置过程"><a class="markdownIt-Anchor" href="#设置过程"></a> 设置过程</h3>
+<p><img src="http://qiniu.zkytech.top/%E5%8A%A8%E7%94%BB(23).gif" alt="" /></p>
+<pre class="mermaid">graph LR
+鼠标移动到表格内 --> A[右键点击表格左侧浮标]
+A --> 新建标签 --> 输入-表 --> 确定
+A --> 编号 --> 勾选-包含章节号 -->使用分隔符 --> 选择-句点 --> 确定</pre>
+]]></content>
+  </entry>
+</search>

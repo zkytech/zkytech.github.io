@@ -1,0 +1,590 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2">
+<meta name="theme-color" content="#222">
+<meta name="generator" content="Hexo 4.2.0">
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png">
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png">
+  <link rel="mask-icon" href="/images/logo.svg" color="#222">
+  <meta name="google-site-verification" content="yOPv6ms423Z-rteLZfsZgiX7HnAef0KrZWtW4mb1msU">
+
+<link rel="stylesheet" href="/css/main.css">
+
+
+<link rel="stylesheet" href="/lib/font-awesome/css/all.min.css">
+  <link rel="stylesheet" href="https://cdn.bootcss.com/pace/1.0.2/themes/white/pace-theme-minimal.min.css">
+  <script src="https://cdn.bootcss.com/pace/1.0.2/pace.min.js"></script>
+
+<script id="hexo-configurations">
+    var NexT = window.NexT || {};
+    var CONFIG = {"hostname":"www.zkytech.top","root":"/","scheme":"Gemini","version":"7.8.0","exturl":true,"sidebar":{"position":"left","display":"post","padding":18,"offset":12,"onmobile":false},"copycode":{"enable":true,"show_result":true,"style":"default"},"back2top":{"enable":true,"scrollpercent":true,"sidebar":false},"bookmark":{"enable":false,"color":"#222","save":"auto"},"fancybox":false,"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"lazyload":true,"style":"tabs","active":null,"storage":true,"nav":null},"algolia":{"hits":{"per_page":10},"labels":{"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}},"localsearch":{"enable":true,"trigger":"auto","top_n_per_article":1,"unescape":false,"preload":false},"motion":{"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},"path":"search.xml"};
+  </script>
+
+  <meta name="description" content="参考：   centOS snort 安装   windows snort 安装（视频）   使用 snort 分析 DARPA 数据（视频）     因为毕业论文涉及到网络安全，需要对 DARPA 1999 这类数据进行分析，过程中发现Snort安装、使用相关的中文教程实在罕见，且安装配置过程较复杂，自己也踩了不少坑，为了以后方便，在这里对国外的一些实用教程进行汇总。">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Snort安装教程 以及 DARPA1999、DARPA2000数据处理方法">
+<meta property="og:url" content="https://www.zkytech.top/2020/01/04/%E5%85%B6%E5%AE%83/Snort%E5%AE%89%E8%A3%85%E6%95%99%E7%A8%8B%20%E4%BB%A5%E5%8F%8A%20DARPA1999%E3%80%81DARPA2000%E6%95%B0%E6%8D%AE%E5%A4%84%E7%90%86%E6%96%B9%E6%B3%95/index.html">
+<meta property="og:site_name" content="zkyTech">
+<meta property="og:description" content="参考：   centOS snort 安装   windows snort 安装（视频）   使用 snort 分析 DARPA 数据（视频）     因为毕业论文涉及到网络安全，需要对 DARPA 1999 这类数据进行分析，过程中发现Snort安装、使用相关的中文教程实在罕见，且安装配置过程较复杂，自己也踩了不少坑，为了以后方便，在这里对国外的一些实用教程进行汇总。">
+<meta property="og:locale" content="zh_CN">
+<meta property="article:published_time" content="2020-01-04T21:34:00.000Z">
+<meta property="article:modified_time" content="2020-09-15T12:59:44.522Z">
+<meta property="article:author" content="zkyTech">
+<meta property="article:tag" content="Snort">
+<meta property="article:tag" content="DARPA">
+<meta name="twitter:card" content="summary">
+
+<link rel="canonical" href="https://www.zkytech.top/2020/01/04/%E5%85%B6%E5%AE%83/Snort%E5%AE%89%E8%A3%85%E6%95%99%E7%A8%8B%20%E4%BB%A5%E5%8F%8A%20DARPA1999%E3%80%81DARPA2000%E6%95%B0%E6%8D%AE%E5%A4%84%E7%90%86%E6%96%B9%E6%B3%95/">
+
+
+<script id="page-configurations">
+  // https://hexo.io/docs/variables.html
+  CONFIG.page = {
+    sidebar: "",
+    isHome : false,
+    isPost : true,
+    lang   : 'zh-CN'
+  };
+</script>
+
+  <title>Snort安装教程 以及 DARPA1999、DARPA2000数据处理方法 | zkyTech</title>
+  
+
+
+  <script>
+    var _hmt = _hmt || [];
+    (function() {
+      var hm = document.createElement("script");
+      hm.src = "https://hm.baidu.com/hm.js?1ae383e4527a9c6af9660e1260964f4f";
+      var s = document.getElementsByTagName("script")[0];
+      s.parentNode.insertBefore(hm, s);
+    })();
+  </script>
+
+
+
+
+  <noscript>
+  <style>
+  .use-motion .brand,
+  .use-motion .menu-item,
+  .sidebar-inner,
+  .use-motion .post-block,
+  .use-motion .pagination,
+  .use-motion .comments,
+  .use-motion .post-header,
+  .use-motion .post-body,
+  .use-motion .collection-header { opacity: initial; }
+
+  .use-motion .site-title,
+  .use-motion .site-subtitle {
+    opacity: initial;
+    top: initial;
+  }
+
+  .use-motion .logo-line-before i { left: initial; }
+  .use-motion .logo-line-after i { right: initial; }
+  </style>
+</noscript>
+
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage">
+  <div class="container use-motion">
+    <div class="headband"></div>
+
+    <header class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-container">
+  <div class="site-nav-toggle">
+    <div class="toggle" aria-label="切换导航栏">
+      <span class="toggle-line toggle-line-first"></span>
+      <span class="toggle-line toggle-line-middle"></span>
+      <span class="toggle-line toggle-line-last"></span>
+    </div>
+  </div>
+
+  <div class="site-meta">
+
+    <a href="/" class="brand" rel="start">
+      <span class="logo-line-before"><i></i></span>
+      <h1 class="site-title">zkyTech</h1>
+      <span class="logo-line-after"><i></i></span>
+    </a>
+  </div>
+
+  <div class="site-nav-right">
+    <div class="toggle popup-trigger">
+        <i class="fa fa-search fa-fw fa-lg"></i>
+    </div>
+  </div>
+</div>
+
+
+
+
+<nav class="site-nav">
+  <ul id="menu" class="main-menu menu">
+        <li class="menu-item menu-item-home">
+
+    <a href="/" rel="section"><i class="fa fa-home fa-fw"></i>首页</a>
+
+  </li>
+        <li class="menu-item menu-item-tags">
+
+    <a href="/tags/" rel="section"><i class="fa fa-tags fa-fw"></i>标签<span class="badge">20</span></a>
+
+  </li>
+        <li class="menu-item menu-item-categories">
+
+    <a href="/categories/" rel="section"><i class="fa fa-th fa-fw"></i>分类<span class="badge">3</span></a>
+
+  </li>
+        <li class="menu-item menu-item-archives">
+
+    <a href="/archives/" rel="section"><i class="fa fa-archive fa-fw"></i>归档<span class="badge">11</span></a>
+
+  </li>
+        
+            
+  <li class="menu-item menu-item-论文排版指南">
+
+    <a href="/%E8%AE%BA%E6%96%87%E6%8E%92%E7%89%88%E6%8C%87%E5%8D%97/" rel="section"><i class="fa fa-book fa-fw"></i>论文排版指南</a>
+
+  </li>
+
+
+      
+      <li class="menu-item menu-item-search">
+        <a role="button" class="popup-trigger"><i class="fa fa-search fa-fw"></i>搜索
+        </a>
+      </li>
+  </ul>
+</nav>
+
+
+
+  <div class="search-pop-overlay">
+    <div class="popup search-popup">
+        <div class="search-header">
+  <span class="search-icon">
+    <i class="fa fa-search"></i>
+  </span>
+  <div class="search-input-container">
+    <input autocomplete="off" autocapitalize="off"
+           placeholder="搜索..." spellcheck="false"
+           type="search" class="search-input">
+  </div>
+  <span class="popup-btn-close">
+    <i class="fa fa-times-circle"></i>
+  </span>
+</div>
+<div id="search-result">
+  <div id="no-result">
+    <i class="fa fa-spinner fa-pulse fa-5x fa-fw"></i>
+  </div>
+</div>
+
+    </div>
+  </div>
+
+</div>
+    </header>
+
+    
+  <div class="back-to-top">
+    <i class="fa fa-arrow-up"></i>
+    <span>0%</span>
+  </div>
+
+
+    <main class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          
+
+          <div class="content post posts-expand">
+            
+
+    
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-CN">
+    <link itemprop="mainEntityOfPage" href="https://www.zkytech.top/2020/01/04/%E5%85%B6%E5%AE%83/Snort%E5%AE%89%E8%A3%85%E6%95%99%E7%A8%8B%20%E4%BB%A5%E5%8F%8A%20DARPA1999%E3%80%81DARPA2000%E6%95%B0%E6%8D%AE%E5%A4%84%E7%90%86%E6%96%B9%E6%B3%95/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="http://qiniu.zkytech.top/%E9%BE%99%E7%8C%AB%E5%A4%B4%E5%83%8F.jpg">
+      <meta itemprop="name" content="zkyTech">
+      <meta itemprop="description" content="">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="zkyTech">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          Snort安装教程 以及 DARPA1999、DARPA2000数据处理方法
+        </h1>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-calendar"></i>
+              </span>
+              <span class="post-meta-item-text">发表于</span>
+
+              <time title="创建时间：2020-01-04 21:34:00" itemprop="dateCreated datePublished" datetime="2020-01-04T21:34:00+00:00">2020-01-04</time>
+            </span>
+              <span class="post-meta-item">
+                <span class="post-meta-item-icon">
+                  <i class="far fa-calendar-check"></i>
+                </span>
+                <span class="post-meta-item-text">更新于</span>
+                <time title="修改时间：2020-09-15 12:59:44" itemprop="dateModified" datetime="2020-09-15T12:59:44+00:00">2020-09-15</time>
+              </span>
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-folder"></i>
+              </span>
+              <span class="post-meta-item-text">分类于</span>
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/%E5%85%B6%E5%AE%83/" itemprop="url" rel="index"><span itemprop="name">其它</span></a>
+                </span>
+            </span>
+
+          
+            <span class="post-meta-item" title="阅读次数" id="busuanzi_container_page_pv" style="display: none;">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-eye"></i>
+              </span>
+              <span class="post-meta-item-text">阅读次数：</span>
+              <span id="busuanzi_value_page_pv"></span>
+            </span>
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+        <h4 id="参考"><a class="markdownIt-Anchor" href="#参考"></a> 参考：</h4>
+<ul>
+<li>
+<p><span class="exturl" data-url="aHR0cHM6Ly91cGNsb3VkLmNvbS9jb21tdW5pdHkvdHV0b3JpYWxzL2luc3RhbGxpbmctc25vcnQtb24tY2VudG9zLw==">centOS snort 安装<i class="fa fa-external-link-alt"></i></span></p>
+</li>
+<li>
+<p><span class="exturl" data-url="aHR0cHM6Ly93d3cueW91dHViZS5jb20vd2F0Y2g/dj1Sd1dNMHNyTFNnMA==">windows snort 安装（视频）<i class="fa fa-external-link-alt"></i></span></p>
+</li>
+<li>
+<p><span class="exturl" data-url="aHR0cHM6Ly93d3cueW91dHViZS5jb20vd2F0Y2g/dj1PQTRoU0Z4eVhYVQ==">使用 snort 分析 DARPA 数据（视频）<i class="fa fa-external-link-alt"></i></span></p>
+</li>
+</ul>
+<p>  因为毕业论文涉及到网络安全，需要对 DARPA 1999 这类数据进行分析，过程中发现<code>Snort</code>安装、使用相关的中文教程实在罕见，且安装配置过程较复杂，自己也踩了不少坑，为了以后方便，在这里对国外的一些实用教程进行汇总。</p>
+<a id="more"></a>
+<p>  如果觉得文字不好理解可直接看参考中的视频教程。</p>
+<h3 id="snort在windows上的安装过程"><a class="markdownIt-Anchor" href="#snort在windows上的安装过程"></a> <code>Snort</code>在<code>Windows</code>上的安装过程</h3>
+<p>  这里仅介绍在 Windows 上的安装教程，centOS 教程在参考中列出了</p>
+<h4 id="下载"><a class="markdownIt-Anchor" href="#下载"></a> 下载</h4>
+<p><span class="exturl" data-url="aHR0cHM6Ly93d3cuc25vcnQub3JnLyNnZXQtc3RhcnRlZA==">官网<i class="fa fa-external-link-alt"></i></span>下载两个文件：</p>
+<ul>
+<li>snort 安装文件<code>Snort_x_x_x_Installer.exe</code></li>
+<li>版本号对应的规则文件<code>snortrules-snapshot-xxxxx.tar.gz</code>(注意检查版本号，要与安装文件匹配)</li>
+</ul>
+<h4 id="安装"><a class="markdownIt-Anchor" href="#安装"></a> 安装</h4>
+<p>  安装<code>snort</code>后，将<code>snortrules-snapshot-xxxxx.tar.gz</code>中的<code>rules</code>和<code>preproc_rules</code>文件夹解压并覆盖到<code>snort</code>安装根目录</p>
+<h4 id="编辑snortconf文件"><a class="markdownIt-Anchor" href="#编辑snortconf文件"></a> 编辑<code>snort.conf</code>文件</h4>
+<p>  由于简书不支持 diff 语法，不在这里贴出修改后的文件了，请移步 github 参考<span class="exturl" data-url="aHR0cHM6Ly9naXRodWIuY29tL3preXRlY2gvZG9jdW1lbnRzL2lzc3Vlcy8x">diff 示例<i class="fa fa-external-link-alt"></i></span>对<code>Snort\etc\snort.conf</code>进行修改。</p>
+<h4 id="规则文件"><a class="markdownIt-Anchor" href="#规则文件"></a> 规则文件</h4>
+<p>  <code>Snort</code>官网免费提供的规则文件对于 DARPA2000 这类比较久远的数据集而言十分鸡肋（比如针对<code>DDoS</code>的规则文件直接就是一个空文件，而<code>DARPA2000</code>的主要内容就是<code>DDoS</code>）。原因很简单，时代变了，很多在十几年前有效的规则不再适用于当前的网络环境，所以被删除了。即使你去使用付费订阅的规则集也未必对 DARPA 数据集有效。<br />
+  snort 在版本迭代过程中删除的所有规则都可以在官网规则中的<code>deleted.rules</code>里面找到。但可惜的是，我找不到一个完整的修改日志，也就是说无法通过<code>deleted.rules</code>将规则还原到指定年代。我们用 DARPA2000 做研究又必须依赖那些比较老的规则集，而<code>Snort</code>官网已经不再提供这些老版本的下载途径。下面给出我自己搜集的<code>Snort老版本规则</code>以及一些<code>第三方规则</code>资源。</p>
+<p>snort 老版本规则：<br />
+链接: <span class="exturl" data-url="aHR0cHM6Ly9wYW4uYmFpZHUuY29tL3MvMUloTjdmeHE2WmpvMHFHUktVMlVydnc=">https://pan.baidu.com/s/1IhN7fxq6Zjo0qGRKU2Urvw<i class="fa fa-external-link-alt"></i></span> 提取码: qw1q</p>
+<ul>
+<li><span class="exturl" data-url="aHR0cHM6Ly9naXRodWIuY29tL1Jhamt1bWFyU2hhaC9Tbm9ydC1mb3ItRERvUy0=">针对 DDoS 规则文件<i class="fa fa-external-link-alt"></i></span></li>
+<li><span class="exturl" data-url="aHR0cHM6Ly9naXRodWIuY29tL2NvZGVjYXQwMDcvc25vcnQtcnVsZXM=">综合性规则文件(缺少 DDoS 检测)<i class="fa fa-external-link-alt"></i></span></li>
+<li><span class="exturl" data-url="aHR0cHM6Ly9ydWxlcy5lbWVyZ2luZ3RocmVhdHMubmV0L29wZW4vc25vcnQtMi45LjAv">Emerging Threats rule<i class="fa fa-external-link-alt"></i></span> (这个规则集亲测有效，但也不全面)</li>
+</ul>
+<h5 id="关于darpa2000"><a class="markdownIt-Anchor" href="#关于darpa2000"></a> 关于<code>DARPA2000</code></h5>
+<p>  针对<code>DARPA2000</code>需要特别说明一下，这个数据集的<code>DDoS</code>攻击是内网主机被黑客控制向外网地址发出攻击，并且攻击过程中会随机地生成 IP 地址来隐藏源 IP。要想检测到这个 DDoS 攻击，规则中的 ip 和端口必须是<code>any any -&gt; any any</code>，而不是<code>$EXTERNAL_NET any -&gt; $HOME_NET any</code>。</p>
+<h4 id="修改告警存储方式"><a class="markdownIt-Anchor" href="#修改告警存储方式"></a> 修改告警存储方式</h4>
+<p>  默认存储的<code>xxx.ids</code>文件便于阅读，但不便于用程序分析。通过修改<code>snort.conf</code>可以将<code>Snort</code>告警的存储格式修改为<code>csv</code>，添加如下配置：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">output alert_csv: alert.csv default</span><br></pre></td></tr></table></figure>
+<p>详细配置参数说明参照<span class="exturl" data-url="aHR0cDovL21hbnVhbC1zbm9ydC1vcmcuczMtd2Vic2l0ZS11cy1lYXN0LTEuYW1hem9uYXdzLmNvbS9ub2RlMjEuaHRtbA==">文档<i class="fa fa-external-link-alt"></i></span></p>
+<p>需要注意：当配置了 csv 输出时，不会输出威胁等级。目前没有找到解决方法</p>
+<h3 id="darpa-数据处理"><a class="markdownIt-Anchor" href="#darpa-数据处理"></a> DARPA 数据处理</h3>
+<h4 id="错误示例"><a class="markdownIt-Anchor" href="#错误示例"></a> 错误示例</h4>
+<p>  在很多文献中，使用<code>Snort</code>进行实验的步骤是</p>
+<ol>
+<li>以 IDS 模式运行<code>Snort</code>:</li>
+</ol>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">snort -x 100 -i ens33 -c D:\Snort\etc\snort.conf -l D:\Snort\log -A full</span><br></pre></td></tr></table></figure>
+<ol start="2">
+<li>
+<p>使用<code>tcpreplay</code>对数据进行重放</p>
+</li>
+<li>
+<p><code>Snort</code>检测到攻击并生成日志</p>
+</li>
+<li>
+<p>由于在重播时使用了倍速重播，还要解决时间间隔与原始数据不一致的问题。</p>
+</li>
+</ol>
+<h4 id="正确的做法"><a class="markdownIt-Anchor" href="#正确的做法"></a> 正确的做法</h4>
+<p>  上面这种做法在你确实需要仿真环境做其它一些事情的时候，可能是一个很好的方案。但大多数情况下我们只是想要<strong>获取<code>Snort</code>的告警日志</strong>，其实用下面这一行代码就够了：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">snort -c D:\Snort\etc\snort.conf -r D:\data\DARPA1999\inside.tcpdump -l D:\Snort\log</span><br></pre></td></tr></table></figure>
+<p>  <code>Snort</code>会自动地处理所有数据并生成告警日志，这种方式可以节省很多时间。生成的日志文件位于<code>D:\Snort\log</code>，且时间与<code>inside.tcpdump</code>完全一致。</p>
+
+    </div>
+
+    
+    
+    
+
+      <footer class="post-footer">
+          <div class="post-tags">
+              <a href="/tags/Snort/" rel="tag"># Snort</a>
+              <a href="/tags/DARPA/" rel="tag"># DARPA</a>
+          </div>
+
+        
+
+
+        
+    <div class="post-nav">
+      <div class="post-nav-item">
+    <a href="/2019/10/20/%E5%89%8D%E7%AB%AF/%E5%9C%A8es6%20Proxy%E4%B8%AD%EF%BC%8C%E6%8E%A8%E8%8D%90%E4%BD%BF%E7%94%A8Reflect.get%E8%80%8C%E4%B8%8D%E6%98%AFtarget%5Bkey%5D%E7%9A%84%E5%8E%9F%E5%9B%A0/" rel="prev" title="在es6 Proxy中，推荐使用Reflect.get而不是target[key]的原因">
+      <i class="fa fa-chevron-left"></i> 在es6 Proxy中，推荐使用Reflect.get而不是target[key]的原因
+    </a></div>
+      <div class="post-nav-item">
+    <a href="/2020/04/03/%E5%85%B6%E5%AE%83/%E5%AE%9E%E7%94%A8%E8%BD%AF%E4%BB%B6%E6%8F%92%E4%BB%B6/" rel="next" title="实用软件/插件">
+      实用软件/插件 <i class="fa fa-chevron-right"></i>
+    </a></div>
+    </div>
+      </footer>
+    
+  </article>
+  
+  
+  
+
+
+
+          </div>
+          
+
+<script>
+  window.addEventListener('tabs:register', () => {
+    let { activeClass } = CONFIG.comments;
+    if (CONFIG.comments.storage) {
+      activeClass = localStorage.getItem('comments_active') || activeClass;
+    }
+    if (activeClass) {
+      let activeTab = document.querySelector(`a[href="#comment-${activeClass}"]`);
+      if (activeTab) {
+        activeTab.click();
+      }
+    }
+  });
+  if (CONFIG.comments.storage) {
+    window.addEventListener('tabs:click', event => {
+      if (!event.target.matches('.tabs-comment .tab-content .tab-pane')) return;
+      let commentClass = event.target.classList[1];
+      localStorage.setItem('comments_active', commentClass);
+    });
+  }
+</script>
+
+        </div>
+          
+  
+  <div class="toggle sidebar-toggle">
+    <span class="toggle-line toggle-line-first"></span>
+    <span class="toggle-line toggle-line-middle"></span>
+    <span class="toggle-line toggle-line-last"></span>
+  </div>
+
+  <aside class="sidebar">
+    <div class="sidebar-inner">
+
+      <ul class="sidebar-nav motion-element">
+        <li class="sidebar-nav-toc">
+          文章目录
+        </li>
+        <li class="sidebar-nav-overview">
+          站点概览
+        </li>
+      </ul>
+
+      <!--noindex-->
+      <div class="post-toc-wrap sidebar-panel">
+          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-4"><a class="nav-link" href="#参考"><span class="nav-number">1.</span> <span class="nav-text"> 参考：</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#snort在windows上的安装过程"><span class="nav-number"></span> <span class="nav-text"> Snort在Windows上的安装过程</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#下载"><span class="nav-number">1.</span> <span class="nav-text"> 下载</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#安装"><span class="nav-number">2.</span> <span class="nav-text"> 安装</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#编辑snortconf文件"><span class="nav-number">3.</span> <span class="nav-text"> 编辑snort.conf文件</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#规则文件"><span class="nav-number">4.</span> <span class="nav-text"> 规则文件</span></a><ol class="nav-child"><li class="nav-item nav-level-5"><a class="nav-link" href="#关于darpa2000"><span class="nav-number">4.1.</span> <span class="nav-text"> 关于DARPA2000</span></a></li></ol></li><li class="nav-item nav-level-4"><a class="nav-link" href="#修改告警存储方式"><span class="nav-number">5.</span> <span class="nav-text"> 修改告警存储方式</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#darpa-数据处理"><span class="nav-number"></span> <span class="nav-text"> DARPA 数据处理</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#错误示例"><span class="nav-number">1.</span> <span class="nav-text"> 错误示例</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#正确的做法"><span class="nav-number">2.</span> <span class="nav-text"> 正确的做法</span></a></li></ol></div>
+      </div>
+      <!--/noindex-->
+
+      <div class="site-overview-wrap sidebar-panel">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+    <img class="site-author-image" itemprop="image" alt="zkyTech"
+      src="http://qiniu.zkytech.top/%E9%BE%99%E7%8C%AB%E5%A4%B4%E5%83%8F.jpg">
+  <p class="site-author-name" itemprop="name">zkyTech</p>
+  <div class="site-description" itemprop="description"></div>
+</div>
+<div class="site-state-wrap motion-element">
+  <nav class="site-state">
+      <div class="site-state-item site-state-posts">
+          <a href="/archives/">
+        
+          <span class="site-state-item-count">11</span>
+          <span class="site-state-item-name">日志</span>
+        </a>
+      </div>
+      <div class="site-state-item site-state-categories">
+            <a href="/categories/">
+          
+        <span class="site-state-item-count">3</span>
+        <span class="site-state-item-name">分类</span></a>
+      </div>
+      <div class="site-state-item site-state-tags">
+            <a href="/tags/">
+          
+        <span class="site-state-item-count">20</span>
+        <span class="site-state-item-name">标签</span></a>
+      </div>
+  </nav>
+</div>
+  <div class="links-of-author motion-element">
+      <span class="links-of-author-item">
+        <span class="exturl" data-url="aHR0cHM6Ly9naXRodWIuY29tL3preXRlY2g=" title="GitHub → https:&#x2F;&#x2F;github.com&#x2F;zkytech"><i class="fab fa-github fa-fw"></i>GitHub</span>
+      </span>
+      <span class="links-of-author-item">
+        <a href="/zhangkunyuan@hotmail.com" title="E-Mail → zhangkunyuan@hotmail.com"><i class="fa fa-envelope fa-fw"></i>E-Mail</a>
+      </span>
+  </div>
+
+
+
+      </div>
+
+    </div>
+  </aside>
+  <div id="sidebar-dimmer"></div>
+
+
+      </div>
+    </main>
+
+    <footer class="footer">
+      <div class="footer-inner">
+        
+
+        
+  <div class="beian"><span class="exturl" data-url="aHR0cDovL3d3dy5iZWlhbi5taWl0Lmdvdi5jbg==">浙ICP备2020034053号-1 </span>
+      <img src="http://qiniu.zkytech.top/%E5%A4%87%E6%A1%88%E5%9B%BE%E6%A0%87.png" style="display: inline-block;"><span class="exturl" data-url="aHR0cDovL3d3dy5iZWlhbi5nb3YuY24vcG9ydGFsL3JlZ2lzdGVyU3lzdGVtSW5mbz9yZWNvcmRjb2RlPTMzMDExMDAyMDE1MDEx">浙公网安备 33011002015011号 </span>
+  </div>
+
+<div class="copyright">
+  
+  &copy; 
+  <span itemprop="copyrightYear">2020</span>
+  <span class="with-love">
+    <i class="fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">zkyTech</span>
+</div>
+
+        
+<div class="busuanzi-count">
+  <script async src="https://busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+    <span class="post-meta-item" id="busuanzi_container_site_uv" style="display: none;">
+      <span class="post-meta-item-icon">
+        <i class="fa fa-user"></i>
+      </span>
+      <span class="site-uv" title="总访客量">
+        <span id="busuanzi_value_site_uv"></span>
+      </span>
+    </span>
+    <span class="post-meta-divider">|</span>
+    <span class="post-meta-item" id="busuanzi_container_site_pv" style="display: none;">
+      <span class="post-meta-item-icon">
+        <i class="fa fa-eye"></i>
+      </span>
+      <span class="site-pv" title="总访问量">
+        <span id="busuanzi_value_site_pv"></span>
+      </span>
+    </span>
+</div>
+
+
+
+
+
+
+
+
+      </div>
+    </footer>
+  </div>
+
+  
+  <script src="/lib/anime.min.js"></script>
+  <script src="/lib/velocity/velocity.min.js"></script>
+  <script src="/lib/velocity/velocity.ui.min.js"></script>
+
+<script src="/js/utils.js"></script>
+
+<script src="/js/motion.js"></script>
+
+
+<script src="/js/schemes/pisces.js"></script>
+
+
+<script src="/js/next-boot.js"></script>
+
+
+
+
+  
+
+
+
+
+  
+<script src="/js/local-search.js"></script>
+
+
+
+
+
+
+
+
+
+
+
+<script>
+if (document.querySelectorAll('pre.mermaid').length) {
+  NexT.utils.getScript('https://cdn.bootcss.com/mermaid/8.5.0/mermaid.min.js', () => {
+    mermaid.initialize({
+      theme    : 'forest',
+      logLevel : 3,
+      flowchart: { curve     : 'linear' },
+      gantt    : { axisFormat: '%m/%d/%Y' },
+      sequence : { actorMargin: 50 }
+    });
+  }, window.mermaid);
+}
+</script>
+
+
+  
+
+  
+
+  
+
+</body>
+</html>
